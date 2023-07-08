@@ -8,10 +8,8 @@ namespace Com.Unnamed.RacingGame.Input
 {
     public sealed class InputManager : Singleton<InputManager>
     {
-        private bool isDragging = false;
-        public event EventHandler OnDrag;
-        public event EventHandler<Vector2> OnDragMove;
-        public event EventHandler OnRelease;
+        public event EventHandler<Vector2> OnMouseMove;
+        public event EventHandler OnLMBDown;
 
         private void Awake()
         {
@@ -28,28 +26,27 @@ namespace Com.Unnamed.RacingGame.Input
 
         private void Update()
         {
-            if (!isDragging && IsMouseButtonDownThisFrame())
+            if (TryGetMouseMovement(out Vector2 deltaMouseMovement))
             {
-                isDragging = true;
-                OnDrag?.Invoke(this, EventArgs.Empty);
+                OnMouseMove?.Invoke(this, deltaMouseMovement);
             }
-            else if (isDragging && !IsMouseButtonUpThisFrame())
+            if (IsMouseButtonDownThisFrame())
             {
-                OnDragMove?.Invoke(this, GetMouseScreenPosition());
-            }
-            else if (isDragging && IsMouseButtonUpThisFrame())
-            {
-                isDragging = false;
-                OnRelease?.Invoke(this, EventArgs.Empty);
+                OnLMBDown?.Invoke(this, EventArgs.Empty);
             }
         }
 
         public bool IsMouseButtonDownThisFrame() => UnityEngine.Input.GetMouseButtonDown(0);
 
-        public bool IsMouseButtonUpThisFrame() => UnityEngine.Input.GetMouseButtonUp(0);
+        public static Vector2 GetMouseScreenPosition() => UnityEngine.Input.mousePosition;
 
-        private Vector2 GetMouseScreenPosition() => UnityEngine.Input.mousePosition;
-
-        public static Ray GetRayToMouse(Vector2 mousePos) => Camera.main.ScreenPointToRay(mousePos);
+        public static Ray GetRayToMouse(Camera camera, Vector2 mousePos) => camera.ScreenPointToRay(mousePos);
+    
+        public bool TryGetMouseMovement(out Vector2 deltaMouseMovement)
+        {
+            deltaMouseMovement.x = UnityEngine.Input.GetAxis("Mouse X");
+            deltaMouseMovement.y = UnityEngine.Input.GetAxis("Mouse Y");
+            return deltaMouseMovement != Vector2.zero;
+        }
     }
 }

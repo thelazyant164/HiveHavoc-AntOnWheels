@@ -123,6 +123,38 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &79010211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 79010212}
+  m_Layer: 0
+  m_Name: Azimuth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &79010212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79010211}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1542961636}
+  m_Father: {fileID: 586021678}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &253957685
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +489,7 @@ GameObject:
   - component: {fileID: 580069502}
   - component: {fileID: 580069505}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: ShooterCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -504,7 +536,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -529,14 +561,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 580069501}
-  m_LocalRotation: {x: 0.19996981, y: -0, z: -0, w: 0.9798021}
-  m_LocalPosition: {x: 0, y: 7.13, z: -6.46}
+  m_LocalRotation: {x: 0.043619405, y: -0, z: -0, w: 0.9990483}
+  m_LocalPosition: {x: 0, y: 5, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 586021678}
+  m_Father: {fileID: 1542961636}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 23.07, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 5, y: 0, z: 0}
 --- !u!114 &580069505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -684,7 +716,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 580069504}
+  - {fileID: 79010212}
   - {fileID: 1024724164}
   m_Father: {fileID: 523195963}
   m_RootOrder: -1
@@ -813,18 +845,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 295859078}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1024724165 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7461204640691664891, guid: fc39e201f1810b648bd3ed2b0ec35477,
-    type: 3}
-  m_PrefabInstance: {fileID: 295859078}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52b667e9a0842ac42804f2e37db14727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1087459534
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,7 +958,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1278559852}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -958,7 +978,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b223095a9406ad942b5c8f7b2863bd7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cannon: {fileID: 1024724165}
+  shooterCamera: {fileID: 580069503}
+  cameraAz: {fileID: 79010212}
+  cameraAlt: {fileID: 1542961636}
+--- !u!1 &1542961635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1542961636}
+  m_Layer: 0
+  m_Name: Altitude
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1542961636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542961635}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 580069504}
+  m_Father: {fileID: 79010212}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1860404730
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,6 @@ namespace Com.Unnamed.RacingGame.Shooter
         private Transform spawn;
         [SerializeField]
         private Transform nozzle;
-        internal Vector3 Nozzle => nozzle.position;
         [SerializeField]
         private GameObject cannonball;
         [SerializeField]
@@ -30,7 +29,7 @@ namespace Com.Unnamed.RacingGame.Shooter
         private Shooter shooter;
         private SphereCollider aimSphere;
 
-        internal Vector3 AimDirection => (nozzle.position - spawn.position).normalized;
+        private Vector3 AimDirection => (nozzle.position - spawn.position).normalized;
 
         private void Awake()
         {
@@ -40,9 +39,9 @@ namespace Com.Unnamed.RacingGame.Shooter
         private void Start()
         {
             shooter = PlayerManager.Instance.Shooter;
-            shooter.OnMoveAim += (object sender, Vector2 mousePos) =>
+            shooter.OnAim += (object sender, Ray forward) =>
             {
-                if (TryAim(mousePos, out Vector3 target))
+                if (TryAim(forward, out Vector3 target))
                 {
                     aimAz.position = target;
                     aimAlt.position = target;
@@ -55,10 +54,10 @@ namespace Com.Unnamed.RacingGame.Shooter
             };
         }
 
-        private bool TryAim(Vector2 mousePos, out Vector3 result)
+        private bool TryAim(Ray forward, out Vector3 result)
         {
             result = Vector3.zero;
-            if (aimSphere.Raycast(ReverseRay(InputManager.GetRayToMouse(mousePos)), out RaycastHit raycastHit, float.MaxValue))
+            if (aimSphere.Raycast(ReverseRay(forward), out RaycastHit raycastHit, float.MaxValue))
             {
                 result = raycastHit.point;
             }

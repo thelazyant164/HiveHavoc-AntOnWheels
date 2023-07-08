@@ -2,27 +2,37 @@ using Com.Unnamed.RacingGame.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 namespace Com.Unnamed.RacingGame.Shooter
 {
     public sealed class Shooter : MonoBehaviour
     {
+        [Header("Camera")]
         [SerializeField]
-        private Cannon cannon;
-        internal Cannon Cannon => cannon;
+        private Camera shooterCamera;
+        [SerializeField]
+        private Transform cameraAz;
+        [SerializeField]
+        private Transform cameraAlt;
 
         private InputManager input;
-        internal event EventHandler OnAim;
-        internal event EventHandler<Vector2> OnMoveAim;
+        internal event EventHandler<Ray> OnAim;
         internal event EventHandler OnShoot;
 
         private void Start()
         {
+            Cursor.lockState = CursorLockMode.Locked;
+
             input = InputManager.Instance;
-            input.OnDrag += (object sender, EventArgs e) => OnAim?.Invoke(sender, e);
-            input.OnDragMove += (object sender, Vector2 mousePos) => OnMoveAim?.Invoke(sender, mousePos);
-            input.OnRelease += (object sender, EventArgs e) => OnShoot?.Invoke(sender, e);
+            input.OnMouseMove += (object sender, Vector2 deltaMouseMovement) => 
+            {
+                cameraAz.localRotation *= Quaternion.Euler(0, deltaMouseMovement.x, 0);
+                cameraAlt.localRotation *= Quaternion.Euler(-deltaMouseMovement.y, 0, 0);
+                OnAim?.Invoke(sender, InputManager.GetRayToMouse(shooterCamera, InputManager.GetMouseScreenPosition()));
+            };
+            input.OnLMBDown += (object sender, EventArgs e) => OnShoot?.Invoke(sender, e);
         }
     }
 }
