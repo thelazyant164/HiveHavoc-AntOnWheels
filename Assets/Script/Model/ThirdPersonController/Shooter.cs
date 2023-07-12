@@ -17,6 +17,15 @@ namespace Com.Unnamed.RacingGame.Shooter
         private Transform cameraAlt;
         [Space]
 
+        [Header("Constraint")]
+        [SerializeField]
+        private float minAzimuthY = 90;
+        [SerializeField]
+        private float maxAzimuthY = 270;
+        [SerializeField]
+        private float maxAltitudeX = 300;
+        [Space]
+
         [Header("Input")]
         [SerializeField, Range(10f, 20f)]
         private float mouseSensitivity = 10f;
@@ -90,7 +99,15 @@ namespace Com.Unnamed.RacingGame.Shooter
         private void Aim(Vector2 deltaMouseMovement)
         {
             cameraAz.localRotation *= Quaternion.Euler(0, deltaMouseMovement.x, 0);
+            if (minAzimuthY < cameraAz.localEulerAngles.y && cameraAz.localEulerAngles.y < maxAzimuthY)
+            {
+                cameraAz.localRotation *= Quaternion.Euler(0, -deltaMouseMovement.x, 0);
+            }
             cameraAlt.localRotation *= Quaternion.Euler(-deltaMouseMovement.y, 0, 0);
+            if (cameraAlt.localEulerAngles.x < maxAltitudeX)
+            {
+                cameraAlt.localRotation *= Quaternion.Euler(deltaMouseMovement.y, 0, 0);
+            }
             OnAim?.Invoke(this, InputManager.GetRayToMouse(shooterCamera, InputManager.GetMouseScreenPosition()));
         }
 
