@@ -1,9 +1,8 @@
 using Com.Unnamed.RacingGame.Input;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Com.Unnamed.RacingGame.Shooter
 {
@@ -16,23 +15,85 @@ namespace Com.Unnamed.RacingGame.Shooter
         private Transform cameraAz;
         [SerializeField]
         private Transform cameraAlt;
+        [Space]
 
-        private InputManager input;
+        [Header("Input")]
+        [SerializeField, Range(10f, 20f)]
+        private float mouseSensitivity = 10f;
+        [SerializeField, Range(70f, 100f)]
+        private float keyPressSensitivity = 70f;
+        [SerializeField, Range(120f, 150f)]
+        private float joystickSensitivity = 120f;
+
+        private InputAction aimStick;
+        private InputAction aimMouse;
+        private InputAction aimX;
+        private InputAction aimY;
+        private InputAction shoot;
         internal event EventHandler<Ray> OnAim;
         internal event EventHandler OnShoot;
+
+        private void Awake()
+        {
+            InputActionMap shooter = GetComponent<PlayerInput>().actions.FindActionMap("Shooter");
+            aimStick = shooter.FindAction("AimStick");
+            aimMouse = shooter.FindAction("AimMouse");
+            aimX = shooter.FindAction("AimX");
+            aimY = shooter.FindAction("AimY");
+            shoot = shooter.FindAction("Shoot");
+        }
+
+        private void OnEnable()
+        {
+            aimMouse.started += AimMouse;
+            aimX.started += AimX;
+            aimY.started += AimY;
+            shoot.started += Shoot;
+        }
+
+        private void OnDisable()
+        {
+            aimMouse.started -= AimMouse;
+            aimX.started -= AimX;
+            aimY.started -= AimY;
+            shoot.started -= Shoot;
+        }
 
         private void Start()
         {
             Cursor.lockState = CursorLockMode.Locked;
-
-            input = InputManager.Instance;
-            input.OnMouseMove += (object sender, Vector2 deltaMouseMovement) => 
-            {
-                cameraAz.localRotation *= Quaternion.Euler(0, deltaMouseMovement.x, 0);
-                cameraAlt.localRotation *= Quaternion.Euler(-deltaMouseMovement.y, 0, 0);
-                OnAim?.Invoke(sender, InputManager.GetRayToMouse(shooterCamera, InputManager.GetMouseScreenPosition()));
-            };
-            input.OnLMBDown += (object sender, EventArgs e) => OnShoot?.Invoke(sender, e);
         }
+
+        private void Update()
+        {
+            if (aimStick != null)
+            {
+                Aim(aimStick.ReadValue<Vector2>() * joystickSensitivity * Time.deltaTime);
+            }
+        }
+
+        private void AimMouse(InputAction.CallbackContext context) => Aim(context.ReadValue<Vector2>() * mouseSensitivity * Time.deltaTime);
+
+        private void AimX(InputAction.CallbackContext context) => StartCoroutine(AimAxis(aimX, (float value) => Aim(new Vector2(value * keyPressSensitivity * Time.deltaTime, 0))));
+
+        private void AimY(InputAction.CallbackContext context) => StartCoroutine(AimAxis(aimY, (float value) => Aim(new Vector2(0, aimY.ReadValue<float>() * keyPressSensitivity * Time.deltaTime))));
+
+        private IEnumerator AimAxis(InputAction input, Action<float> callback)
+        {
+            while (input.IsPressed())
+            {
+                callback(input.ReadValue<float>());
+                yield return null;
+            }
+        }
+
+        private void Aim(Vector2 deltaMouseMovement)
+        {
+            cameraAz.localRotation *= Quaternion.Euler(0, deltaMouseMovement.x, 0);
+            cameraAlt.localRotation *= Quaternion.Euler(-deltaMouseMovement.y, 0, 0);
+            OnAim?.Invoke(this, InputManager.GetRayToMouse(shooterCamera, InputManager.GetMouseScreenPosition()));
+        }
+
+        private void Shoot(InputAction.CallbackContext context) => OnShoot?.Invoke(this, EventArgs.Empty);
     }
 }
