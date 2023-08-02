@@ -2,12 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class VehicleMovement : MonoBehaviour
 {
     private float horizontalInput, verticalInput;
     private float currentSteerAngle, currentbreakForce;
     private bool isBreaking;
+    private Inputdesu input = null;
+    private Vector2 _moveVector = Vector2.zero;
+    private Rigidbody _rb = null;
 
     // Settings
     [SerializeField] private float motorForce, breakForce, maxSteerAngle;
@@ -20,6 +24,12 @@ public class VehicleMovement : MonoBehaviour
     [SerializeField] private Transform frontLeftWheelTransform, frontRightWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
 
+    private void Awake() 
+    {
+        input = new Inputdesu();
+        _rb = GetComponent<Rigidbody>();
+    }
+    
     private void FixedUpdate() {
         GetInput();
         HandleMotor();
@@ -29,28 +39,28 @@ public class VehicleMovement : MonoBehaviour
 
     private void GetInput() {
         // Steering Input
-        horizontalInput = Input.GetAxis("Horizontal");
+        horizontalInput = _moveVector.x;
 
         // Acceleration Input
-        verticalInput = Input.GetAxis("Vertical");
+        verticalInput = _moveVector.y;
 
         // Breaking Input
-        isBreaking = Input.GetKey(KeyCode.Space);
+        // isBreaking = Input.GetKey(KeyCode.Space);
     }
 
     private void HandleMotor() {
         frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
         frontRightWheelCollider.motorTorque = verticalInput * motorForce;
-        currentbreakForce = isBreaking ? breakForce : 0f;
-        ApplyBreaking();
+        // currentbreakForce = isBreaking ? breakForce : 0f;
+        // ApplyBreaking();
     }
 
-    private void ApplyBreaking() {
-        frontRightWheelCollider.brakeTorque = currentbreakForce;
-        frontLeftWheelCollider.brakeTorque = currentbreakForce;
-        rearLeftWheelCollider.brakeTorque = currentbreakForce;
-        rearRightWheelCollider.brakeTorque = currentbreakForce;
-    }
+    // private void ApplyBreaking() {
+    //     frontRightWheelCollider.brakeTorque = currentbreakForce;
+    //     frontLeftWheelCollider.brakeTorque = currentbreakForce;
+    //     rearLeftWheelCollider.brakeTorque = currentbreakForce;
+    //     rearRightWheelCollider.brakeTorque = currentbreakForce;
+    // }
 
     private void HandleSteering() {
         currentSteerAngle = maxSteerAngle * horizontalInput;
@@ -71,5 +81,29 @@ public class VehicleMovement : MonoBehaviour
         wheelCollider.GetWorldPose(out pos, out rot);
         wheelTransform.rotation = rot;
         wheelTransform.position = pos;
+    }
+
+    private void OnEnable() 
+    {
+        input.Enable();
+        input.Player.Movement.performed += OnMovementPerformed;   
+        input.Player.Movement.canceled += OnMovementCancelled; 
+    }
+
+    private void OnDisable() 
+    {
+        input.Disable();    
+        input.Player.Movement.performed -= OnMovementPerformed;
+        input.Player.Movement.canceled -= OnMovementCancelled;
+    }
+
+    private void OnMovementPerformed(InputAction.CallbackContext value)
+    {
+        _moveVector = value.ReadValue<Vector2>();
+    }
+
+    private void OnMovementCancelled(InputAction.CallbackContext value)
+    {
+        _moveVector = Vector2.zero;
     }
 }
