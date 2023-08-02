@@ -1,0 +1,62 @@
+{
+    "name": "MechanicController",
+    "maps": [
+        {
+            "name": "Mechanic",
+            "id": "e622cb82-85b9-4a52-a7a6-8102d3885f84",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "23b22b61-d5de-4e49-8fef-dc7610b2d2b4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "267cbb02-1fa9-49a9-a195-5a86e893415f",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Mouse/Keyboard",
+            "bindingGroup": "Mouse/Keyboard",
+            "devices": [
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Controller",
+            "bindingGroup": "Controller",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
