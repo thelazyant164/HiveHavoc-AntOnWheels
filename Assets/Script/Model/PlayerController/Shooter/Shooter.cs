@@ -52,8 +52,10 @@ namespace Com.Unnamed.RacingGame.Shooter
         protected override void Start()
         {
             base.Start();
-            Cursor.lockState = CursorLockMode.Locked;
-            MapControllerTo(role);
+            if (!TryMapControllerTo(role))
+            {
+                RequestPairing();
+            }
         }
 
         private void Update()
@@ -78,6 +80,12 @@ namespace Com.Unnamed.RacingGame.Shooter
             aimX.started -= AimX;
             aimY.started -= AimY;
             shoot.started -= Shoot;
+        }
+
+        protected override void OnPairingSucceed()
+        {
+            base.OnPairingSucceed();
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         protected override void MapSchemeTo(InputActionAsset action)

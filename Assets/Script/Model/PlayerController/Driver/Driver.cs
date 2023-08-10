@@ -38,8 +38,8 @@ namespace Com.Unnamed.RacingGame.Driver
         protected override void Start()
         {
             base.Start();
-            Cursor.lockState = CursorLockMode.Locked;
-            MapControllerTo(role);
+            if (!TryMapControllerTo(role))
+                RequestPairing();
         }
 
         private void Update()

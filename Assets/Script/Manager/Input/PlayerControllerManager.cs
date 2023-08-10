@@ -45,9 +45,6 @@ namespace Com.Unnamed.RacingGame.Input
         {
             if (Instance != null)
             {
-                Debug.LogError(
-                    "There's more than one InputManager! " + transform + " - " + Instance
-                );
                 Destroy(gameObject);
                 return;
             }
@@ -105,14 +102,10 @@ namespace Com.Unnamed.RacingGame.Input
 
         private void AttemptPairing(PlayerController controller)
         {
-            //Debug.Log($"Attempt pairing for {controller}");
             foreach (InputDevice device in Devices)
             {
                 if (IsAvailable(device) && controller.IsCompatibleWith(device))
-                {
-                    //Debug.Log($"Establish pairing between {device} and {controller}");
-                    controller.PairTo(device);
-                }
+                    controller.TryPairTo(device);
             }
         }
 

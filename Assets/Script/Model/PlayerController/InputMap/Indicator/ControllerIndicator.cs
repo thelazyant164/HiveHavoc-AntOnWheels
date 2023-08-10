@@ -22,6 +22,8 @@ namespace Com.Unnamed.RacingGame.UI
         public bool ready;
 
         public static ControllerMap Default => new ControllerMap();
+
+        public bool Empty => pairedDevices == null || pairedDevices.Count == 0;
     }
 
     public sealed class ControllerIndicator : PlayerController
@@ -85,13 +87,13 @@ namespace Com.Unnamed.RacingGame.UI
         protected override void OnPairingSucceed()
         {
             base.OnPairingSucceed();
-            missing?.SetActive(false);
+            missing.SetActive(false);
         }
 
         protected override void OnDeviceMissing()
         {
             base.OnDeviceMissing();
-            missing?.SetActive(true);
+            missing.SetActive(true);
             OnReady?.Invoke(this, ControllerMap.Default);
         }
 
