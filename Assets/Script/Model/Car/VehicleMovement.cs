@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 namespace Com.Unnamed.RacingGame.Driver
 {
@@ -50,23 +51,16 @@ namespace Com.Unnamed.RacingGame.Driver
         [SerializeField]
         private Transform rearRightWheelTransform;
 
-        [Space]
-        [SerializeField]
-        private Driver driver; // TODO: bring up to control-mapping layer
-
-        private void OnEnable()
-        {
-            driver.OnAccelerate += Accelerate;
-            driver.OnSteer += Steer;
-        }
-
-        private void OnDisable()
-        {
-            driver.OnAccelerate -= Accelerate;
-            driver.OnSteer -= Steer;
-        }
+        private Driver driver;
 
         private void Awake() => _rb = GetComponent<Rigidbody>();
+
+        private void Start()
+        {
+            driver = PlayerManager.Instance.Driver;
+            driver.OnAccelerate += (object sender, float input) => throttle = input;
+            driver.OnSteer += (object sender, float input) => steer = input;
+        }
 
         private void FixedUpdate()
         {
@@ -74,10 +68,6 @@ namespace Com.Unnamed.RacingGame.Driver
             HandleSteering(steer);
             UpdateWheels();
         }
-
-        private void Accelerate(object sender, float input) => throttle = input;
-
-        private void Steer(object sender, float input) => steer = input;
 
         private void HandleMotor(float verticalInput)
         {

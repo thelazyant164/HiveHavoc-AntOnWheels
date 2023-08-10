@@ -6,6 +6,12 @@ using UnityEngine.Windows;
 
 namespace Com.Unnamed.RacingGame.Input
 {
+    public enum Controller
+    {
+        MouseKeyboard,
+        Console
+    }
+
     public sealed class InputManager : Singleton<InputManager>
     {
         private void Awake()
@@ -23,6 +29,7 @@ namespace Com.Unnamed.RacingGame.Input
 
         public static Vector2 GetMouseScreenPosition() => UnityEngine.Input.mousePosition;
 
-        public static Ray GetRayToMouse(Camera camera, Vector2 mousePos) => camera.ScreenPointToRay(mousePos);
+        public static Ray GetRayToMouse(Camera camera, Vector2 mousePos) =>
+            camera.ScreenPointToRay(mousePos);
     }
 }
