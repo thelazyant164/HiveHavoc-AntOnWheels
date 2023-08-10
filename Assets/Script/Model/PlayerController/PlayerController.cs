@@ -31,25 +31,34 @@ namespace Com.Unnamed.RacingGame.Input
         protected virtual void Start()
         {
             inputMap = PlayerControllerManager.Instance;
-            inputMap.OnDeviceAdd += (object sender, InputDevice device) =>
-            {
-                if (!IsOpenForPairingWith(device))
-                    return;
-                RequestPairing();
-            };
-            inputMap.OnDeviceRemove += (object sender, InputDevice device) =>
-            {
-                if (!IsMappedToSelf(device))
-                    return;
-                UnpairFrom(device);
-            };
+            inputMap.OnDeviceAdd += AddDevice;
+            inputMap.OnDeviceRemove += RemoveDevice;
+        }
+
+        private void AddDevice(object sender, InputDevice device)
+        {
+            if (!IsOpenForPairingWith(device))
+                return;
+            RequestPairing();
+        }
+
+        private void RemoveDevice(object sender, InputDevice device)
+        {
+            if (!IsMappedToSelf(device))
+                return;
+            UnpairFrom(device);
         }
 
         protected virtual void OnEnable() => BindCallbackToAction();
 
         protected virtual void OnDisable() => UnbindCallbackFromAction();
 
-        protected virtual void OnDestroy() => RequestUnpair();
+        protected virtual void OnDestroy()
+        {
+            inputMap.OnDeviceAdd -= AddDevice;
+            inputMap.OnDeviceRemove -= RemoveDevice;
+            RequestUnpair();
+        }
 
         protected ControllerMap GetControllerMap(Role role)
         {
@@ -102,28 +111,36 @@ namespace Com.Unnamed.RacingGame.Input
             OnDeviceMissing();
         }
 
-        internal void PairTo(InputDevice device)
+        internal bool TryPairTo(InputDevice device)
         {
-            inputMap.Pairings.Add(device, this);
-            BindCallbackToAction();
-            OnPairingSucceed();
+            if (inputMap.Pairings.TryAdd(device, this))
+            {
+                BindCallbackToAction();
+                return true;
+            }
+            return false;
         }
 
-        protected void MapControllerTo(Role role)
+        protected bool TryMapControllerTo(Role role)
         {
             ControllerMap mapping = inputMap.Mapping[role];
+            if (mapping.Empty)
+                return false;
+            bool pairingSucceed = true;
             controller = mapping.controller;
             foreach (InputDevice device in mapping.pairedDevices)
             {
-                PairTo(device);
+                if (!TryPairTo(device))
+                    pairingSucceed = false;
             }
+            return pairingSucceed;
         }
 
         protected abstract void MapSchemeTo(InputActionAsset action);
         protected abstract void BindCallbackToAction();
         protected abstract void UnbindCallbackFromAction();
 
-        protected virtual void OnPairingSucceed() => action.Enable();
+        internal virtual void OnPairingSucceed() => action.Enable();
 
         protected virtual void OnDeviceMissing() { }
 

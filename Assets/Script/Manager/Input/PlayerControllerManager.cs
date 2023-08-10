@@ -111,7 +111,10 @@ namespace Com.Unnamed.RacingGame.Input
                 if (IsAvailable(device) && controller.IsCompatibleWith(device))
                 {
                     //Debug.Log($"Establish pairing between {device} and {controller}");
-                    controller.PairTo(device);
+                    if (controller.TryPairTo(device))
+                    {
+                        controller.OnPairingSucceed();
+                    }
                 }
             }
         }
