@@ -10,23 +10,8 @@ namespace Com.Unnamed.RacingGame.Shooter
     {
         private static readonly Role role = Role.Shooter;
 
-        private Camera shooterCamera;
-        private Transform cameraAz;
-        private Transform cameraAlt;
-
         [Space]
-        [Header("Constraint")]
-        [SerializeField]
-        private float minAzimuthY = 90;
-
-        [SerializeField]
-        private float maxAzimuthY = 270;
-
-        [SerializeField]
-        private float maxAltitudeX = 300;
-
-        [Space]
-        [Header("Input")]
+        [Header("Sensitivity")]
         [SerializeField, Range(10f, 20f)]
         private float mouseSensitivity = 10f;
 
@@ -41,7 +26,7 @@ namespace Com.Unnamed.RacingGame.Shooter
         private InputAction aimX;
         private InputAction aimY;
         private InputAction shoot;
-        internal event EventHandler<Ray> OnAim;
+        internal event EventHandler<AimDelta> OnAim;
         internal event EventHandler OnShoot;
 
         protected override void Awake()
@@ -145,39 +130,20 @@ namespace Com.Unnamed.RacingGame.Shooter
             }
         }
 
-        private void Aim(Vector2 deltaMouseMovement)
-        {
-            cameraAz.localRotation *= Quaternion.Euler(0, deltaMouseMovement.x, 0);
-            if (
-                minAzimuthY < cameraAz.localEulerAngles.y
-                && cameraAz.localEulerAngles.y < maxAzimuthY
-            )
-            {
-                cameraAz.localRotation *= Quaternion.Euler(0, -deltaMouseMovement.x, 0);
-            }
-            cameraAlt.localRotation *= Quaternion.Euler(-deltaMouseMovement.y, 0, 0);
-            if (cameraAlt.localEulerAngles.x < maxAltitudeX)
-            {
-                cameraAlt.localRotation *= Quaternion.Euler(deltaMouseMovement.y, 0, 0);
-            }
+        private void Aim(Vector2 deltaMouseMovement) =>
             OnAim?.Invoke(
                 this,
-                InputManager.GetRayToMouse(shooterCamera, InputManager.GetMouseScreenPosition())
+                new AimDelta(
+                    Quaternion.Euler(0, deltaMouseMovement.x, 0),
+                    Quaternion.Euler(-deltaMouseMovement.y, 0, 0)
+                )
             );
-        }
 
         private void Shoot(InputAction.CallbackContext context)
         {
             if (!IsMappedToSelf(context))
                 return;
             OnShoot?.Invoke(this, EventArgs.Empty);
-        }
-
-        internal void SetupCamera(Transform az, Transform alt, Camera camera)
-        {
-            cameraAz = az;
-            cameraAlt = alt;
-            shooterCamera = camera;
         }
     }
 }

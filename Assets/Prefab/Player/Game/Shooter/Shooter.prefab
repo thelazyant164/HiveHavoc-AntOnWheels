@@ -46,12 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   action: {fileID: -944628639613478452, guid: b83d7fbe4c86da8408c1dc5dfc58f8bc, type: 3}
   controller: 0
-  shooterCamera: {fileID: 0}
-  cameraAz: {fileID: 0}
-  cameraAlt: {fileID: 0}
-  minAzimuthY: 90
-  maxAzimuthY: 270
-  maxAltitudeX: 300
   mouseSensitivity: 10
   keyPressSensitivity: 70
   joystickSensitivity: 120

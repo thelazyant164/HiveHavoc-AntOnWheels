@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   action: {fileID: -944628639613478452, guid: 2f481bc130994414a884b56734332731, type: 3}
-  controller: 0
+  controller: 1
