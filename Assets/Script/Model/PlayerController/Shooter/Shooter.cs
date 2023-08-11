@@ -6,31 +6,18 @@ using UnityEngine.InputSystem;
 
 namespace Com.Unnamed.RacingGame.Shooter
 {
-    public sealed class Shooter : MonoBehaviour
+    public sealed class Shooter : PlayerController
     {
-        [Header("Camera")]
-        [SerializeField]
-        private Camera shooterCamera;
-        [SerializeField]
-        private Transform cameraAz;
-        [SerializeField]
-        private Transform cameraAlt;
-        [Space]
+        private static readonly Role role = Role.Shooter;
 
-        [Header("Constraint")]
-        [SerializeField]
-        private float minAzimuthY = 90;
-        [SerializeField]
-        private float maxAzimuthY = 270;
-        [SerializeField]
-        private float maxAltitudeX = 300;
         [Space]
-
-        [Header("Input")]
+        [Header("Sensitivity")]
         [SerializeField, Range(10f, 20f)]
         private float mouseSensitivity = 10f;
+
         [SerializeField, Range(70f, 100f)]
         private float keyPressSensitivity = 70f;
+
         [SerializeField, Range(120f, 150f)]
         private float joystickSensitivity = 120f;
 
@@ -39,20 +26,32 @@ namespace Com.Unnamed.RacingGame.Shooter
         private InputAction aimX;
         private InputAction aimY;
         private InputAction shoot;
-        internal event EventHandler<Ray> OnAim;
+        internal event EventHandler<AimDelta> OnAim;
         internal event EventHandler OnShoot;
 
-        private void Awake()
+        protected override void Awake()
         {
-            InputActionMap shooter = GetComponent<PlayerInput>().actions.FindActionMap("Shooter");
-            aimStick = shooter.FindAction("AimStick");
-            aimMouse = shooter.FindAction("AimMouse");
-            aimX = shooter.FindAction("AimX");
-            aimY = shooter.FindAction("AimY");
-            shoot = shooter.FindAction("Shoot");
+            base.Awake();
         }
 
-        private void OnEnable()
+        protected override void Start()
+        {
+            base.Start();
+            if (!TryMapControllerTo(role))
+            {
+                RequestPairing();
+            }
+        }
+
+        private void Update()
+        {
+            if (aimStick != null && IsMappedToSelf(aimStick))
+            {
+                Aim(aimStick.ReadValue<Vector2>() * joystickSensitivity * Time.deltaTime);
+            }
+        }
+
+        protected override void BindCallbackToAction()
         {
             aimMouse.started += AimMouse;
             aimX.started += AimX;
@@ -60,7 +59,7 @@ namespace Com.Unnamed.RacingGame.Shooter
             shoot.started += Shoot;
         }
 
-        private void OnDisable()
+        protected override void UnbindCallbackFromAction()
         {
             aimMouse.started -= AimMouse;
             aimX.started -= AimX;
@@ -68,24 +67,59 @@ namespace Com.Unnamed.RacingGame.Shooter
             shoot.started -= Shoot;
         }
 
-        private void Start()
+        protected override void OnPairingSucceed()
         {
+            base.OnPairingSucceed();
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        private void Update()
+        protected override void MapSchemeTo(InputActionAsset action)
         {
-            if (aimStick != null)
-            {
-                Aim(aimStick.ReadValue<Vector2>() * joystickSensitivity * Time.deltaTime);
-            }
+            InputActionMap shooter = action.FindActionMap("Shooter");
+            aimStick = shooter.FindAction("AimStick");
+            aimMouse = shooter.FindAction("AimMouse");
+            aimX = shooter.FindAction("AimX");
+            aimY = shooter.FindAction("AimY");
+            shoot = shooter.FindAction("Shoot");
         }
 
-        private void AimMouse(InputAction.CallbackContext context) => Aim(context.ReadValue<Vector2>() * mouseSensitivity * Time.deltaTime);
+        private void AimMouse(InputAction.CallbackContext context)
+        {
+            if (!IsMappedToSelf(context))
+                return;
+            Aim(context.ReadValue<Vector2>() * mouseSensitivity * Time.deltaTime);
+        }
 
-        private void AimX(InputAction.CallbackContext context) => StartCoroutine(AimAxis(aimX, (float value) => Aim(new Vector2(value * keyPressSensitivity * Time.deltaTime, 0))));
+        private void AimX(InputAction.CallbackContext context)
+        {
+            if (!IsMappedToSelf(context))
+                return;
+            StartCoroutine(
+                AimAxis(
+                    aimX,
+                    (float value) =>
+                        Aim(new Vector2(value * keyPressSensitivity * Time.deltaTime, 0))
+                )
+            );
+        }
 
-        private void AimY(InputAction.CallbackContext context) => StartCoroutine(AimAxis(aimY, (float value) => Aim(new Vector2(0, aimY.ReadValue<float>() * keyPressSensitivity * Time.deltaTime))));
+        private void AimY(InputAction.CallbackContext context)
+        {
+            if (!IsMappedToSelf(context))
+                return;
+            StartCoroutine(
+                AimAxis(
+                    aimY,
+                    (float value) =>
+                        Aim(
+                            new Vector2(
+                                0,
+                                aimY.ReadValue<float>() * keyPressSensitivity * Time.deltaTime
+                            )
+                        )
+                )
+            );
+        }
 
         private IEnumerator AimAxis(InputAction input, Action<float> callback)
         {
@@ -96,21 +130,20 @@ namespace Com.Unnamed.RacingGame.Shooter
             }
         }
 
-        private void Aim(Vector2 deltaMouseMovement)
-        {
-            cameraAz.localRotation *= Quaternion.Euler(0, deltaMouseMovement.x, 0);
-            if (minAzimuthY < cameraAz.localEulerAngles.y && cameraAz.localEulerAngles.y < maxAzimuthY)
-            {
-                cameraAz.localRotation *= Quaternion.Euler(0, -deltaMouseMovement.x, 0);
-            }
-            cameraAlt.localRotation *= Quaternion.Euler(-deltaMouseMovement.y, 0, 0);
-            if (cameraAlt.localEulerAngles.x < maxAltitudeX)
-            {
-                cameraAlt.localRotation *= Quaternion.Euler(deltaMouseMovement.y, 0, 0);
-            }
-            OnAim?.Invoke(this, InputManager.GetRayToMouse(shooterCamera, InputManager.GetMouseScreenPosition()));
-        }
+        private void Aim(Vector2 deltaMouseMovement) =>
+            OnAim?.Invoke(
+                this,
+                new AimDelta(
+                    Quaternion.Euler(0, deltaMouseMovement.x, 0),
+                    Quaternion.Euler(-deltaMouseMovement.y, 0, 0)
+                )
+            );
 
-        private void Shoot(InputAction.CallbackContext context) => OnShoot?.Invoke(this, EventArgs.Empty);
+        private void Shoot(InputAction.CallbackContext context)
+        {
+            if (!IsMappedToSelf(context))
+                return;
+            OnShoot?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

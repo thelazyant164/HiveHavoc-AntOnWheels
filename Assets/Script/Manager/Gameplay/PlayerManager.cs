@@ -1,12 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Com.Unnamed.RacingGame
 {
+    public enum Role
+    {
+        Driver,
+        Shooter
+    }
+
     public sealed class PlayerManager : Singleton<PlayerManager>
     {
+        private PlayerInputManager inputManager;
         public Shooter.Shooter Shooter { get; private set; }
+        public Driver.Driver Driver { get; private set; }
 
         private void Awake()
         {
@@ -20,8 +29,9 @@ namespace Com.Unnamed.RacingGame
             }
             Instance = this;
 
+            inputManager = GetComponent<PlayerInputManager>();
             Shooter = GetComponentInChildren<Shooter.Shooter>();
+            Driver = GetComponentInChildren<Driver.Driver>();
         }
     }
-
 }
