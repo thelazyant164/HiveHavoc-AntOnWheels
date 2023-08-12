@@ -1,32 +1,93 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class EnemySpawner : MonoBehaviour
+namespace Com.Unnamed.RacingGame.Enemy
 {
-    [SerializeField]
-    private GameObject objectToInstantiate; // The object to be instantiated
-    [SerializeField]
-    private Transform spawnPoint; // The position where the object will be instantiated
-    [SerializeField]
-    private float spawnInterval = 5f; // Time interval between spawns
-
-    private void Start()
+    public sealed class EnemySpawner : MonoBehaviour
     {
-        // Start the spawning coroutine
-        StartCoroutine(SpawnObjectRoutine());
-    }
+        [SerializeField]
+        private Enemy enemyPrefab;
+        private Transform spawnPosition;
+        private Vector3 spawnPos;
 
-    private IEnumerator SpawnObjectRoutine()
-    {
-        while (true)
+        [SerializeField]
+        private int maxCapacity = 3;
+
+        [SerializeField]
+        private float spawnCooldown = 5f;
+
+        private Coroutine spawn;
+        private EnemyManager enemyManager;
+        private List<Enemy> spawned = new();
+
+        private void Awake()
         {
-            Vector3 spawnPosition = new Vector3(spawnPoint.position.x, 0, spawnPoint.position.z);
-            
-            // Instantiate the object at the specified spawn point
-            Instantiate(objectToInstantiate, spawnPosition, Quaternion.identity);
-            
-            // Wait for the specified interval before spawning the next object
-            yield return new WaitForSeconds(spawnInterval);
+            spawnPosition = GetComponent<Transform>();
+            SampleSpawnPosition(); // happens once during awake -> assume spawn position does not change throughout game
+        }
+
+        private void Start()
+        {
+            enemyManager = EnemyManager.Instance;
+            enemyManager.RegisterSpawner(this);
+            spawn = StartCoroutine(Spawn());
+        }
+
+        private void OnEnable()
+        {
+            if (enemyManager != null)
+                spawn = StartCoroutine(Spawn());
+        }
+
+        private void OnDisable()
+        {
+            if (spawn != null)
+                StopCoroutine(spawn);
+        }
+
+        private void OnDestroy() => enemyManager?.UnregisterSpawner(this);
+
+        private void SampleSpawnPosition()
+        {
+            if (
+                NavMesh.SamplePosition(
+                    spawnPosition.position,
+                    out NavMeshHit closestHit,
+                    spawnPosition.position.y,
+                    NavMesh.AllAreas
+                )
+            )
+            {
+                spawnPos = closestHit.position;
+            }
+            else
+            {
+                Debug.LogWarning("Cannot sample NavMesh; set default spawn location y to 0");
+                spawnPos = new Vector3(spawnPosition.position.x, 0, spawnPosition.position.z);
+            }
+        }
+
+        private Enemy SpawnSingle()
+        {
+            Enemy enemy = Instantiate(enemyPrefab.gameObject, spawnPos, Quaternion.identity)
+                .GetComponent<Enemy>();
+            enemy.transform.SetParent(enemyManager.transform, true);
+            return enemy;
+        }
+
+        private IEnumerator Spawn()
+        {
+            while (true)
+            {
+                if (spawned.Count < maxCapacity)
+                {
+                    spawned.Add(SpawnSingle());
+                    yield return new WaitForSeconds(spawnCooldown);
+                }
+                yield return null;
+            }
         }
     }
 }

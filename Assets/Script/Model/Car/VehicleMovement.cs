@@ -57,6 +57,7 @@ namespace Com.Unnamed.RacingGame.Driver
 
         private void Start()
         {
+            GameManager.Instance.RegisterVehicle(this);
             driver = PlayerManager.Instance.Driver;
             driver.OnAccelerate += (object sender, float input) => throttle = input;
             driver.OnSteer += (object sender, float input) => steer = input;
