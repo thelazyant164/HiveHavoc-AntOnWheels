@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4293060321321728712}
   - component: {fileID: 2596543763418846861}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FrontLeftCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,8 +43,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.36
   m_SuspensionSpring:
-    spring: 35000
-    damper: 4500
+    spring: 90000
+    damper: 9000
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
@@ -81,7 +81,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1470645003525107579}
   - component: {fileID: 3263786828829134078}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RearLeftCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,8 +114,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.36
   m_SuspensionSpring:
-    spring: 35000
-    damper: 4500
+    spring: 90000
+    damper: 9000
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 3681553681206165821}
   - component: {fileID: 4271825491169476769}
   - component: {fileID: 6831249512321943790}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: DriverCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5530231340838291538}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wheels Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,7 +316,7 @@ GameObject:
   - component: {fileID: 5221533784940009600}
   - component: {fileID: 7177180233350334288}
   - component: {fileID: 4619946951045256765}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RearRightWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: 1024983814650496165}
   - component: {fileID: 2358812492719893242}
   - component: {fileID: 8600697033765786061}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +414,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4506646462457043869}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -34.125908, y: 0.65999985, z: -30.4043}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -503,6 +503,7 @@ MonoBehaviour:
   frontRightWheelTransform: {fileID: 2612968343891118403}
   rearLeftWheelTransform: {fileID: 377445838432007059}
   rearRightWheelTransform: {fileID: 5221533784940009600}
+  driver: {fileID: 0}
 --- !u!1 &4761255940505912061
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,7 +515,7 @@ GameObject:
   - component: {fileID: 298265687159020658}
   - component: {fileID: 2901852364833203393}
   - component: {fileID: 2417816273788791648}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -598,7 +599,7 @@ GameObject:
   - component: {fileID: 357627942936286352}
   - component: {fileID: 6937090380441045421}
   - component: {fileID: 6482222236234251407}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FrontLeftWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -681,7 +682,7 @@ GameObject:
   - component: {fileID: 566471587974456321}
   - component: {fileID: 4441941038465707061}
   - component: {fileID: 4140441544173972466}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spoiler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -764,7 +765,7 @@ GameObject:
   - component: {fileID: 2612968343891118403}
   - component: {fileID: 4141978833843675984}
   - component: {fileID: 539375245629398329}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FrontRightWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -847,7 +848,7 @@ GameObject:
   - component: {fileID: 377445838432007059}
   - component: {fileID: 2761891422814739610}
   - component: {fileID: 1492867910784388745}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RearLeftWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -929,7 +930,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1818828199869460996}
   - component: {fileID: 3444063484007697463}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 'RearRightCollider '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -962,8 +963,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.36
   m_SuspensionSpring:
-    spring: 35000
-    damper: 4500
+    spring: 90000
+    damper: 9000
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
@@ -1000,7 +1001,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6804051378623722857}
   - component: {fileID: 6734764238465894376}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 'FrontRightCollider '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1033,8 +1034,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.36
   m_SuspensionSpring:
-    spring: 35000
-    damper: 4500
+    spring: 90000
+    damper: 9000
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
