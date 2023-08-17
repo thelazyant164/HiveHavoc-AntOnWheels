@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3dc1d4a76ac93408fe4201f480eb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 2639900182541835793, guid: 2de9244cb3d7fcf478a2d4cd73549ccb,
+  enemyPrefab: {fileID: 5658136313981689252, guid: 2de9244cb3d7fcf478a2d4cd73549ccb,
     type: 3}
   maxCapacity: 5
   spawnCooldown: 5
