@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-namespace Com.Unnamed.RacingGame.UI
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
 {
     public partial class @PickController: IInputActionCollection2, IDisposable
     {

@@ -1,8 +1,10 @@
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-namespace Com.Unnamed.RacingGame.Enemy
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 {
     public sealed class EnemyManager : Singleton<EnemyManager>
     {

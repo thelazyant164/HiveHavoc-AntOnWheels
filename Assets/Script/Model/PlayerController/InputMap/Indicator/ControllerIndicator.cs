@@ -1,11 +1,11 @@
-using Com.Unnamed.RacingGame.Input;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Com.Unnamed.RacingGame.UI
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
 {
     public enum Direction
     {

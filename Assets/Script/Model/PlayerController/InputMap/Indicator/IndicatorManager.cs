@@ -1,4 +1,4 @@
-using Com.Unnamed.RacingGame.Input;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Com.Unnamed.RacingGame.UI
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
 {
     [Serializable]
     public sealed class RoleDictionary : SerializableDictionary<Role, RectTransform> { }

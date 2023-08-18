@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows;
 
-namespace Com.Unnamed.RacingGame.Input
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input
 {
     public enum Controller
     {
