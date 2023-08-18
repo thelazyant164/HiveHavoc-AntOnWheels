@@ -1,4 +1,4 @@
-using Com.Unnamed.RacingGame.UI;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
-namespace Com.Unnamed.RacingGame.Input
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input
 {
     public abstract class PlayerController : MonoBehaviour
     {

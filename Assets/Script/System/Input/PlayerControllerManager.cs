@@ -1,4 +1,4 @@
-using Com.Unnamed.RacingGame.UI;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Com.Unnamed.RacingGame.Input
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input
 {
     [Serializable]
     public sealed class InputMap : EventArgs
