@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 1024983814650496165}
   - component: {fileID: 2358812492719893242}
   - component: {fileID: 8600697033765786061}
+  - component: {fileID: 2844326706716944533}
   m_Layer: 7
   m_Name: Car
   m_TagString: Untagged
@@ -449,8 +450,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.12, y: 1.24, z: 4.8}
-  m_Center: {x: 0, y: 0.82, z: -0.06}
+  m_Size: {x: 2.12, y: 0.93, z: 4.8}
+  m_Center: {x: 0, y: 0.5, z: -0.06}
 --- !u!54 &2358812492719893242
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -503,7 +504,19 @@ MonoBehaviour:
   frontRightWheelTransform: {fileID: 2612968343891118403}
   rearLeftWheelTransform: {fileID: 377445838432007059}
   rearRightWheelTransform: {fileID: 5221533784940009600}
-  driver: {fileID: 0}
+--- !u!114 &2844326706716944533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506646462457043869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7cdb640bfd8e64fafc9ed0ce47c6af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
 --- !u!1 &4761255940505912061
 GameObject:
   m_ObjectHideFlags: 0
