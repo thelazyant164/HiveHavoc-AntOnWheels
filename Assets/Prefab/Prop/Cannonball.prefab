@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7336065739185207010}
   - component: {fileID: 2863569263113040738}
   - component: {fileID: 9009222961822033251}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cannonball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,6 +73,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85b97fbf48e8c24b969781719077675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countdown: 10
+  damage: 10
+  blastRadius: 10
+  blastForce: 500
+  blocking:
+    serializedVersion: 2
+    m_Bits: 960
+  affected:
+    serializedVersion: 2
+    m_Bits: 704
 --- !u!1 &5880619761626689315
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,7 +95,7 @@ GameObject:
   - component: {fileID: 7888094046061197884}
   - component: {fileID: 5376406200018079478}
   - component: {fileID: 166367125495246847}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

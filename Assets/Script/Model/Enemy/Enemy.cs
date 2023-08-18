@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
+using System;
+using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
-namespace Com.Unnamed.RacingGame.Enemy
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 {
-    public class Enemy : MonoBehaviour
+    public class Enemy : MonoBehaviour, IDamageable, IShootable<EnemyProjectile>
     {
         private NavMeshAgent agent;
         private Transform target;
@@ -12,10 +16,15 @@ namespace Com.Unnamed.RacingGame.Enemy
         private LayerMask ground,
             player;
 
+        [Space]
+        [Header("Health")]
         [SerializeField]
-        private float health;
+        private float maxHealth;
+        public float MaxHealth => maxHealth;
+        public float Health { get; private set; }
 
-        //Patroling
+        [Space]
+        [Header("Patrol route")]
         [SerializeField]
         private Vector3 walkPoint;
         private bool walkPointSet;
@@ -23,30 +32,67 @@ namespace Com.Unnamed.RacingGame.Enemy
         [SerializeField]
         private float walkPointRange;
 
-        // //Attacking
-        // [SerializeField]
-        // private float timeBetweenAttacks;
-        // private bool alreadyAttacked;
-        // [SerializeField]
-        // private GameObject projectile;
-
-        //States
+        [Space]
+        [Header("Attack")]
         [SerializeField]
-        private float sightRange,
-            attackRange;
+        private float timeBetweenAttacks;
+        public float CooldownDuration => timeBetweenAttacks;
+
+        [Space]
+        [Header("Projectile")]
+        [SerializeField]
+        private Transform projectileSpawnPosition;
+        public Vector3 ProjectileSpawnPosition => projectileSpawnPosition.position;
+
+        [SerializeField]
+        private GameObject projectile;
+        public EnemyProjectile Projectile => projectile.GetComponent<EnemyProjectile>();
+
+        [SerializeField]
+        private float initialImpulse;
+        public float InitialImpulse => initialImpulse;
+
+        [SerializeField]
+        private Transform stinger;
+
+        [SerializeField]
+        private Transform stingerTip;
+        public Vector3 AimDirection => (stingerTip.position - stinger.position).normalized;
+        public bool Ready { get; private set; } = true;
+
+        [Space]
+        [Header("Debug state")]
+        [SerializeField]
+        private float sightRange;
+
+        [SerializeField]
+        private float attackRange;
 
         [SerializeField]
         private bool playerInSightRange,
             playerInAttackRange;
 
+        public IDamaging.Target Type => IDamaging.Target.Enemy;
+        public event EventHandler<EnemyProjectile> OnShoot;
+        public event EventHandler<float> OnHealthChange;
+        public event EventHandler OnDeath;
+
         private void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
+            Health = maxHealth;
+            OnHealthChange += (object sender, float healthChange) =>
+            {
+                Health += healthChange;
+                if (Health <= 0)
+                    OnDeath?.Invoke(this, EventArgs.Empty);
+            };
+            OnDeath += Die;
         }
 
         private void Start()
         {
-            target = GameManager.Instance.Vehicle.transform;
+            target = GameManager.Instance.Vehicle?.transform;
         }
 
         private void Update()
@@ -60,10 +106,18 @@ namespace Com.Unnamed.RacingGame.Enemy
 
             if (!playerInSightRange && !playerInAttackRange)
                 Patroling();
-            if (playerInSightRange && !playerInAttackRange)
+            else if (playerInSightRange && !playerInAttackRange)
                 ChasePlayer();
-            if (playerInAttackRange && playerInSightRange)
+            else if (playerInAttackRange && playerInSightRange)
                 AttackPlayer();
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, sightRange);
         }
 
         private void Patroling()
@@ -84,8 +138,8 @@ namespace Com.Unnamed.RacingGame.Enemy
         private void SearchWalkPoint()
         {
             //Calculate random point in range
-            float randomZ = Random.Range(-walkPointRange, walkPointRange);
-            float randomX = Random.Range(-walkPointRange, walkPointRange);
+            float randomZ = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
+            float randomX = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
 
             walkPoint = new Vector3(
                 transform.position.x + randomX,
@@ -105,44 +159,46 @@ namespace Com.Unnamed.RacingGame.Enemy
         private void AttackPlayer()
         {
             agent.SetDestination(transform.position);
-
             transform.LookAt(target);
 
-            // if (!alreadyAttacked)
-            // {
-            //     Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            //     rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            //     rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            if (!Ready)
+                return;
+            Ready = false;
+            EnemyProjectile stingerProjectile = SpawnProjectile();
+            Launch(stingerProjectile);
 
-            //     alreadyAttacked = true;
-            //     Invoke(nameof(ResetAttack), timeBetweenAttacks);
-            // }
+            gameObject.SetTimeOut(timeBetweenAttacks, () => Ready = true);
         }
 
-        private void ResetAttack()
+        public EnemyProjectile SpawnProjectile() =>
+            GameObject
+                .Instantiate(projectile, projectileSpawnPosition.position, Quaternion.identity)
+                .GetComponent<EnemyProjectile>();
+
+        public void Launch(EnemyProjectile enemyProjectile)
         {
-            // alreadyAttacked = false;
+            enemyProjectile.Launch(AimDirection * initialImpulse);
+            enemyProjectile.AcquireTarget(target);
+            OnShoot?.Invoke(this, enemyProjectile);
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(IDamaging instigator)
         {
-            health -= damage;
-
-            if (health <= 0)
-                Invoke(nameof(DestroyEnemy), 0.5f);
+            if (instigator.TargetType != Type)
+                return; // no friendly fire
+            float damage = instigator is Explosion explosion
+                ? explosion.GetDamageFrom(transform.position)
+                : instigator.Damage;
+            OnHealthChange?.Invoke(this, -damage);
         }
 
-        private void DestroyEnemy()
+        public void Heal(float hp) => OnHealthChange?.Invoke(this, hp);
+
+        public void Die(object sender, EventArgs e)
         {
+            OnDeath -= Die; // only die once
             Destroy(gameObject);
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, attackRange);
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, sightRange);
+            //gameObject.SetTimeOut(1f, () => Destroy(gameObject)); // delay destroy 1s -> play death animation?
         }
     }
 }

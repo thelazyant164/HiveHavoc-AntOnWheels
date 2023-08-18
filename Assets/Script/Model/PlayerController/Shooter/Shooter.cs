@@ -1,10 +1,10 @@
-using Com.Unnamed.RacingGame.Input;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input;
 using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Com.Unnamed.RacingGame.Shooter
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
     public sealed class Shooter : PlayerController
     {

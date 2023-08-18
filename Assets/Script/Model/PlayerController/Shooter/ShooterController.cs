@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-namespace Com.Unnamed.RacingGame.Shooter
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
     public partial class @ShooterController: IInputActionCollection2, IDisposable
     {

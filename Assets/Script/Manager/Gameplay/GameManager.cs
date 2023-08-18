@@ -1,14 +1,24 @@
-using Com.Unnamed.RacingGame.Driver;
-using Com.Unnamed.RacingGame.Shooter;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Com.Unnamed.RacingGame
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
 {
+    public enum GameState
+    {
+        InProgress,
+        Win,
+        Lose
+    }
+
     public sealed class GameManager : Singleton<GameManager>
     {
         internal VehicleMovement Vehicle { get; private set; }
+        public event EventHandler<GameState> OnGameStateChange;
 
         private void Awake()
         {
@@ -21,8 +31,32 @@ namespace Com.Unnamed.RacingGame
                 return;
             }
             Instance = this;
+
+            OnGameStateChange += HandleGameStateChange;
         }
 
         internal void RegisterVehicle(VehicleMovement vehicle) => Vehicle = vehicle;
+
+        internal void RegisterVehicle(VehicleHealth vehicle) =>
+            vehicle.OnDeath += (object sender, EventArgs e) =>
+                OnGameStateChange?.Invoke(sender, GameState.Lose);
+
+        private void HandleGameStateChange(object sender, GameState state)
+        {
+            switch (state)
+            {
+                case GameState.InProgress:
+                    break;
+                case GameState.Win:
+                    Time.timeScale = 0;
+                    OnGameStateChange -= HandleGameStateChange;
+                    break;
+                case GameState.Lose:
+                    OnGameStateChange -= HandleGameStateChange;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

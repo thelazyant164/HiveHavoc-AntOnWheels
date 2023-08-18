@@ -1,11 +1,13 @@
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Com.Unnamed.RacingGame.Enemy
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 {
-    public sealed class EnemySpawner : MonoBehaviour
+    public sealed class EnemySpawner : MonoBehaviour, IDestructible
     {
         [SerializeField]
         private Enemy enemyPrefab;
@@ -20,7 +22,8 @@ namespace Com.Unnamed.RacingGame.Enemy
 
         private Coroutine spawn;
         private EnemyManager enemyManager;
-        private List<Enemy> spawned = new();
+        private HashSet<Enemy> spawned = new();
+        public event EventHandler<IDestructible> OnDestroy;
 
         private void Awake()
         {
@@ -47,7 +50,11 @@ namespace Com.Unnamed.RacingGame.Enemy
                 StopCoroutine(spawn);
         }
 
-        private void OnDestroy() => enemyManager?.UnregisterSpawner(this);
+        public void Destroy()
+        {
+            OnDestroy?.Invoke(this, this);
+            Destroy(gameObject);
+        }
 
         private void SampleSpawnPosition()
         {
@@ -74,6 +81,8 @@ namespace Com.Unnamed.RacingGame.Enemy
             Enemy enemy = Instantiate(enemyPrefab.gameObject, spawnPos, Quaternion.identity)
                 .GetComponent<Enemy>();
             enemy.transform.SetParent(enemyManager.transform, true);
+            spawned.Add(enemy);
+            enemy.OnDeath += (object sender, EventArgs e) => spawned.Remove(enemy);
             return enemy;
         }
 
