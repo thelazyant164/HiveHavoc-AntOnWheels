@@ -1,9 +1,10 @@
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Com.Unnamed.RacingGame.Shooter
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
     public struct AimDelta
     {
@@ -17,7 +18,7 @@ namespace Com.Unnamed.RacingGame.Shooter
         }
     }
 
-    public sealed class Cannon : MonoBehaviour
+    public sealed class Cannon : MonoBehaviour, IShootable<Cannonball>
     {
         [Header("Az-alt mount")]
         [SerializeField]
@@ -35,19 +36,28 @@ namespace Com.Unnamed.RacingGame.Shooter
         [Header("Cannonball spawn")]
         [SerializeField]
         private Transform spawn;
+        public Vector3 ProjectileSpawnPosition => spawn.position;
 
         [SerializeField]
         private Transform nozzle;
 
         [SerializeField]
         private GameObject cannonball;
+        public Cannonball Projectile => cannonball.GetComponent<Cannonball>();
 
         [SerializeField]
-        private float launchForce = 300f;
+        private float initialImpulse = 300f;
+        public float InitialImpulse => initialImpulse;
+
+        [SerializeField]
+        private float cooldownDuration;
+        public float CooldownDuration => cooldownDuration;
+        public bool Ready { get; private set; } = true;
 
         private Shooter shooter;
+        public Vector3 AimDirection => (nozzle.position - spawn.position).normalized;
 
-        private Vector3 AimDirection => (nozzle.position - spawn.position).normalized;
+        public event EventHandler<Cannonball> OnShoot;
 
         private void Start()
         {
@@ -60,8 +70,13 @@ namespace Com.Unnamed.RacingGame.Shooter
             };
             shooter.OnShoot += (object sender, EventArgs e) =>
             {
-                Cannonball cannonball = Spawn();
+                if (!Ready)
+                    return;
+                Ready = false;
+                Cannonball cannonball = SpawnProjectile();
                 Launch(cannonball);
+                OnShoot?.Invoke(this, cannonball);
+                gameObject.SetTimeOut(cooldownDuration, () => Ready = true);
             };
         }
 
@@ -72,11 +87,12 @@ namespace Com.Unnamed.RacingGame.Shooter
             return minAltitudeX < rot.eulerAngles.x;
         }
 
-        private Cannonball Spawn() =>
+        public Cannonball SpawnProjectile() =>
             GameObject
                 .Instantiate(cannonball, nozzle.position, Quaternion.identity)
                 .GetComponent<Cannonball>();
 
-        private void Launch(Cannonball cannonball) => cannonball.Launch(AimDirection * launchForce);
+        public void Launch(Cannonball cannonball) =>
+            cannonball.Launch(AimDirection * initialImpulse);
     }
 }

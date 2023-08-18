@@ -30,14 +30,21 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 
         private void OnDisable()
         {
+            spawners = spawners.Where(spawner => spawner != null).ToHashSet();
             foreach (EnemySpawner spawner in spawners)
             {
                 spawner.gameObject.SetActive(false);
             }
         }
 
-        internal void RegisterSpawner(EnemySpawner spawner) => spawners.Add(spawner);
-
-        internal void UnregisterSpawner(EnemySpawner spawner) => spawners.Remove(spawner);
+        internal void RegisterSpawner(EnemySpawner spawner)
+        {
+            spawners.Add(spawner);
+            spawner.OnDestroy += (object sender, IDestructible destructible) =>
+            {
+                if (destructible is EnemySpawner spawner)
+                    spawners.Remove(spawner);
+            };
+        }
     }
 }
