@@ -44,7 +44,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player
         private void Start()
         {
             GameManager.Instance.RegisterVehicle(this);
-            UIManager.Instance.HealthBar.Bind(this);
+            UIManager.Instance.HealthBar?.Bind(this);
         }
 
         public void Die(object sender, EventArgs e)

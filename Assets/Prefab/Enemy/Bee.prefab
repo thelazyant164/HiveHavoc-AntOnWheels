@@ -292,6 +292,8 @@ GameObject:
   - component: {fileID: 7095807536478655951}
   - component: {fileID: 2639900182541835793}
   m_Layer: 6
+  - component: {fileID: 5658136313981689252}
+  m_Layer: 0
   m_Name: Bee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +340,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2639900182541835793
+--- !u!114 &5658136313981689252
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,7 +349,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5571172973541419303}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 602ef22d2350626438ce4cb89d8f581c, type: 3}
+  m_Script: {fileID: 11500000, guid: 997a37e36b891ab47a152c8f47a1aa38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ground:
