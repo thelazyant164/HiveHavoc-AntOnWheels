@@ -1319,7 +1319,6 @@ Transform:
   - {fileID: 636911859}
   - {fileID: 59636506}
   - {fileID: 654364717}
-  - {fileID: 543450652596075365}
   - {fileID: 1389522553}
   m_Father: {fileID: 0}
   m_RootOrder: 1
