@@ -1,4 +1,5 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
 using System;
 using System.Collections;
@@ -10,9 +11,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
     [RequireComponent(typeof(Rigidbody))]
     public class EnemyProjectile
         : MonoBehaviour,
-            IProjectile,
             ITargetSeeking<IProjectile>,
-            IDestructible
+            IDestructible<EnemyProjectile>
     {
         private Rigidbody rb;
         public Rigidbody Rigidbody => rb;
@@ -35,7 +35,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         public float PursuitInterval => pursuitInterval;
         public Coroutine PursuitRoutine { get; private set; }
 
-        public event EventHandler<IDestructible> OnDestroy;
+        public event EventHandler<EnemyProjectile> OnDestroy;
 
         private void Awake()
         {
@@ -49,7 +49,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
             {
                 if (collision.gameObject.TryGetComponent(out IDamageable damageable))
                 {
-                    damageable.TakeDamage(this);
+                    damageable.TakeDamage<EnemyProjectile>(this);
                 }
                 // Debug.LogWarning($"Collide against {collision.gameObject}");
                 Destroy();

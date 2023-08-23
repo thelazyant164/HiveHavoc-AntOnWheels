@@ -6,7 +6,7 @@ using System;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 {
-    public struct Explosion : IDamaging
+    public struct Explosion<T> : IDamaging
     {
         public IDamaging.Target TargetType { get; private set; }
         public float Damage { get; private set; }
@@ -14,7 +14,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         public float force;
         public float radius;
 
-        public Explosion(IExplosive source, Vector3 epicenter)
+        public Explosion(IExplosive<T> source, Vector3 epicenter)
         {
             this.epicenter = epicenter;
             Damage = source.Damage;
@@ -30,15 +30,17 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         }
     }
 
-    public interface IExplosive : IDamaging, IDestructible
+    public interface IExplosive<T> : IDamaging, IDestructible<T>
     {
+        public float Countdown { get; }
         public float BlastRadius { get; }
         public float BlastForce { get; }
         public LayerMask Affected { get; }
-        public Explosion Explosion { get; }
+        public Explosion<T> Explosion { get; }
         public abstract event EventHandler OnExplode;
 
         public abstract IEnumerable<IDynamic> GetAffectedEntityInBlastZone();
         public abstract void Explode(object sender, EventArgs e);
+        public abstract void BeginCountdown();
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile
 {
     public struct TargetLockOn
     {
@@ -18,7 +18,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat
         }
     }
 
-    public interface ITargetSeeking<T>
+    public interface ITargetSeeking<T> : IProjectile
     {
         public abstract Rigidbody Rigidbody { get; }
         public abstract float Velocity { get; }

@@ -55,17 +55,17 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player
 
         public void Heal(float hp) => OnHealthChange?.Invoke(this, hp);
 
-        public void TakeDamage(IDamaging instigator)
+        public void TakeDamage<T>(IDamaging instigator)
         {
             if (instigator.TargetType != Type)
                 return; // no friendly fire
-            float damage = instigator is Explosion explosion
+            float damage = instigator is Explosion<T> explosion
                 ? explosion.GetDamageFrom(transform.position)
                 : instigator.Damage;
             OnHealthChange?.Invoke(this, -damage);
         }
 
-        public void ReactTo(Explosion explosion) =>
+        public void ReactTo<T>(Explosion<T> explosion) =>
             rb.AddExplosionForce(
                 explosion.force,
                 explosion.epicenter,

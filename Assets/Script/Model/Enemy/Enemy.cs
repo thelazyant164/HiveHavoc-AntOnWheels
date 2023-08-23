@@ -1,5 +1,6 @@
 ﻿using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
@@ -42,7 +43,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         [Header("Projectile")]
         [SerializeField]
         private Transform projectileSpawnPosition;
-        public Vector3 ProjectileSpawnPosition => projectileSpawnPosition.position;
+        public Vector3 ProjectileSpawn => projectileSpawnPosition.position;
 
         [SerializeField]
         private GameObject projectile;
@@ -57,6 +58,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 
         [SerializeField]
         private Transform stingerTip;
+        public Vector3 Nozzle => stingerTip.position;
         public Vector3 AimDirection => (stingerTip.position - stinger.position).normalized;
         public bool Ready { get; private set; } = true;
 
@@ -161,13 +163,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
             agent.SetDestination(transform.position);
             transform.LookAt(target);
 
-            if (!Ready)
-                return;
-            Ready = false;
-            EnemyProjectile stingerProjectile = SpawnProjectile();
-            Launch(stingerProjectile);
-
-            gameObject.SetTimeOut(timeBetweenAttacks, () => Ready = true);
+            Shoot();
         }
 
         public EnemyProjectile SpawnProjectile() =>
@@ -179,14 +175,24 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         {
             enemyProjectile.Launch(AimDirection * initialImpulse);
             enemyProjectile.AcquireTarget(target);
-            OnShoot?.Invoke(this, enemyProjectile);
         }
 
-        public void TakeDamage(IDamaging instigator)
+        public void Shoot()
+        {
+            if (!Ready)
+                return;
+            Ready = false;
+            EnemyProjectile stingerProjectile = SpawnProjectile();
+            Launch(stingerProjectile);
+            OnShoot?.Invoke(this, stingerProjectile);
+            gameObject.SetTimeOut(timeBetweenAttacks, () => Ready = true);
+        }
+
+        public void TakeDamage<T>(IDamaging instigator)
         {
             if (instigator.TargetType != Type)
                 return; // no friendly fire
-            float damage = instigator is Explosion explosion
+            float damage = instigator is Explosion<T> explosion
                 ? explosion.GetDamageFrom(transform.position)
                 : instigator.Damage;
             OnHealthChange?.Invoke(this, -damage);

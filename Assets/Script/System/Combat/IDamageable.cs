@@ -14,7 +14,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat
         public abstract event EventHandler<float> OnHealthChange;
         public abstract event EventHandler OnDeath;
 
-        public abstract void TakeDamage(IDamaging instigator);
+        public abstract void TakeDamage<T>(IDamaging instigator);
         public abstract void Heal(float hp);
         public abstract void Die(object sender, EventArgs e);
     }
