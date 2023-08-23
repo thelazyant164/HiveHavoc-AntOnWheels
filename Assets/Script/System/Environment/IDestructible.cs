@@ -6,10 +6,13 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 {
-    public interface IDestructible : IDynamic
+    public interface IDestructible : IDynamic 
     {
-        public abstract event EventHandler<IDestructible> OnDestroy;
-
         public abstract void Destroy();
+    }
+
+    public interface IDestructible<T> : IDestructible
+    {
+        public abstract event EventHandler<T> OnDestroy;
     }
 }

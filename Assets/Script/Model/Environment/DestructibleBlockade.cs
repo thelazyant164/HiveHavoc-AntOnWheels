@@ -6,9 +6,9 @@ using UnityEngine;
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 {
     [RequireComponent(typeof (Rigidbody))]
-    public sealed class DestructibleBlockade : MonoBehaviour, IDestructible
+    public sealed class DestructibleBlockade : MonoBehaviour, IDestructible<DestructibleBlockade>
     {
-        public event EventHandler<IDestructible> OnDestroy;
+        public event EventHandler<DestructibleBlockade> OnDestroy;
 
         public void Destroy()
         {

@@ -9,8 +9,19 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
     {
         private Rigidbody rb;
 
+        [SerializeField]
+        private float upwardForce;
+        public float UpwardForce => upwardForce;
+
         private void Awake() => rb = GetComponent<Rigidbody>();
 
-        public void ReactTo(Explosion explosion) => rb.AddExplosionForce(explosion.force, explosion.epicenter, explosion.radius, 0f, ForceMode.Force);
+        public void ReactTo<T>(Explosion<T> explosion) =>
+            rb.AddExplosionForce(
+                explosion.force,
+                explosion.epicenter,
+                explosion.radius,
+                upwardForce,
+                ForceMode.Force
+            );
     }
 }

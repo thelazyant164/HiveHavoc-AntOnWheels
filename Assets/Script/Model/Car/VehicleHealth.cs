@@ -21,6 +21,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player
         public float Health { get; private set; }
         public float Value => Health;
 
+        [SerializeField]
+        private float upwardForce;
+        public float UpwardForce => upwardForce;
+
         public IDamaging.Target Type => IDamaging.Target.Player;
 
         public event EventHandler<float> OnValueChange;
@@ -55,22 +59,22 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player
 
         public void Heal(float hp) => OnHealthChange?.Invoke(this, hp);
 
-        public void TakeDamage(IDamaging instigator)
+        public void TakeDamage<T>(IDamaging instigator)
         {
             if (instigator.TargetType != Type)
                 return; // no friendly fire
-            float damage = instigator is Explosion explosion
+            float damage = instigator is Explosion<T> explosion
                 ? explosion.GetDamageFrom(transform.position)
                 : instigator.Damage;
             OnHealthChange?.Invoke(this, -damage);
         }
 
-        public void ReactTo(Explosion explosion) =>
+        public void ReactTo<T>(Explosion<T> explosion) =>
             rb.AddExplosionForce(
                 explosion.force,
                 explosion.epicenter,
                 explosion.radius,
-                0,
+                upwardForce,
                 ForceMode.Force
             );
     }

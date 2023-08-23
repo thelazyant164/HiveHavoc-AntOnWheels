@@ -1,4 +1,5 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
 using System;
 using System.Collections;
@@ -8,7 +9,7 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
-    public sealed class Cannonball : MonoBehaviour, IProjectile, IExplosive
+    public sealed class Cannonball : MonoBehaviour, IProjectile, IExplosive<Cannonball>
     {
         private Rigidbody rb;
 
@@ -35,23 +36,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private LayerMask affected;
         public LayerMask Affected => affected;
-        public Explosion Explosion => new Explosion(this, transform.position);
+        public Explosion<Cannonball> Explosion => new Explosion<Cannonball>(this, transform.position);
         public IDamaging.Target TargetType => IDamaging.Target.Enemy;
         public event EventHandler OnExplode;
-        public event EventHandler<IDestructible> OnDestroy;
+        public event EventHandler<Cannonball> OnDestroy;
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+            BeginCountdown();
             OnExplode += Explode;
-            gameObject.SetTimeOut(
-                countdown,
-                () =>
-                {
-                    // Debug.LogWarning("Cannonball expired");
-                    OnExplode?.Invoke(this, EventArgs.Empty);
-                }
-            ); // auto-explode without contact if timer expired
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -68,14 +62,19 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         public IEnumerable<IDynamic> GetAffectedEntityInBlastZone()
         {
-            IEnumerable<Collider> colliderInBlastZone = Physics
-               .OverlapSphere(transform.position, blastRadius, affected);
-            IEnumerable<IDynamic> dynamicEntities = colliderInBlastZone.Select(collider => 
-            {
-                if (collider.gameObject.TryFindImmediateComponent(out IDynamic dynamic))
-                    return dynamic;
-                return null;
-            }).Where(entity => entity != null);
+            IEnumerable<Collider> colliderInBlastZone = Physics.OverlapSphere(
+                transform.position,
+                blastRadius,
+                affected
+            );
+            IEnumerable<IDynamic> dynamicEntities = colliderInBlastZone
+                .Select(collider =>
+                {
+                    if (collider.gameObject.TryFindImmediateComponent(out IDynamic dynamic))
+                        return dynamic;
+                    return null;
+                })
+                .Where(entity => entity != null);
             return dynamicEntities;
         }
 
@@ -88,7 +87,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             {
                 if (entity is IDamageable damageable)
                 {
-                    damageable.TakeDamage(Explosion);
+                    damageable.TakeDamage<Cannonball>(Explosion);
                 }
                 if (entity is IDestructible destructible)
                 {
@@ -109,6 +108,18 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             // Debug.LogWarning($"Cannonball blown up by another explosive");
             OnDestroy?.Invoke(this, this);
             OnExplode?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void BeginCountdown()
+        {
+            gameObject.SetTimeOut(
+                countdown,
+                () =>
+                {
+                    // Debug.LogWarning("Cannonball expired");
+                    OnExplode?.Invoke(this, EventArgs.Empty);
+                }
+            ); // auto-explode without contact if timer expired
         }
     }
 }

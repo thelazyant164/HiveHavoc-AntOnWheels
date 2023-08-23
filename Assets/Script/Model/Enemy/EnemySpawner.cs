@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 {
-    public sealed class EnemySpawner : MonoBehaviour, IDestructible
+    public sealed class EnemySpawner : MonoBehaviour, IDestructible<EnemySpawner>
     {
         [SerializeField]
         private Enemy enemyPrefab;
@@ -23,7 +23,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         private Coroutine spawn;
         private EnemyManager enemyManager;
         private HashSet<Enemy> spawned = new();
-        public event EventHandler<IDestructible> OnDestroy;
+        public event EventHandler<EnemySpawner> OnDestroy;
 
         private void Awake()
         {
