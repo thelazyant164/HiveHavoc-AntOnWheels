@@ -1,4 +1,4 @@
-using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,26 +6,16 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
-    public struct AimDelta
-    {
-        public Quaternion az;
-        public Quaternion alt;
-
-        public AimDelta(Quaternion az, Quaternion alt)
-        {
-            this.az = az;
-            this.alt = alt;
-        }
-    }
-
-    public sealed class Cannon : MonoBehaviour, IShootable<Cannonball>
+    public sealed class Cannon : MonoBehaviour, IAltitudeAzimuthMount, IShootable<Cannonball>
     {
         [Header("Az-alt mount")]
         [SerializeField]
         private Transform azMount;
+        public Transform Azimuth => azMount;
 
         [SerializeField]
         private Transform altMount;
+        public Transform Altitude => altMount;
 
         [Space]
         [Header("Constraint")]
@@ -36,10 +26,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [Header("Cannonball spawn")]
         [SerializeField]
         private Transform spawn;
-        public Vector3 ProjectileSpawnPosition => spawn.position;
+        public Vector3 ProjectileSpawn => spawn.position;
 
         [SerializeField]
         private Transform nozzle;
+        public Vector3 Nozzle => nozzle.position;
 
         [SerializeField]
         private GameObject cannonball;
@@ -62,29 +53,25 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private void Start()
         {
             shooter = PlayerManager.Instance.Shooter;
-            shooter.OnAim += (object sender, AimDelta delta) =>
-            {
-                azMount.localRotation *= delta.az;
-                if (TryAimAlt(delta.alt))
-                    altMount.localRotation *= delta.alt;
-            };
-            shooter.OnShoot += (object sender, EventArgs e) =>
-            {
-                if (!Ready)
-                    return;
-                Ready = false;
-                Cannonball cannonball = SpawnProjectile();
-                Launch(cannonball);
-                OnShoot?.Invoke(this, cannonball);
-                gameObject.SetTimeOut(cooldownDuration, () => Ready = true);
-            };
+            shooter.OnAim += OnAim;
+            shooter.OnShoot += (object sender, Ammo ammo) => Shoot();
         }
 
-        private bool TryAimAlt(Quaternion deltaAlt)
+        public bool TryAimAz(Quaternion deltaAz) => true;
+
+        public bool TryAimAlt(Quaternion deltaAlt)
         {
             Quaternion rot = altMount.localRotation;
             rot *= deltaAlt;
             return minAltitudeX < rot.eulerAngles.x;
+        }
+
+        public void OnAim(object sender, AimDelta delta)
+        {
+            if (TryAimAz(delta.az))
+                azMount.localRotation *= delta.az;
+            if (TryAimAlt(delta.alt))
+                altMount.localRotation *= delta.alt;
         }
 
         public Cannonball SpawnProjectile() =>
@@ -94,5 +81,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         public void Launch(Cannonball cannonball) =>
             cannonball.Launch(AimDirection * initialImpulse);
+
+        public void Shoot()
+        {
+            if (!Ready)
+                return;
+            Ready = false;
+            Cannonball cannonball = SpawnProjectile();
+            Launch(cannonball);
+            OnShoot?.Invoke(this, cannonball);
+            gameObject.SetTimeOut(cooldownDuration, () => Ready = true);
+        }
     }
 }

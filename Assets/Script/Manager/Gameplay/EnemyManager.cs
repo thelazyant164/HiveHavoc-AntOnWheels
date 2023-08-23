@@ -40,11 +40,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         internal void RegisterSpawner(EnemySpawner spawner)
         {
             spawners.Add(spawner);
-            spawner.OnDestroy += (object sender, IDestructible destructible) =>
-            {
-                if (destructible is EnemySpawner spawner)
-                    spawners.Remove(spawner);
-            };
+            spawner.OnDestroy += (object sender, EnemySpawner destroyedSpawner) => spawners.Remove(spawner);
         }
     }
 }
