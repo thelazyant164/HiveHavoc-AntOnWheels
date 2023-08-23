@@ -53,6 +53,24 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Brake"",
+                    ""type"": ""Button"",
+                    ""id"": ""f89605db-4a8d-42f9-8444-bb167f79e81d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""a028ff96-796c-47aa-b857-989413e2cd6e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -198,6 +216,50 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                     ""action"": ""MovementController"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4184cb0-ac46-4b00-aa67-a7287f4932b6"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse/Keyboard"",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3fd61a19-b71c-40c8-9f9a-166e819d7ea8"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffcf4e98-9e05-4846-bad2-61f530d50029"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse/Keyboard"",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d6238b2-0bf4-465e-b7e9-2bbc5e33d376"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -237,6 +299,8 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
         m_Driver_Throttle = m_Driver.FindAction("Throttle", throwIfNotFound: true);
         m_Driver_Steer = m_Driver.FindAction("Steer", throwIfNotFound: true);
         m_Driver_MovementController = m_Driver.FindAction("MovementController", throwIfNotFound: true);
+        m_Driver_Brake = m_Driver.FindAction("Brake", throwIfNotFound: true);
+        m_Driver_Reload = m_Driver.FindAction("Reload", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -301,6 +365,8 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Driver_Throttle;
     private readonly InputAction m_Driver_Steer;
     private readonly InputAction m_Driver_MovementController;
+    private readonly InputAction m_Driver_Brake;
+    private readonly InputAction m_Driver_Reload;
     public struct DriverActions
     {
         private @DriverController m_Wrapper;
@@ -308,6 +374,8 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
         public InputAction @Throttle => m_Wrapper.m_Driver_Throttle;
         public InputAction @Steer => m_Wrapper.m_Driver_Steer;
         public InputAction @MovementController => m_Wrapper.m_Driver_MovementController;
+        public InputAction @Brake => m_Wrapper.m_Driver_Brake;
+        public InputAction @Reload => m_Wrapper.m_Driver_Reload;
         public InputActionMap Get() { return m_Wrapper.m_Driver; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -326,6 +394,12 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
             @MovementController.started += instance.OnMovementController;
             @MovementController.performed += instance.OnMovementController;
             @MovementController.canceled += instance.OnMovementController;
+            @Brake.started += instance.OnBrake;
+            @Brake.performed += instance.OnBrake;
+            @Brake.canceled += instance.OnBrake;
+            @Reload.started += instance.OnReload;
+            @Reload.performed += instance.OnReload;
+            @Reload.canceled += instance.OnReload;
         }
 
         private void UnregisterCallbacks(IDriverActions instance)
@@ -339,6 +413,12 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
             @MovementController.started -= instance.OnMovementController;
             @MovementController.performed -= instance.OnMovementController;
             @MovementController.canceled -= instance.OnMovementController;
+            @Brake.started -= instance.OnBrake;
+            @Brake.performed -= instance.OnBrake;
+            @Brake.canceled -= instance.OnBrake;
+            @Reload.started -= instance.OnReload;
+            @Reload.performed -= instance.OnReload;
+            @Reload.canceled -= instance.OnReload;
         }
 
         public void RemoveCallbacks(IDriverActions instance)
@@ -379,5 +459,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
         void OnThrottle(InputAction.CallbackContext context);
         void OnSteer(InputAction.CallbackContext context);
         void OnMovementController(InputAction.CallbackContext context);
+        void OnBrake(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
 }

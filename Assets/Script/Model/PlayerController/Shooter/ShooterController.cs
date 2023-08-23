@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
+namespace Com.Unnamed.RacingGame.Shooter
 {
     public partial class @ShooterController: IInputActionCollection2, IDisposable
     {
@@ -66,9 +66,27 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Shoot"",
+                    ""name"": ""Thruster"",
+                    ""type"": ""Value"",
+                    ""id"": ""5c0da426-1174-4aa6-ade9-c3c92b97c48b"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ShootPrimary"",
                     ""type"": ""Button"",
                     ""id"": ""624a0ccd-a078-450c-9af7-b8901a913ccd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShootSecondary"",
+                    ""type"": ""Button"",
+                    ""id"": ""f78d7bce-1f78-4790-9c13-e1a5c6502c6c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -83,7 +101,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Mouse/Keyboard"",
-                    ""action"": ""Shoot"",
+                    ""action"": ""ShootPrimary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -94,29 +112,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Shoot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d2995208-a4b9-4574-ae13-a7eae33f640e"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse/Keyboard"",
-                    ""action"": ""Shoot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d38b7ce1-c740-444c-8f89-70cf3adaf176"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Controller"",
-                    ""action"": ""Shoot"",
+                    ""action"": ""ShootPrimary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -262,6 +258,94 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                     ""action"": ""AimStick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24f616e6-92d7-4388-a0e3-04011b07c29c"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse/Keyboard"",
+                    ""action"": ""ShootSecondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d38b7ce1-c740-444c-8f89-70cf3adaf176"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""ShootSecondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Q/E"",
+                    ""id"": ""3aca5bbb-b2a9-4076-9d0f-12d2b64b24b8"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Thruster"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""feeab1bf-ba75-4a5f-af5b-1d4b60fe9854"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse/Keyboard"",
+                    ""action"": ""Thruster"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""ae7e23f2-b5a8-4d2f-a16b-95d973026be6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse/Keyboard"",
+                    ""action"": ""Thruster"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""D-pad Up/Down"",
+                    ""id"": ""69443fb3-1736-433c-a6e4-786f537b7713"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Thruster"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""ec40bd2d-73fa-4bc9-a0eb-858c63d36bbd"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Thruster"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""81252519-a1ab-4d09-a6c2-abb06d9b5636"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Thruster"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -302,7 +386,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             m_Shooter_AimStick = m_Shooter.FindAction("AimStick", throwIfNotFound: true);
             m_Shooter_AimX = m_Shooter.FindAction("AimX", throwIfNotFound: true);
             m_Shooter_AimY = m_Shooter.FindAction("AimY", throwIfNotFound: true);
-            m_Shooter_Shoot = m_Shooter.FindAction("Shoot", throwIfNotFound: true);
+            m_Shooter_Thruster = m_Shooter.FindAction("Thruster", throwIfNotFound: true);
+            m_Shooter_ShootPrimary = m_Shooter.FindAction("ShootPrimary", throwIfNotFound: true);
+            m_Shooter_ShootSecondary = m_Shooter.FindAction("ShootSecondary", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -368,7 +454,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private readonly InputAction m_Shooter_AimStick;
         private readonly InputAction m_Shooter_AimX;
         private readonly InputAction m_Shooter_AimY;
-        private readonly InputAction m_Shooter_Shoot;
+        private readonly InputAction m_Shooter_Thruster;
+        private readonly InputAction m_Shooter_ShootPrimary;
+        private readonly InputAction m_Shooter_ShootSecondary;
         public struct ShooterActions
         {
             private @ShooterController m_Wrapper;
@@ -377,7 +465,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             public InputAction @AimStick => m_Wrapper.m_Shooter_AimStick;
             public InputAction @AimX => m_Wrapper.m_Shooter_AimX;
             public InputAction @AimY => m_Wrapper.m_Shooter_AimY;
-            public InputAction @Shoot => m_Wrapper.m_Shooter_Shoot;
+            public InputAction @Thruster => m_Wrapper.m_Shooter_Thruster;
+            public InputAction @ShootPrimary => m_Wrapper.m_Shooter_ShootPrimary;
+            public InputAction @ShootSecondary => m_Wrapper.m_Shooter_ShootSecondary;
             public InputActionMap Get() { return m_Wrapper.m_Shooter; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -399,9 +489,15 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 @AimY.started += instance.OnAimY;
                 @AimY.performed += instance.OnAimY;
                 @AimY.canceled += instance.OnAimY;
-                @Shoot.started += instance.OnShoot;
-                @Shoot.performed += instance.OnShoot;
-                @Shoot.canceled += instance.OnShoot;
+                @Thruster.started += instance.OnThruster;
+                @Thruster.performed += instance.OnThruster;
+                @Thruster.canceled += instance.OnThruster;
+                @ShootPrimary.started += instance.OnShootPrimary;
+                @ShootPrimary.performed += instance.OnShootPrimary;
+                @ShootPrimary.canceled += instance.OnShootPrimary;
+                @ShootSecondary.started += instance.OnShootSecondary;
+                @ShootSecondary.performed += instance.OnShootSecondary;
+                @ShootSecondary.canceled += instance.OnShootSecondary;
             }
 
             private void UnregisterCallbacks(IShooterActions instance)
@@ -418,9 +514,15 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 @AimY.started -= instance.OnAimY;
                 @AimY.performed -= instance.OnAimY;
                 @AimY.canceled -= instance.OnAimY;
-                @Shoot.started -= instance.OnShoot;
-                @Shoot.performed -= instance.OnShoot;
-                @Shoot.canceled -= instance.OnShoot;
+                @Thruster.started -= instance.OnThruster;
+                @Thruster.performed -= instance.OnThruster;
+                @Thruster.canceled -= instance.OnThruster;
+                @ShootPrimary.started -= instance.OnShootPrimary;
+                @ShootPrimary.performed -= instance.OnShootPrimary;
+                @ShootPrimary.canceled -= instance.OnShootPrimary;
+                @ShootSecondary.started -= instance.OnShootSecondary;
+                @ShootSecondary.performed -= instance.OnShootSecondary;
+                @ShootSecondary.canceled -= instance.OnShootSecondary;
             }
 
             public void RemoveCallbacks(IShooterActions instance)
@@ -462,7 +564,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             void OnAimStick(InputAction.CallbackContext context);
             void OnAimX(InputAction.CallbackContext context);
             void OnAimY(InputAction.CallbackContext context);
-            void OnShoot(InputAction.CallbackContext context);
+            void OnThruster(InputAction.CallbackContext context);
+            void OnShootPrimary(InputAction.CallbackContext context);
+            void OnShootSecondary(InputAction.CallbackContext context);
         }
     }
 }

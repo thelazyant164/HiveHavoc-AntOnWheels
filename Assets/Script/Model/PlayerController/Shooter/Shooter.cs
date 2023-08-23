@@ -3,9 +3,16 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
+    public enum Ammo
+    {
+        Primary,
+        Secondary
+    }
+
     public sealed class Shooter : PlayerController
     {
         private static readonly Role role = Role.Shooter;
@@ -25,13 +32,18 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private InputAction aimMouse;
         private InputAction aimX;
         private InputAction aimY;
-        private InputAction shoot;
+        private InputAction shootPrimary;
+        private InputAction shootSecondary;
+        private InputAction thruster;
+        private float currentThruster;
         internal event EventHandler<AimDelta> OnAim;
-        internal event EventHandler OnShoot;
+        internal event EventHandler<Ammo> OnShoot;
+        internal event EventHandler<float> OnThruster;
 
         protected override void Awake()
         {
             base.Awake();
+            StartCoroutine(ThrusterDeteriorate());
         }
 
         protected override void Start()
@@ -56,7 +68,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             aimMouse.started += AimMouse;
             aimX.started += AimX;
             aimY.started += AimY;
-            shoot.started += Shoot;
+            shootPrimary.started += ShootPrimary;
+            shootSecondary.started += ShootSecondary;
+            thruster.started += Thruster;
         }
 
         protected override void UnbindCallbackFromAction()
@@ -64,7 +78,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             aimMouse.started -= AimMouse;
             aimX.started -= AimX;
             aimY.started -= AimY;
-            shoot.started -= Shoot;
+            shootPrimary.started -= ShootPrimary;
+            shootSecondary.started -= ShootSecondary;
+            thruster.started -= Thruster;
         }
 
         protected override void OnPairingSucceed()
@@ -80,7 +96,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             aimMouse = shooter.FindAction("AimMouse");
             aimX = shooter.FindAction("AimX");
             aimY = shooter.FindAction("AimY");
-            shoot = shooter.FindAction("Shoot");
+            shootPrimary = shooter.FindAction("ShootPrimary");
+            shootSecondary = shooter.FindAction("ShootSecondary");
+            thruster = shooter.FindAction("Thruster");
         }
 
         private void AimMouse(InputAction.CallbackContext context)
@@ -139,11 +157,46 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 )
             );
 
-        private void Shoot(InputAction.CallbackContext context)
+        private void ShootPrimary(InputAction.CallbackContext context)
         {
             if (!IsMappedToSelf(context))
                 return;
-            OnShoot?.Invoke(this, EventArgs.Empty);
+            OnShoot?.Invoke(this, Ammo.Primary);
+        }
+
+        private void ShootSecondary(InputAction.CallbackContext context)
+        {
+            if (!IsMappedToSelf(context))
+                return;
+            OnShoot?.Invoke(this, Ammo.Secondary);
+        }
+
+        private void Thruster(InputAction.CallbackContext context)
+        {
+            if (!IsMappedToSelf(context))
+                return;
+            float value = context.ReadValue<float>();
+            currentThruster =
+                Mathf.Sign(value) != Mathf.Sign(currentThruster) ? value : currentThruster;
+        }
+
+        private IEnumerator ThrusterDeteriorate()
+        {
+            float timeElapsed = 1;
+            float sign;
+            while (true)
+            {
+                sign = Mathf.Sign(currentThruster);
+                timeElapsed += Time.deltaTime;
+                currentThruster -= Time.deltaTime * timeElapsed * Mathf.Sign(currentThruster);
+                if (sign != Mathf.Sign(currentThruster))
+                {
+                    currentThruster = 0;
+                    timeElapsed = 1;
+                }
+                OnThruster?.Invoke(this, Mathf.Abs(currentThruster));
+                yield return new WaitForFixedUpdate();
+            }
         }
     }
 }

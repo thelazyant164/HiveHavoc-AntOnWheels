@@ -15,27 +15,46 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         [SerializeField]
         private float steer;
-        private float currentSteerAngle,
-            currentBrakeForce;
-        private bool isBraking;
-        private Rigidbody _rb;
+
+        [SerializeField]
+        private bool brake;
+
+        [SerializeField]
+        private float thruster;
+
+        [SerializeField]
+        private float actualThruster;
 
         [Space]
         [Header("Settings")]
         [SerializeField]
-        private float motorForce,
-            brakeForce,
-            maxSteerAngle;
+        private float motorForce;
+
+        [SerializeField]
+        private float brakeForce;
+
+        [SerializeField]
+        private float steerAngle;
+
+        [SerializeField]
+        private float thrusterForce;
+
+        [SerializeField]
+        private float thrusterDeteriorateRate;
 
         [Space]
         [Header("Wheel colliders")]
         [SerializeField]
-        private WheelCollider frontLeftWheelCollider,
-            frontRightWheelCollider;
+        private WheelCollider frontLeftWheelCollider;
 
         [SerializeField]
-        private WheelCollider rearLeftWheelCollider,
-            rearRightWheelCollider;
+        private WheelCollider frontRightWheelCollider;
+
+        [SerializeField]
+        private WheelCollider rearLeftWheelCollider;
+
+        [SerializeField]
+        private WheelCollider rearRightWheelCollider;
 
         [Space]
         [Header("Wheels")]
@@ -51,43 +70,57 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         [SerializeField]
         private Transform rearRightWheelTransform;
 
-        private Driver driver;
+        private Rigidbody rb;
 
-        private void Awake() => _rb = GetComponent<Rigidbody>();
+        private void Awake()
+        {
+            rb = GetComponent<Rigidbody>();
+            StartCoroutine(ThrusterDeteriorate());
+        }
 
         private void Start()
         {
             GameManager.Instance.RegisterVehicle(this);
-            driver = PlayerManager.Instance.Driver;
-            driver.OnAccelerate += (object sender, float input) => throttle = input;
+            Driver driver = PlayerManager.Instance.Driver;
+            driver.OnAccelerate += (object sender, float input) => throttle = brake ? 0f : input;
             driver.OnSteer += (object sender, float input) => steer = input;
+            driver.OnBrake += (object sender, bool brake) => this.brake = brake;
+
+            Shooter.Shooter shooter = PlayerManager.Instance.Shooter;
+            shooter.OnThruster += (object sender, float thruster) => this.thruster = thruster;
         }
 
         private void FixedUpdate()
         {
+            HandleThruster();
             HandleMotor(throttle);
             HandleSteering(steer);
             UpdateWheels();
+        }
+
+        private void HandleThruster()
+        {
+            rb.AddForce(Vector3.up * thruster * actualThruster, ForceMode.Force);
         }
 
         private void HandleMotor(float verticalInput)
         {
             frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
             frontRightWheelCollider.motorTorque = verticalInput * motorForce;
-            // currentbreakForce = isBreaking ? breakForce : 0f;
-            // ApplyBreaking();
+            ApplyBraking(brake ? brakeForce : 0f);
         }
 
-        // private void ApplyBreaking() {
-        //     frontRightWheelCollider.brakeTorque = currentbreakForce;
-        //     frontLeftWheelCollider.brakeTorque = currentbreakForce;
-        //     rearLeftWheelCollider.brakeTorque = currentbreakForce;
-        //     rearRightWheelCollider.brakeTorque = currentbreakForce;
-        // }
+        private void ApplyBraking(float brakeForce)
+        {
+            frontRightWheelCollider.brakeTorque = brakeForce;
+            frontLeftWheelCollider.brakeTorque = brakeForce;
+            rearLeftWheelCollider.brakeTorque = brakeForce;
+            rearRightWheelCollider.brakeTorque = brakeForce;
+        }
 
         private void HandleSteering(float horizontalInput)
         {
-            currentSteerAngle = maxSteerAngle * horizontalInput;
+            float currentSteerAngle = steerAngle * horizontalInput;
             frontLeftWheelCollider.steerAngle = currentSteerAngle;
             frontRightWheelCollider.steerAngle = currentSteerAngle;
         }
@@ -105,6 +138,22 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             wheelCollider.GetWorldPose(out Vector3 pos, out Quaternion rot);
             wheelTransform.rotation = rot;
             wheelTransform.position = pos;
+        }
+
+        private IEnumerator ThrusterDeteriorate()
+        {
+            float thrusterBurnDuration = 0;
+            while (true)
+            {
+                if (thruster == 0 || actualThruster <= 0)
+                {
+                    actualThruster = thrusterForce;
+                    thrusterBurnDuration = 0;
+                }
+                thrusterBurnDuration += Time.deltaTime;
+                actualThruster -= thrusterBurnDuration * thrusterDeteriorateRate;
+                yield return new WaitForFixedUpdate();
+            }
         }
     }
 }

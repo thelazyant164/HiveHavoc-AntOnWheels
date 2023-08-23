@@ -15,20 +15,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         private InputAction throttle;
         private InputAction steer;
         private InputAction movementController;
+        private InputAction brake;
+        private InputAction reload;
         internal event EventHandler<float> OnAccelerate;
         internal event EventHandler<float> OnSteer;
-
-        protected override void BindCallbackToAction()
-        {
-            throttle.started += Accelerate;
-            steer.started += Steer;
-        }
-
-        protected override void UnbindCallbackFromAction()
-        {
-            throttle.started -= Accelerate;
-            steer.started -= Steer;
-        }
+        internal event EventHandler<bool> OnBrake;
+        internal event EventHandler OnReload;
 
         protected override void Awake()
         {
@@ -51,12 +43,30 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             OnAccelerate?.Invoke(this, inputValue.y);
         }
 
+        protected override void BindCallbackToAction()
+        {
+            throttle.started += Accelerate;
+            steer.started += Steer;
+            brake.started += Brake;
+            reload.started += Reload;
+        }
+
+        protected override void UnbindCallbackFromAction()
+        {
+            throttle.started -= Accelerate;
+            steer.started -= Steer;
+            brake.started -= Brake;
+            reload.started -= Reload;
+        }
+
         protected override void MapSchemeTo(InputActionAsset action)
         {
             InputActionMap driver = action.FindActionMap("Driver");
             throttle = driver.FindAction("Throttle");
             steer = driver.FindAction("Steer");
             movementController = driver.FindAction("MovementController");
+            brake = driver.FindAction("Brake");
+            reload = driver.FindAction("Reload");
         }
 
         private void Accelerate(CallbackContext context)
@@ -75,6 +85,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             StartCoroutine(Move(steer, (float inputValue) => OnSteer?.Invoke(this, inputValue)));
         }
 
+        private void Brake(CallbackContext context)
+        {
+            if (!IsMappedToSelf(context))
+                return;
+            StartCoroutine(ToggleBrake(brake, (bool active) => OnBrake?.Invoke(this, active)));
+        }
+
         private IEnumerator Move(InputAction input, Action<float> callback)
         {
             while (input.IsPressed())
@@ -83,6 +100,23 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
                 yield return null;
             }
             callback(0);
+        }
+
+        private IEnumerator ToggleBrake(InputAction input, Action<bool> callback)
+        {
+            callback(true);
+            while (input.IsPressed())
+            {
+                yield return null;
+            }
+            callback(false);
+        }
+
+        private void Reload(InputAction.CallbackContext context)
+        {
+            if (!IsMappedToSelf(context))
+                return;
+            OnReload?.Invoke(this, EventArgs.Empty);
         }
     }
 }
