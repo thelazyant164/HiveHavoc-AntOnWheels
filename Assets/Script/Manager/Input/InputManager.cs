@@ -29,7 +29,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input
 
         public static Vector2 GetMouseScreenPosition() => UnityEngine.Input.mousePosition;
 
-        public static Ray GetRayToMouse(Camera camera, Vector2 mousePos) =>
+        public static Ray GetRayToMouse(UnityEngine.Camera camera, Vector2 mousePos) =>
             camera.ScreenPointToRay(mousePos);
     }
 }
