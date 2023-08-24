@@ -52,6 +52,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                     OnGameStateChange -= HandleGameStateChange;
                     break;
                 case GameState.Lose:
+                    Time.timeScale = 0;
                     OnGameStateChange -= HandleGameStateChange;
                     break;
                 default:
