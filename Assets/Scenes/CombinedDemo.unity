@@ -1002,12 +1002,17 @@ PrefabInstance:
     - target: {fileID: -6194321311011194066, guid: ecd70d3b66cd0c940902199bead41d2a,
         type: 3}
       propertyPath: controller
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6194321311011194066, guid: ecd70d3b66cd0c940902199bead41d2a,
         type: 3}
       propertyPath: deteriorateRate
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -6194321311011194066, guid: ecd70d3b66cd0c940902199bead41d2a,
+        type: 3}
+      propertyPath: controllerSensitivity
+      value: 1.15
       objectReference: {fileID: 0}
     - target: {fileID: 1716225170165713033, guid: ecd70d3b66cd0c940902199bead41d2a,
         type: 3}
@@ -5716,7 +5721,7 @@ PrefabInstance:
     - target: {fileID: 9108445207411090423, guid: 7bf4a4ab9aa54a04295ad4710060ea1c,
         type: 3}
       propertyPath: controller
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

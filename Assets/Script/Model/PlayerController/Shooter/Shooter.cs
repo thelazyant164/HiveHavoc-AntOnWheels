@@ -28,6 +28,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField, Range(120f, 150f)]
         private float joystickSensitivity = 120f;
 
+        [SerializeField, Range(1.15f, 1.2f)]
+        private float controllerSensitivity = 1.18f;
+
         private InputAction aimStick;
         private InputAction aimMouse;
         private InputAction aimX;
@@ -176,6 +179,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             if (!IsMappedToSelf(context))
                 return;
             float value = context.ReadValue<float>();
+            value = Controller is Controller.Console ? value * controllerSensitivity : value;
             currentThruster =
                 Mathf.Sign(value) != Mathf.Sign(currentThruster) ? value : currentThruster;
         }
