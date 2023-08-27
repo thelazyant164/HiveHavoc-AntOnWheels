@@ -315,7 +315,7 @@ namespace Com.Unnamed.RacingGame.Shooter
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""D-pad Up/Down"",
+                    ""name"": ""Left/Right Bumper"",
                     ""id"": ""69443fb3-1736-433c-a6e4-786f537b7713"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
@@ -328,7 +328,7 @@ namespace Com.Unnamed.RacingGame.Shooter
                 {
                     ""name"": ""negative"",
                     ""id"": ""ec40bd2d-73fa-4bc9-a0eb-858c63d36bbd"",
-                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -339,7 +339,7 @@ namespace Com.Unnamed.RacingGame.Shooter
                 {
                     ""name"": ""positive"",
                     ""id"": ""81252519-a1ab-4d09-a6c2-abb06d9b5636"",
-                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
