@@ -1002,7 +1002,7 @@ PrefabInstance:
     - target: {fileID: -6194321311011194066, guid: ecd70d3b66cd0c940902199bead41d2a,
         type: 3}
       propertyPath: controller
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6194321311011194066, guid: ecd70d3b66cd0c940902199bead41d2a,
         type: 3}
@@ -3058,6 +3058,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PollenAmmo
       objectReference: {fileID: 0}
+    - target: {fileID: 8000682941448568454, guid: 1ad52f5d64ec6f14cbe4a810c39d75c0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3675,9 +3680,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 369635202}
     m_Modifications:
+    - target: {fileID: 2579834531407361679, guid: 0a55f0c440a59274fa89670ee802cf8c,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2596494622848715138, guid: 0a55f0c440a59274fa89670ee802cf8c,
+        type: 3}
+      propertyPath: m_text
+      value: You Lose
+      objectReference: {fileID: 0}
+    - target: {fileID: 2655949370171041942, guid: 0a55f0c440a59274fa89670ee802cf8c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3091388745935933191, guid: 0a55f0c440a59274fa89670ee802cf8c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364655711389241415, guid: 0a55f0c440a59274fa89670ee802cf8c,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364655711389241415, guid: 0a55f0c440a59274fa89670ee802cf8c,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4616347192719800394, guid: 0a55f0c440a59274fa89670ee802cf8c,
@@ -3685,10 +3715,25 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4937488978150676045, guid: 0a55f0c440a59274fa89670ee802cf8c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6764546193838526404, guid: 0a55f0c440a59274fa89670ee802cf8c,
         type: 3}
       propertyPath: m_Name
       value: UIManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6907393326438539222, guid: 0a55f0c440a59274fa89670ee802cf8c,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6907393326438539222, guid: 0a55f0c440a59274fa89670ee802cf8c,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7791084542567875861, guid: 0a55f0c440a59274fa89670ee802cf8c,
         type: 3}
@@ -5519,6 +5564,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 331170951}
     m_Modifications:
+    - target: {fileID: 331385891422041210, guid: f3992a7b44806644c923e13a18f754b0,
+        type: 3}
+      propertyPath: maxHealth
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1226441570899341478, guid: f3992a7b44806644c923e13a18f754b0,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -5613,6 +5663,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2119672270540081010, guid: f3992a7b44806644c923e13a18f754b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3855927826947533810, guid: f3992a7b44806644c923e13a18f754b0,
         type: 3}
@@ -5721,7 +5776,7 @@ PrefabInstance:
     - target: {fileID: 9108445207411090423, guid: 7bf4a4ab9aa54a04295ad4710060ea1c,
         type: 3}
       propertyPath: controller
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

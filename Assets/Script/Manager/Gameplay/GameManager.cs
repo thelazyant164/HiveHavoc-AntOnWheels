@@ -40,6 +40,15 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
         internal void RegisterVehicle(VehicleHealth vehicle) =>
             vehicle.OnDeath += (object sender, EventArgs e) =>
                 OnGameStateChange?.Invoke(sender, GameState.Lose);
+        
+        internal void RegisterWinCheck(GameStateTrigger trigger) =>
+            trigger.OnWin += (object sender, bool isWin) =>
+                OnGameStateChange?.Invoke(sender, GameState.Win);
+
+        internal void RegisterLossCheck(GameStateTrigger trigger) =>
+            trigger.OnLoss += (object sender, bool isLoss) =>
+                OnGameStateChange?.Invoke(sender, GameState.Lose);
+            
 
         private void HandleGameStateChange(object sender, GameState state)
         {
