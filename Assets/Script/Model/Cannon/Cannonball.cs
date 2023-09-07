@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
-    public sealed class Cannonball : MonoBehaviour, IProjectile, IExplosive<Cannonball>
+    public sealed class Cannonball : MonoBehaviour, IProjectile, IPrimedExplosive<Cannonball>
     {
         private Rigidbody rb;
 
@@ -32,6 +32,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private LayerMask blocking;
         public LayerMask Blocking => blocking;
+        public LayerMask Triggering => blocking;
 
         [SerializeField]
         private LayerMask affected;

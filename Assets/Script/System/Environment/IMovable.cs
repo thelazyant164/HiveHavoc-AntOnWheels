@@ -6,7 +6,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 {
     public interface IMovable : IDynamic
     {
-        public abstract float UpwardForce { get; }
+        public abstract float ExplosionUpwardForceModifier { get; }
 
         public void ReactTo<T>(Explosion<T> explosion);
     }

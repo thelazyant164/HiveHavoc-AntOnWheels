@@ -15,7 +15,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         {
             if (collision.gameObject.InLayerMask(Blocking))
             {
-                if (collision.gameObject.TryGetComponent(out IDamageable damageable))
+                if (collision.gameObject.TryFindImmediateComponent(out IDamageable damageable))
                 {
                     damageable.TakeDamage<PollenSingle>(this);
                 }

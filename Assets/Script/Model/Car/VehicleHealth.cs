@@ -22,8 +22,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player
         public float Value => Health;
 
         [SerializeField]
-        private float upwardForce;
-        public float UpwardForce => upwardForce;
+        private float explosionUpwardForceModifier;
+        public float ExplosionUpwardForceModifier => explosionUpwardForceModifier;
 
         public IDamaging.Target Type => IDamaging.Target.Player;
 
@@ -74,7 +74,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player
                 explosion.force,
                 explosion.epicenter,
                 explosion.radius,
-                upwardForce,
+                explosionUpwardForceModifier,
                 ForceMode.Force
             );
     }

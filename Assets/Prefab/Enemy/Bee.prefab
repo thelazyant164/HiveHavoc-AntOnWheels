@@ -290,10 +290,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2420063807036835783}
   - component: {fileID: 7095807536478655951}
-  - component: {fileID: 2639900182541835793}
-  m_Layer: 6
   - component: {fileID: 5658136313981689252}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -794,8 +792,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.4
-  m_Center: {x: -0.25, y: 0.25, z: 0.25}
+  m_Radius: 4.2575064
+  m_Center: {x: -3.32, y: 3.28, z: 2.33}
 --- !u!1 &8997989008476636099
 GameObject:
   m_ObjectHideFlags: 0

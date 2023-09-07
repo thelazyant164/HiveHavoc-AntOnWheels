@@ -26,10 +26,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         {
             screenSplit = SplitManager.Instance;
             screenSplit.Apply(SplitConfiguration.VerticalEven);
-            gameObject.SetTimeOut(2f, () => screenSplit.Apply(SplitConfiguration.HorizontalEven));
-            gameObject.SetTimeOut(4f, () => screenSplit.Apply(SplitConfiguration.VerticalEven));
-            gameObject.SetTimeOut(6f, () => screenSplit.Apply(SplitConfiguration.HorizontalEven));
-            gameObject.SetTimeOut(8f, () => screenSplit.Apply(SplitConfiguration.VerticalEven));
         }
     }
 }

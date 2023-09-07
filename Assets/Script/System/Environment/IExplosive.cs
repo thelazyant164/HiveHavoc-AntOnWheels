@@ -32,15 +32,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 
     public interface IExplosive<T> : IDamaging, IDestructible<T>
     {
-        public float Countdown { get; }
         public float BlastRadius { get; }
         public float BlastForce { get; }
         public LayerMask Affected { get; }
+        public LayerMask Triggering { get; }
         public Explosion<T> Explosion { get; }
         public abstract event EventHandler OnExplode;
 
         public abstract IEnumerable<IDynamic> GetAffectedEntityInBlastZone();
         public abstract void Explode(object sender, EventArgs e);
-        public abstract void BeginCountdown();
     }
 }

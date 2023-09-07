@@ -231,7 +231,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3fd61a19-b71c-40c8-9f9a-166e819d7ea8"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
