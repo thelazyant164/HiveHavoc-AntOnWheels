@@ -1,4 +1,5 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter;
 using System;
@@ -40,15 +41,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
         internal void RegisterVehicle(VehicleHealth vehicle) =>
             vehicle.OnDeath += (object sender, EventArgs e) =>
                 OnGameStateChange?.Invoke(sender, GameState.Lose);
-        
-        internal void RegisterWinCheck(GameStateTrigger trigger) =>
-            trigger.OnWin += (object sender, bool isWin) =>
-                OnGameStateChange?.Invoke(sender, GameState.Win);
 
-        internal void RegisterLossCheck(GameStateTrigger trigger) =>
-            trigger.OnLoss += (object sender, bool isLoss) =>
-                OnGameStateChange?.Invoke(sender, GameState.Lose);
-            
+        internal void RegisterTerminalTrigger(TerminalStateTrigger trigger) =>
+            trigger.OnTerminate += (object sender, TerminalState state) =>
+                OnGameStateChange?.Invoke(sender, state == TerminalState.Lose ? GameState.Lose : GameState.Win);
 
         private void HandleGameStateChange(object sender, GameState state)
         {
