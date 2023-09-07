@@ -450,8 +450,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.12, y: 0.93, z: 4.8}
-  m_Center: {x: 0, y: 0.5, z: -0.06}
+  m_Size: {x: 2.12, y: 0.6754337, z: 3.597384}
+  m_Center: {x: 6.24772e-17, y: 0.6272832, z: 0.020021439}
 --- !u!54 &2358812492719893242
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -522,6 +522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
+  upwardForce: 0
 --- !u!1 &4761255940505912061
 GameObject:
   m_ObjectHideFlags: 0

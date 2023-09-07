@@ -10,8 +10,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         private Rigidbody rb;
 
         [SerializeField]
-        private float upwardForce;
-        public float UpwardForce => upwardForce;
+        private float explosionUpwardForceModifier;
+        public float ExplosionUpwardForceModifier => explosionUpwardForceModifier;
 
         private void Awake() => rb = GetComponent<Rigidbody>();
 
@@ -20,7 +20,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
                 explosion.force,
                 explosion.epicenter,
                 explosion.radius,
-                upwardForce,
+                explosionUpwardForceModifier,
                 ForceMode.Force
             );
     }

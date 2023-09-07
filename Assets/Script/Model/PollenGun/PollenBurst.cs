@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
-    public sealed class PollenBurst : PollenProjectile, IExplosive<PollenBurst>
+    public sealed class PollenBurst : PollenProjectile, IPrimedExplosive<PollenBurst>
     {
         [SerializeField]
         private float countdown;
@@ -25,8 +25,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private LayerMask affected;
         public LayerMask Affected => affected;
+        public LayerMask Triggering => Blocking;
 
-        public Explosion<PollenBurst> Explosion => new Explosion<PollenBurst>(this, transform.position);
+        public Explosion<PollenBurst> Explosion =>
+            new Explosion<PollenBurst>(this, transform.position);
 
         public event EventHandler OnExplode;
         public event EventHandler<PollenBurst> OnDestroy;
@@ -68,8 +70,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 }
             }
             DebugExtension.DrawWireSphere(transform.position, blastRadius, Color.red, 1f);
-            // gameObject.SetTimeOut(.5f, () => Destroy(gameObject)); // destroys self after .5f -> play explosion animation?
-            Destroy(gameObject);
+            gameObject.SetTimeOut(.5f, () => Destroy(gameObject)); // destroys self after .5f -> play explosion animation?
+            //Destroy(gameObject);
         }
 
         public IEnumerable<IDynamic> GetAffectedEntityInBlastZone()

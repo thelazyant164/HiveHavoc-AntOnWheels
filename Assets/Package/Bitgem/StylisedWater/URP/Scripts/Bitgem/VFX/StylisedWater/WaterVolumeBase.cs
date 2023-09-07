@@ -48,7 +48,8 @@ namespace Bitgem.VFX.StylisedWater
         #region Public fields
 
         [FlagEnum]
-        public TileFace IncludeFaces = TileFace.NegX | TileFace.NegZ | TileFace.PosX | TileFace.PosZ;
+        public TileFace IncludeFaces =
+            TileFace.NegX | TileFace.NegZ | TileFace.PosX | TileFace.PosZ;
 
         [FlagEnum]
         public TileFace IncludeFoam = TileFace.NegX | TileFace.NegZ | TileFace.PosX | TileFace.PosZ;
@@ -123,7 +124,7 @@ namespace Bitgem.VFX.StylisedWater
 
         public void Rebuild()
         {
-            Debug.Log("rebuilding water volume \"" + gameObject.name + "\"");
+            //Debug.Log("rebuilding water volume \"" + gameObject.name + "\"");
 
             // ensure references to components before trying to use them
             ensureReferences();
@@ -177,9 +178,16 @@ namespace Bitgem.VFX.StylisedWater
                         var negZ = z == 0 || !tiles[x, y, z - 1];
                         var posZ = z == MAX_TILES_Z - 1 || !tiles[x, y, z + 1];
                         var negXnegZ = !negX && !negZ && x > 0 && z > 0 && !tiles[x - 1, y, z - 1];
-                        var negXposZ = !negX && !posZ && x > 0 && z < MAX_TILES_Z && !tiles[x - 1, y, z + 1];
-                        var posXposZ = !posX && !posZ && x < MAX_TILES_X && z < MAX_TILES_Z && !tiles[x + 1, y, z + 1];
-                        var posXnegZ = !posX && !negZ && x < MAX_TILES_X && z > 0 && !tiles[x + 1, y, z - 1];
+                        var negXposZ =
+                            !negX && !posZ && x > 0 && z < MAX_TILES_Z && !tiles[x - 1, y, z + 1];
+                        var posXposZ =
+                            !posX
+                            && !posZ
+                            && x < MAX_TILES_X
+                            && z < MAX_TILES_Z
+                            && !tiles[x + 1, y, z + 1];
+                        var posXnegZ =
+                            !posX && !negZ && x < MAX_TILES_X && z > 0 && !tiles[x + 1, y, z - 1];
                         var faceNegX = negX && (IncludeFaces & TileFace.NegX) == TileFace.NegX;
                         var facePosX = posX && (IncludeFaces & TileFace.PosX) == TileFace.PosX;
                         var faceNegZ = negZ && (IncludeFaces & TileFace.NegZ) == TileFace.NegZ;
@@ -188,10 +196,30 @@ namespace Bitgem.VFX.StylisedWater
                         var foamPosX = posX && (IncludeFoam & TileFace.PosX) == TileFace.PosX;
                         var foamNegZ = negZ && (IncludeFoam & TileFace.NegZ) == TileFace.NegZ;
                         var foamPosZ = posZ && (IncludeFoam & TileFace.PosZ) == TileFace.PosZ;
-                        var foamNegXnegZ = negXnegZ && ((IncludeFoam & TileFace.NegX) == TileFace.NegX || (IncludeFoam & TileFace.NegZ) == TileFace.NegZ);
-                        var foamNegXposZ = negXposZ && ((IncludeFoam & TileFace.PosX) == TileFace.PosX || (IncludeFoam & TileFace.PosZ) == TileFace.PosZ);
-                        var foamPosXposZ = posXposZ && ((IncludeFoam & TileFace.NegZ) == TileFace.NegZ || (IncludeFoam & TileFace.PosZ) == TileFace.PosZ);
-                        var foamPosXnegZ = posXnegZ && ((IncludeFoam & TileFace.PosZ) == TileFace.PosZ || (IncludeFoam & TileFace.NegZ) == TileFace.NegZ);
+                        var foamNegXnegZ =
+                            negXnegZ
+                            && (
+                                (IncludeFoam & TileFace.NegX) == TileFace.NegX
+                                || (IncludeFoam & TileFace.NegZ) == TileFace.NegZ
+                            );
+                        var foamNegXposZ =
+                            negXposZ
+                            && (
+                                (IncludeFoam & TileFace.PosX) == TileFace.PosX
+                                || (IncludeFoam & TileFace.PosZ) == TileFace.PosZ
+                            );
+                        var foamPosXposZ =
+                            posXposZ
+                            && (
+                                (IncludeFoam & TileFace.NegZ) == TileFace.NegZ
+                                || (IncludeFoam & TileFace.PosZ) == TileFace.PosZ
+                            );
+                        var foamPosXnegZ =
+                            posXnegZ
+                            && (
+                                (IncludeFoam & TileFace.PosZ) == TileFace.PosZ
+                                || (IncludeFoam & TileFace.NegZ) == TileFace.NegZ
+                            );
 
                         // create the top face
                         if (y == MAX_TILES_Y - 1 || !tiles[x, y + 1, z])
@@ -208,10 +236,18 @@ namespace Bitgem.VFX.StylisedWater
                             uvs.Add(new Vector2(ux0, uz1));
                             uvs.Add(new Vector2(ux1, uz1));
                             uvs.Add(new Vector2(ux1, uz0));
-                            colors.Add(foamNegX || foamNegZ || foamNegXnegZ ? Color.red : Color.black);
-                            colors.Add(foamNegX || foamPosZ || foamNegXposZ ? Color.red : Color.black);
-                            colors.Add(foamPosX || foamPosZ || foamPosXposZ ? Color.red : Color.black);
-                            colors.Add(foamPosX || foamNegZ || foamPosXnegZ ? Color.red : Color.black);
+                            colors.Add(
+                                foamNegX || foamNegZ || foamNegXnegZ ? Color.red : Color.black
+                            );
+                            colors.Add(
+                                foamNegX || foamPosZ || foamNegXposZ ? Color.red : Color.black
+                            );
+                            colors.Add(
+                                foamPosX || foamPosZ || foamPosXposZ ? Color.red : Color.black
+                            );
+                            colors.Add(
+                                foamPosX || foamNegZ || foamPosXnegZ ? Color.red : Color.black
+                            );
                             var v = vertices.Count - 4;
                             if (foamNegX && foamPosZ || foamPosX && foamNegZ)
                             {
@@ -365,6 +401,7 @@ namespace Bitgem.VFX.StylisedWater
         #region Virtual methods
 
         protected virtual void GenerateTiles(ref bool[,,] _tiles) { }
+
         public virtual void Validate() { }
 
         #endregion

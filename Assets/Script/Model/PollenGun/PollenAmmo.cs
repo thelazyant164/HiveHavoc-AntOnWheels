@@ -32,12 +32,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             }
         }
 
-        public void PickUp(IDepletableAmmo ammoClip)
-        {
-            OnPickUp?.Invoke(ammoClip, this);
-            Destroy();
-        }
-
         public void PickUp(object sender, PollenAmmo ammo)
         {
             OnPickUp -= PickUp;

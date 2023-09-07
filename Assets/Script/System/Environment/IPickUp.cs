@@ -6,13 +6,10 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 {
-    public interface IPickUp<T> : IDestructible<T>
+    public interface IPickUp<T> : ITrigger, IDestructible<T>
     {
-        public abstract LayerMask Receptible { get; }
-
         public abstract event EventHandler<T> OnPickUp;
 
-        public abstract void PickUp(IDepletableAmmo ammoClip);
         public abstract void PickUp(object sender, T pickUp);
     }
 }
