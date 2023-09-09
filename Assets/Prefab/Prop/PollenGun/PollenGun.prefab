@@ -366,7 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 7251941597899088531, guid: 18cb82227409871449eac3a002a6e90e,
     type: 3}
-  initialImpulse: 30
+  initialImpulse: 100
   spawn: {fileID: 4014825698217374635}
   nozzle: {fileID: 8094876464514380115}
   cooldownDuration: 3
