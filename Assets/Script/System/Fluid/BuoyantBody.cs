@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
@@ -11,8 +12,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
     public sealed class BuoyantBody : MonoBehaviour, IFloatableBody, IMovable
     {
         public Rigidbody Rigidbody { get; private set; }
+        [SerializeField]
+        private float submergedDimensionDepth;
+        public float SubmergedDimensionDepth => submergedDimensionDepth;
         public int FloatPoints { get; private set; }
-        public int SubmersedFloatPoint { get; private set; } = 0;
         public float Volume { get; private set; }
 
         [SerializeField]
@@ -51,6 +54,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
             Collider floatingCollider = GetComponent<Collider>();
             Volume = floatingCollider.GetBoundVolume() * ratioToBoundVolume;
             Rigidbody.mass = density * Volume;
+
+            submergedDimensionDepth = floatingCollider.bounds.size.y;
         }
     }
 }
