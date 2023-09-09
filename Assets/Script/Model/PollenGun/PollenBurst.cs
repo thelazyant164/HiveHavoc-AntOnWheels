@@ -70,8 +70,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 }
             }
             DebugExtension.DrawWireSphere(transform.position, blastRadius, Color.red, 1f);
-            gameObject.SetTimeOut(.5f, () => Destroy(gameObject)); // destroys self after .5f -> play explosion animation?
-            //Destroy(gameObject);
+            //gameObject.SetTimeOut(1f, () => Destroy(gameObject)); // destroys self after .5f -> play explosion animation?
+            Destroy(gameObject);
         }
 
         public IEnumerable<IDynamic> GetAffectedEntityInBlastZone()

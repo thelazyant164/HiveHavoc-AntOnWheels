@@ -14,6 +14,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
         private Collider floatingCollider;
         public IFluidBody Fluid { get; private set; }
 
+        [Header("Buoyancy config")]
         [SerializeField]
         private float density;
         public float Density => density;
@@ -23,11 +24,17 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
         [SerializeField]
         private float ratioToBoundVolume = 1;
         public float RatioToBoundVolume => ratioToBoundVolume;
+        [SerializeField]
+        private float submergedDimensionDepth;
+        public float SubmergedDimensionDepth => submergedDimensionDepth;
 
+        [Space]
+
+        [Header("Dynamic environment config")]
         [SerializeField]
         private float explosionUpwardForceModifier;
         public float ExplosionUpwardForceModifier => explosionUpwardForceModifier;
-
+        [SerializeField]
         private float offsetY;
 
         private void Awake()
@@ -51,6 +58,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
             Volume = floatingCollider.GetBoundVolume() * ratioToBoundVolume;
             offsetY = floatingCollider.bounds.size.y / 2;
             Rigidbody.mass = density * Volume;
+
+            submergedDimensionDepth = floatingCollider.bounds.size.y;
         }
 
         public void Enter(IFluidBody fluid)
@@ -63,11 +72,23 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
             Fluid = null;
         }
 
-        public float GetSubmergedVolume() =>
-            Mathf.Clamp01(
-                Fluid.SampleSurfaceHeight(Rigidbody.position) - (Rigidbody.position.y - offsetY)
-                    ?? 0
-            ) * Volume;
+        public float GetSubmergedVolume()
+        {
+            float surfaceHeight = Fluid.SampleSurfaceHeight(Rigidbody.position) ?? 0;
+            // TODO: issue: surface height keeps increasing - due to honey material config, adjust this
+            //Debug.Log($"Surface height is {surfaceHeight}");
+            float worldSpaceY = Rigidbody.position.y - offsetY;
+            //Debug.Log($"World space Y is {worldSpaceY}");
+            float submergedDepth = surfaceHeight - worldSpaceY;
+            //Debug.Log($"Submerged depth is {submergedDepth}");
+            float unclampedSubmergedRatio = submergedDepth / submergedDimensionDepth;
+            //Debug.Log($"Unclamped submerged ratio is {unclampedSubmergedRatio}");
+            float clampedSubmergedRatio = Mathf.Clamp01(unclampedSubmergedRatio);
+            //Debug.Log($"Clamped submerged ratio is {clampedSubmergedRatio}");
+            float roughSubmergedVolume = clampedSubmergedRatio * Volume;
+            //Debug.Log($"Submerged volume is {roughSubmergedVolume}");
+            return roughSubmergedVolume;
+        }
 
         public float GetBuoyancyForce() =>
             Mathf.Abs(Physics.gravity.y) * Fluid.Density * GetSubmergedVolume();

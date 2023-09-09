@@ -114,7 +114,7 @@ namespace Bitgem.VFX.StylisedWater
             {
                 if (tiles[x, y, z])
                 {
-                    return transform.position.y + y * TileSize;
+                    return transform.position.y + (y + .5f) * TileSize;
                 }
             }
 

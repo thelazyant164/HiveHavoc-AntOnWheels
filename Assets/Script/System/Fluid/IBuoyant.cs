@@ -11,6 +11,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
         public abstract float Volume { get; }
         public abstract float Density { get; }
         public abstract float RatioToBoundVolume { get; }
+        public abstract float SubmergedDimensionDepth { get; }
 
         public abstract void ResetMass();
     }
