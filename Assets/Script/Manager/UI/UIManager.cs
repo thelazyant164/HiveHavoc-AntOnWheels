@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.iOS;
 using UnityEngine.UI;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
@@ -48,8 +47,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
                     EndGame(state);
                     break;
                 case GameState.Lose:
-                    gameManager.OnGameStateChange -= ShowGameStateUI;
-                    EndGame(state);
                     break;
                 default:
                     break;

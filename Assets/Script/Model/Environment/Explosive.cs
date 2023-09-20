@@ -52,6 +52,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
             }
         }
 
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, blastRadius);
+        }
+
         public void Destroy()
         {
             OnDestroy?.Invoke(this, this);

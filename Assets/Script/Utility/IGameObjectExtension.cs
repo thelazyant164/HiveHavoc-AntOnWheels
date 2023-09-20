@@ -75,9 +75,11 @@ public static class IGameObjectExtension
     /// <returns>True if component of matching type is found.</returns>
     public static bool TryFindImmediateComponent<T>(this GameObject gameObject, out T component)
     {
-        component =
-            gameObject.GetComponent<T>()
-            ?? gameObject.transform.parent.gameObject.GetComponent<T>();
+        component = gameObject.GetComponent<T>();
+        if (component == null && gameObject.transform.parent != null)
+        {
+            component = gameObject.transform.parent.gameObject.GetComponent<T>();
+        }
         return component != null;
     }
 }
