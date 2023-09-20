@@ -98,6 +98,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             UpdateWheels();
         }
 
+        internal void Respawn(Transform transform)
+        {
+            rb.transform.position = transform.position;
+            rb.transform.rotation = transform.rotation;
+            rb.velocity = Vector3.zero;
+        }
+
         private void HandleThruster()
         {
             rb.AddForce(Vector3.up * thruster * actualThruster, ForceMode.Force);

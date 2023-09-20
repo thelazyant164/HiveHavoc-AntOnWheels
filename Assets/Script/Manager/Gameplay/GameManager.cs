@@ -1,5 +1,6 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter;
 using System;
@@ -20,6 +21,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
     {
         internal VehicleMovement Vehicle { get; private set; }
         public event EventHandler<GameState> OnGameStateChange;
+        private CheckpointManager checkpointManager;
 
         private void Awake()
         {
@@ -36,6 +38,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
             OnGameStateChange += HandleGameStateChange;
         }
 
+        private void Start()
+        {
+            checkpointManager = CheckpointManager.Instance;
+        }
+
         internal void RegisterVehicle(VehicleMovement vehicle) => Vehicle = vehicle;
 
         internal void RegisterVehicle(VehicleHealth vehicle) =>
@@ -44,7 +51,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
 
         internal void RegisterTerminalTrigger(TerminalStateTrigger trigger) =>
             trigger.OnTerminate += (object sender, TerminalState state) =>
-                OnGameStateChange?.Invoke(sender, state == TerminalState.Lose ? GameState.Lose : GameState.Win);
+                OnGameStateChange?.Invoke(
+                    sender,
+                    state == TerminalState.Lose ? GameState.Lose : GameState.Win
+                );
 
         private void HandleGameStateChange(object sender, GameState state)
         {
@@ -57,8 +67,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                     OnGameStateChange -= HandleGameStateChange;
                     break;
                 case GameState.Lose:
-                    Time.timeScale = 0;
-                    OnGameStateChange -= HandleGameStateChange;
+                    Vehicle.Respawn(checkpointManager.LatestCheckpoint);
                     break;
                 default:
                     break;
