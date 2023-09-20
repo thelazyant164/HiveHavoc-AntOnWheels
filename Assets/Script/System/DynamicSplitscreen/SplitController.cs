@@ -35,7 +35,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
             Rect target = newSplit.CameraRect;
             while (timeElapsed < time)
             {
-                timeElapsed += Time.deltaTime;
+                timeElapsed += Time.unscaledDeltaTime;
                 camera.rect = Lerp(current, target, timeElapsed / time);
                 yield return null;
             }

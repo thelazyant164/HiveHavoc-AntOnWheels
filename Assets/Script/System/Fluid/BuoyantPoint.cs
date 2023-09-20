@@ -10,14 +10,24 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
     public sealed class BuoyantPoint : MonoBehaviour, IFloatable
     {
         private IFloatableBody body;
-        public Rigidbody Rigidbody { get; private set; }
+        public Rigidbody Rigidbody => body.Rigidbody;
         public IFluidBody Fluid { get; private set; }
-        public float Volume { get; private set; }
-        public float Density { get; private set; }
-        public float RatioToBoundVolume { get; private set; }
-        public float SubmergedDimensionDepth { get; private set; }
-        public float WeightDistribution { get; private set; }
+        public float Volume => body.Volume;
+        public float Density => body.Density;
+        public float RatioToBoundVolume => body.RatioToBoundVolume;
+        public float SubmergedDimensionDepth => body.SubmergedDimensionDepth;
+        public float WeightDistribution
+        {
+            get => weightDistribution;
+            private set => weightDistribution = value;
+        }
         public float ExplosionUpwardForceModifier => 0;
+
+        [SerializeField]
+        private float buoyantForce;
+
+        [SerializeField]
+        private float weightDistribution;
 
         private void Start()
         {
@@ -28,7 +38,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
         {
             if (Rigidbody == null || Fluid == null || WeightDistribution == 0)
                 return;
-            Vector3 buoyancyForceAtPoint = new Vector3(0, GetBuoyancyForce(), 0);
+            buoyantForce = GetBuoyancyForce();
+            Vector3 buoyancyForceAtPoint = new Vector3(0, buoyantForce, 0);
             Rigidbody.AddForceAtPosition(buoyancyForceAtPoint, transform.position);
             Rigidbody.AddForce(GetBuoyancyDrag(), ForceMode.VelocityChange);
             Rigidbody.AddTorque(GetBuoyancyAngularDrag(), ForceMode.VelocityChange);
@@ -37,12 +48,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
         public void ResetMass()
         {
             body = GetComponentInParent<IFloatableBody>();
-
-            Volume = body.Volume;
-            Density = body.Density;
-            RatioToBoundVolume = body.RatioToBoundVolume;
-            SubmergedDimensionDepth = body.SubmergedDimensionDepth;
-            Rigidbody = body.Rigidbody;
             WeightDistribution = (float)1 / body.FloatPoints;
         }
 
@@ -56,7 +61,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
             Fluid = null;
         }
 
-        public float GetSubmergedVolume() 
+        public float GetSubmergedVolume()
         {
             float surfaceHeight = Fluid.SampleSurfaceHeight(transform.position) ?? 0;
             // TODO: issue: surface height keeps increasing - due to honey material config, adjust this
@@ -85,7 +90,5 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
             * (-Rigidbody.angularVelocity)
             * Fluid.AngularDrag
             * Time.fixedDeltaTime;
-
-        public void ReactTo<T>(Explosion<T> explosion) { }
     }
 }

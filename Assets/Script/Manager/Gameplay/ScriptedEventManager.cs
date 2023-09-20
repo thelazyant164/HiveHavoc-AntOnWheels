@@ -27,5 +27,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
             screenSplit = SplitManager.Instance;
             screenSplit.Apply(SplitConfiguration.VerticalEven);
         }
+
+        internal void AdjustScreenSplit(SplitConfiguration config) => screenSplit.Apply(config);
     }
 }
