@@ -43,6 +43,20 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         private float thrusterDeteriorateRate;
 
         [Space]
+        [Header("Rotation Clamping")]
+        [SerializeField]
+        private float maxPitch = 45f; // Max pitch angle in degrees
+        [SerializeField]
+        private float maxRoll = 30f;  // Max roll angle in degrees
+
+        [Header("Dampening")]
+        [SerializeField] 
+        private float dampeningThreshold = 10f; // Start dampening when 10 degrees away from max
+        [SerializeField]
+        private float dampeningAmount = 3f;
+
+
+        [Space]
         [Header("Wheel colliders")]
         [SerializeField]
         private WheelCollider frontLeftWheelCollider;
@@ -96,7 +110,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             HandleMotor(throttle);
             HandleSteering(steer);
             UpdateWheels();
+            ClampRotation();
+            DampenRotation();
         }
+        
 
         internal void Respawn(Transform transform)
         {
@@ -162,5 +179,35 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
                 yield return new WaitForFixedUpdate();
             }
         }
+
+        private void ClampRotation()
+        {
+            Vector3 eulerRotation = transform.eulerAngles;
+            
+            // Ensure angles are between 0 and 360
+            if (eulerRotation.x > 180) eulerRotation.x -= 360;
+            if (eulerRotation.z > 180) eulerRotation.z -= 360;
+
+            eulerRotation.x = Mathf.Clamp(eulerRotation.x, -maxPitch, maxPitch);
+            eulerRotation.z = Mathf.Clamp(eulerRotation.z, -maxRoll, maxRoll);
+
+            transform.eulerAngles = eulerRotation;
+
+            // Debug.Log("Roll Amount: " + eulerRotation.z);
+        }
+        private void DampenRotation()
+        {
+            Vector3 eulerRotation = transform.eulerAngles;
+            
+            float pitchDampening = Mathf.InverseLerp(maxPitch - dampeningThreshold, maxPitch, eulerRotation.x);
+            float rollDampening = Mathf.InverseLerp(maxRoll - dampeningThreshold, maxRoll, eulerRotation.z);
+            
+            Vector3 angularVelocity = rb.angularVelocity;
+            angularVelocity.x *= pitchDampening / dampeningAmount; 
+            angularVelocity.z *= rollDampening / dampeningAmount;  
+            rb.angularVelocity = angularVelocity;
+            Debug.Log("Roll Dampening: " + rollDampening + ", AngularVelocity: " + angularVelocity.z);
+        }
+
     }
 }

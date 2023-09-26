@@ -156,6 +156,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
         private Coroutine splitAdjustment;
         private SplitConfiguration? currentSplit = null;
         private Dictionary<Role, SplitController> controllers = new();
+        private SplitConfiguration currentConfiguration;
+
+        public SplitConfiguration CurrentConfiguration 
+        {
+            get { return currentConfiguration; }
+        }
+
 
         private void Awake()
         {
@@ -185,6 +192,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
 
         internal void Apply(SplitConfiguration config)
         {
+            currentConfiguration = config;
             if (splitAdjustment == null)
             {
                 splitAdjustment = StartCoroutine(ApplySplit(config));
