@@ -15,6 +15,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
     [RequireComponent(typeof(Rigidbody))]
     public sealed class BuoyantBody : MonoBehaviour, IFloatableBody, IMovable
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
+
         public Rigidbody Rigidbody { get; private set; }
 
         public float SubmergedDimensionDepth { get; private set; }
@@ -81,6 +84,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
             Rigidbody.mass = buoyantComponents.Sum(
                 buoyantComponent => buoyantComponent.Volume * buoyantComponent.Density
             );
+        }
+
+        public void ResetTo(Vector3 position, Quaternion rotation)
+        {
+            Rigidbody.position = position;
+            Rigidbody.rotation = rotation;
+            Rigidbody.velocity = Vector3.zero;
+            Rigidbody.angularVelocity = Vector3.zero;
         }
     }
 }

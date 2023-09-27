@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blastRadius: 20
-  blastForce: 16000000
+  blastForce: 20000000
   affected:
     serializedVersion: 2
     m_Bits: 1856

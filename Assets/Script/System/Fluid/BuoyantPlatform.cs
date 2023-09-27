@@ -10,6 +10,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
     [RequireComponent(typeof(Collider), typeof(Rigidbody))]
     public sealed class BuoyantPlatform : MonoBehaviour, IFloatable, IMovable
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
+
         public Rigidbody Rigidbody { get; private set; }
         private Collider floatingCollider;
         public IFluidBody Fluid { get; private set; }
@@ -24,16 +27,17 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
         [SerializeField]
         private float ratioToBoundVolume = 1;
         public float RatioToBoundVolume => ratioToBoundVolume;
+
         [SerializeField]
         private float submergedDimensionDepth;
         public float SubmergedDimensionDepth => submergedDimensionDepth;
 
         [Space]
-
         [Header("Dynamic environment config")]
         [SerializeField]
         private float explosionUpwardForceModifier;
         public float ExplosionUpwardForceModifier => explosionUpwardForceModifier;
+
         [SerializeField]
         private float offsetY;
 
@@ -110,5 +114,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
                 explosionUpwardForceModifier,
                 ForceMode.Force
             );
+
+        public void ResetTo(Vector3 position, Quaternion rotation)
+        {
+            Rigidbody.position = position;
+            Rigidbody.rotation = rotation;
+            Rigidbody.velocity = Vector3.zero;
+            Rigidbody.angularVelocity = Vector3.zero;
+        }
     }
 }

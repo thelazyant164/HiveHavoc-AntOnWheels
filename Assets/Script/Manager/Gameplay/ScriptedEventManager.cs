@@ -9,7 +9,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
     public sealed class ScriptedEventManager : Singleton<ScriptedEventManager>
     {
         private SplitManager screenSplit;
-        private CinemachineManager cinemachineCam;
 
         private void Awake()
         {
@@ -27,11 +26,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         private void Start()
         {
             screenSplit = SplitManager.Instance;
-            cinemachineCam = CinemachineManager.Instance;
-
             screenSplit.Apply(SplitConfiguration.VerticalEven);
-            SplitDirection currentDirection = screenSplit.CurrentConfiguration.direction;
-            cinemachineCam.SwitchCamera(currentDirection);
         }
 
         internal void AdjustScreenSplit(SplitConfiguration config) => screenSplit.Apply(config);

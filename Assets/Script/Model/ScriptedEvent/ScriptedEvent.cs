@@ -1,3 +1,4 @@
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
 using System;
 using System.Collections;
@@ -13,6 +14,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         private LayerMask receptible;
         public LayerMask Receptible => receptible;
         protected ScriptedEventManager scriptedEventManager;
+        protected CameraManager cameraManager;
 
         private ITrigger<T> trigger;
 
@@ -25,10 +27,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 
         private void Start()
         {
+            cameraManager = CameraManager.Instance;
             scriptedEventManager = ScriptedEventManager.Instance;
         }
 
-        protected abstract void TriggerCallback();
-        protected abstract void TerminateCallback();
+        protected virtual void TriggerCallback() { }
+
+        protected virtual void TerminateCallback() { }
     }
 }

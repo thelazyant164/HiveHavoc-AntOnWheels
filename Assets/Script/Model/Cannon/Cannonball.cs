@@ -11,6 +11,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
     public sealed class Cannonball : MonoBehaviour, IProjectile, IPrimedExplosive<Cannonball>
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
         private Rigidbody rb;
 
         [SerializeField]
@@ -37,8 +39,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private LayerMask affected;
         public LayerMask Affected => affected;
-        public Explosion<Cannonball> Explosion => new Explosion<Cannonball>(this, transform.position);
+        public Explosion<Cannonball> Explosion =>
+            new Explosion<Cannonball>(this, transform.position);
         public IDamaging.Target TargetType => IDamaging.Target.Enemy;
+
         public event EventHandler OnExplode;
         public event EventHandler<Cannonball> OnDestroy;
 

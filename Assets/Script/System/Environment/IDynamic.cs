@@ -6,6 +6,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 {
     public interface IDynamic
     {
-        
+        public GameObject GameObject { get; }
+        public Transform Transform { get; }
     }
 }

@@ -10,6 +10,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
     [RequireComponent(typeof(Rigidbody), typeof(Collider))]
     public class Explosive : MonoBehaviour, IExplosive<Explosive>
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
+
         [Header("Explosive config")]
         [SerializeField]
         private float blastRadius;

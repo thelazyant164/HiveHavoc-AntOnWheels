@@ -27,7 +27,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 
         internal void InvokeOnTerminate()
         {
-            Debug.LogWarning("End slomo");
+            // Debug.LogWarning("Torpedo destroyed");
             OnTerminate?.Invoke(this, EventArgs.Empty);
         }
     }

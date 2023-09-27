@@ -8,6 +8,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
     [RequireComponent(typeof(Collider))]
     public sealed class BuoyantBodyComponent : MonoBehaviour, IFloatableBody, IMovable
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
+
         private IMovable movableParent;
 
         public Rigidbody Rigidbody { get; private set; }
@@ -61,5 +64,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
         }
 
         public void ReactTo<T>(Explosion<T> explosion) => movableParent.ReactTo(explosion);
+
+        public void ResetTo(Vector3 position, Quaternion rotation) { }
     }
 }

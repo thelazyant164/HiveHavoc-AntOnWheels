@@ -10,6 +10,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
     [RequireComponent(typeof(Collider))]
     public sealed class PollenAmmo : MonoBehaviour, IPickUp<PollenAmmo>
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
+
         [SerializeField]
         private LayerMask receptible;
         public LayerMask Receptible => receptible;
