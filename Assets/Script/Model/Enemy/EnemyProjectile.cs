@@ -14,6 +14,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
             ITargetSeeking<IProjectile>,
             IDestructible<EnemyProjectile>
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
+
         private Rigidbody rb;
         public Rigidbody Rigidbody => rb;
 

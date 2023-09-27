@@ -10,6 +10,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 {
     public class Enemy : MonoBehaviour, IDamageable, IShootable<EnemyProjectile>
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
+
         private NavMeshAgent agent;
         private Transform target;
 

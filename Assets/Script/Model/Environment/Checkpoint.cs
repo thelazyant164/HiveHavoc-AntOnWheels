@@ -18,48 +18,50 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay
 
         private Vector3 position;
         private Quaternion rotation;
-        private GameObject obj;
+        private IDynamic obj;
 
-        private ReconstructibleData(GameObject obj, ReconstructibleDynamic type)
+        private ReconstructibleData(IDynamic obj, ReconstructibleDynamic type)
         {
             this.type = type;
             this.obj =
                 type is ReconstructibleDynamic.Movable
                     ? null
-                    : GameObject.Instantiate(obj, obj.transform.parent);
-            this.obj?.SetActive(false);
-            position = obj.transform.position;
-            rotation = obj.transform.rotation;
+                    : GameObject
+                        .Instantiate(obj.GameObject, obj.Transform.parent)
+                        .GetComponent<IDynamic>();
+            this.obj?.GameObject.SetActive(false);
+            position = obj.Transform.position;
+            rotation = obj.Transform.rotation;
         }
 
-        public GameObject Reconstruct(GameObject obj = null)
+        public IDynamic Reconstruct(IDynamic obj = null)
         {
             if (obj == null && type is ReconstructibleDynamic.Destructible)
             {
                 GameObject reconstructed = GameObject.Instantiate(
-                    this.obj,
-                    this.obj.transform.parent
+                    this.obj.GameObject,
+                    this.obj.Transform.parent
                 );
                 reconstructed.SetActive(true);
-                return reconstructed;
+                return reconstructed.GetComponent<IDynamic>();
             }
-            else
+            else if (obj is IMovable movable)
             {
-                obj.transform.position = position;
-                obj.transform.rotation = rotation;
+                movable.ResetTo(position, rotation);
                 return obj;
             }
+            return obj;
         }
 
-        public static ReconstructibleData FromDynamic(GameObject obj)
+        public static ReconstructibleData FromDynamic(IDynamic obj)
         {
-            if (obj.TryGetComponent(out IMovable movable))
+            if (obj.GameObject.TryGetComponent(out IMovable movable))
             {
-                return new ReconstructibleData(obj, ReconstructibleDynamic.Movable);
+                return new ReconstructibleData(movable, ReconstructibleDynamic.Movable);
             }
-            else if (obj.TryGetComponent(out IDestructible destructible))
+            else if (obj.GameObject.TryGetComponent(out IDestructible destructible))
             {
-                return new ReconstructibleData(obj, ReconstructibleDynamic.Destructible);
+                return new ReconstructibleData(destructible, ReconstructibleDynamic.Destructible);
             }
             return new ReconstructibleData(obj, ReconstructibleDynamic.Movable);
         }
@@ -98,11 +100,22 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay
             }
         }
 
+        private void OnDestroy()
+        {
+            OnTerminate?.Invoke(this, EventArgs.Empty);
+        }
+
         private void CacheDynamic()
         {
-            foreach (GameObject dynamic in memoizeDynamic)
+            foreach (GameObject dynamicObj in memoizeDynamic)
             {
-                dynamicCache[dynamic] = ReconstructibleData.FromDynamic(dynamic);
+                if (!dynamicObj.TryGetComponent(out IDynamic dynamic))
+                {
+                    Debug.LogError(
+                        $"Trying to cache {dynamicObj}, which is not marked as dynamic!"
+                    );
+                }
+                dynamicCache[dynamicObj] = ReconstructibleData.FromDynamic(dynamic);
             }
         }
 
@@ -110,14 +123,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay
         {
             for (int i = 0; i < memoizeDynamic.Count; i++)
             {
-                GameObject dynamic = memoizeDynamic[i];
-                if (dynamic == null)
+                GameObject dynamicObj = memoizeDynamic[i];
+                if (dynamicObj == null)
                 {
-                    dynamicCache[dynamic].Reconstruct();
+                    dynamicCache[dynamicObj].Reconstruct();
                 }
                 else
                 {
-                    dynamicCache[dynamic].Reconstruct(dynamic);
+                    dynamicCache[dynamicObj].Reconstruct(dynamicObj.GetComponent<IDynamic>());
                 }
             }
         }

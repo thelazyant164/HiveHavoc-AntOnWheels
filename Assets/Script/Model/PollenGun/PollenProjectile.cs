@@ -10,6 +10,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
     public abstract class PollenProjectile : MonoBehaviour, IProjectile
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
+
         private Rigidbody rb;
 
         [SerializeField]

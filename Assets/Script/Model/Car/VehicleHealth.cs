@@ -11,6 +11,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player
     [RequireComponent(typeof(Rigidbody))]
     public sealed class VehicleHealth : MonoBehaviour, IDamageable, IMovable, IProgressBar
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
         private Rigidbody rb;
 
         [SerializeField]
@@ -77,5 +79,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player
                 explosionUpwardForceModifier,
                 ForceMode.Force
             );
+
+        public void ResetTo(Vector3 position, Quaternion rotation)
+        {
+            rb.position = position;
+            rb.rotation = rotation;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         public abstract float ExplosionUpwardForceModifier { get; }
 
         public void ReactTo<T>(Explosion<T> explosion);
+        public void ResetTo(Vector3 position, Quaternion rotation);
     }
 }

@@ -7,6 +7,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
     [RequireComponent(typeof(Rigidbody))]
     public sealed class IndestructibleBlockade : MonoBehaviour, IMovable
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
+
         private Rigidbody rb;
 
         [SerializeField]
@@ -23,5 +26,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
                 explosionUpwardForceModifier,
                 ForceMode.Force
             );
+
+        public void ResetTo(Vector3 position, Quaternion rotation)
+        {
+            rb.position = position;
+            rb.rotation = rotation;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
     }
 }

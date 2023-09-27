@@ -13,6 +13,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
     [RequireComponent(typeof(Rigidbody))]
     public sealed class Torpedo : MonoBehaviour, IProjectile, IPrimedExplosive<Torpedo>, IFloatable
     {
+        public Transform Transform => transform;
+        public GameObject GameObject => gameObject;
         private Rigidbody rb;
         public Rigidbody Rigidbody => rb;
 
@@ -45,7 +47,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         public LayerMask Affected => affected;
         public LayerMask Triggering => Blocking;
         public IDamaging.Target TargetType => IDamaging.Target.Player;
-
         public Explosion<Torpedo> Explosion => new Explosion<Torpedo>(this, transform.position);
 
         public IFluidBody Fluid { get; private set; }
