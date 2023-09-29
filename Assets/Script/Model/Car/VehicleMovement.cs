@@ -106,12 +106,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         private void FixedUpdate()
         {
+            DampenRotation();
+            ClampRotation();
             HandleThruster();
             HandleMotor(throttle);
             HandleSteering(steer);
             UpdateWheels();
-            ClampRotation();
-            DampenRotation();
         }
         
 
