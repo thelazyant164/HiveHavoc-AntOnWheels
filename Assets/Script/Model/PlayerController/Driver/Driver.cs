@@ -1,7 +1,6 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
@@ -17,10 +16,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         private InputAction movementController;
         private InputAction brake;
         private InputAction reload;
+        private InputAction pause;
         internal event EventHandler<float> OnAccelerate;
         internal event EventHandler<float> OnSteer;
         internal event EventHandler<bool> OnBrake;
         internal event EventHandler OnReload;
+        internal event EventHandler OnPause;
 
         protected override void Awake()
         {
@@ -49,6 +50,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             steer.started += Steer;
             brake.started += Brake;
             reload.started += Reload;
+            pause.started += Pause;
         }
 
         protected override void UnbindCallbackFromAction()
@@ -57,6 +59,23 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             steer.started -= Steer;
             brake.started -= Brake;
             reload.started -= Reload;
+            pause.started -= Pause;
+        }
+
+        protected override void Pause()
+        {
+            throttle.started -= Accelerate;
+            steer.started -= Steer;
+            brake.started -= Brake;
+            reload.started -= Reload;
+        }
+
+        protected override void Resume()
+        {
+            throttle.started += Accelerate;
+            steer.started += Steer;
+            brake.started += Brake;
+            reload.started += Reload;
         }
 
         protected override void MapSchemeTo(InputActionAsset action)
@@ -67,6 +86,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             movementController = driver.FindAction("MovementController");
             brake = driver.FindAction("Brake");
             reload = driver.FindAction("Reload");
+            pause = driver.FindAction("Pause");
         }
 
         private void Accelerate(CallbackContext context)
@@ -112,11 +132,18 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             callback(false);
         }
 
-        private void Reload(InputAction.CallbackContext context)
+        private void Reload(CallbackContext context)
         {
             if (!IsMappedToSelf(context))
                 return;
             OnReload?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void Pause(CallbackContext context)
+        {
+            if (!IsMappedToSelf(context))
+                return;
+            OnPause?.Invoke(this, EventArgs.Empty);
         }
     }
 }

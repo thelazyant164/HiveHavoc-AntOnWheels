@@ -25,6 +25,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
 
         [SerializeField]
         private RoleDictionary roles;
+
+        [SerializeField]
+        private string gameScene;
+
         private IEnumerable<ControllerIndicator> controllers;
         private Dictionary<ControllerIndicator, ControllerMap> ready = new();
         private Coroutine countdownToGame;
@@ -100,7 +104,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
                 timer.SetText(Math.Ceiling(duration).ToString());
                 yield return null;
             }
-            SceneManager.LoadSceneAsync("CombinedDemo");
+            SceneManager.LoadSceneAsync(gameScene, LoadSceneMode.Single);
         }
     }
 }

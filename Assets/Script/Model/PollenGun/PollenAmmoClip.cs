@@ -1,4 +1,5 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,12 +46,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         public void Consume(int ammo)
         {
-            if (this.ammo < ammo)
+            if (Ammo < ammo)
             {
-                Debug.LogError($"{this} trying to spend {ammo} from {this.ammo} reserve");
+                Debug.LogError($"{this} trying to spend {ammo} from {Ammo} reserve");
                 return;
             }
-            this.ammo -= ammo;
+            ammo -= ammo;
         }
 
         public void Reload()

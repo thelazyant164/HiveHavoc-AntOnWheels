@@ -6,8 +6,7 @@ using UnityEngine.EventSystems;
 
 public interface IProgressBar
 {
-    public abstract event EventHandler<float> OnValueChange;
-
-    public abstract float MaxValue { get; }
-    public abstract float Value { get; }
+    public float Value { get; }
+    public float MaxValue { get; }
+    public event EventHandler<float> OnValueChange;
 }

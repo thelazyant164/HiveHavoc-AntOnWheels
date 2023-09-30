@@ -19,6 +19,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
         [SerializeField]
         private List<CinemachineVirtualCamera> associated;
 
+        internal CinemachineVirtualCamera MainCamera =>
+            associated.Find(camera => camera.Priority == (int)CameraPriority.Show);
+
         internal void SwitchCamera(CinemachineVirtualCamera mainCamera)
         {
             if (!associated.Contains(mainCamera))

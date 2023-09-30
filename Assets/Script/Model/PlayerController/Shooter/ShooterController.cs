@@ -91,6 +91,15 @@ namespace Com.Unnamed.RacingGame.Shooter
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""aa6454df-85f6-473b-ad44-998c6e82fe96"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -346,6 +355,28 @@ namespace Com.Unnamed.RacingGame.Shooter
                     ""action"": ""Thruster"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""954cfadd-88cd-4eaf-bef7-65cc1fd349de"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse/Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""71323f61-7080-48f7-89c3-b7f06b5f8d33"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -389,6 +420,7 @@ namespace Com.Unnamed.RacingGame.Shooter
             m_Shooter_Thruster = m_Shooter.FindAction("Thruster", throwIfNotFound: true);
             m_Shooter_ShootPrimary = m_Shooter.FindAction("ShootPrimary", throwIfNotFound: true);
             m_Shooter_ShootSecondary = m_Shooter.FindAction("ShootSecondary", throwIfNotFound: true);
+            m_Shooter_Pause = m_Shooter.FindAction("Pause", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -457,6 +489,7 @@ namespace Com.Unnamed.RacingGame.Shooter
         private readonly InputAction m_Shooter_Thruster;
         private readonly InputAction m_Shooter_ShootPrimary;
         private readonly InputAction m_Shooter_ShootSecondary;
+        private readonly InputAction m_Shooter_Pause;
         public struct ShooterActions
         {
             private @ShooterController m_Wrapper;
@@ -468,6 +501,7 @@ namespace Com.Unnamed.RacingGame.Shooter
             public InputAction @Thruster => m_Wrapper.m_Shooter_Thruster;
             public InputAction @ShootPrimary => m_Wrapper.m_Shooter_ShootPrimary;
             public InputAction @ShootSecondary => m_Wrapper.m_Shooter_ShootSecondary;
+            public InputAction @Pause => m_Wrapper.m_Shooter_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Shooter; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -498,6 +532,9 @@ namespace Com.Unnamed.RacingGame.Shooter
                 @ShootSecondary.started += instance.OnShootSecondary;
                 @ShootSecondary.performed += instance.OnShootSecondary;
                 @ShootSecondary.canceled += instance.OnShootSecondary;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
 
             private void UnregisterCallbacks(IShooterActions instance)
@@ -523,6 +560,9 @@ namespace Com.Unnamed.RacingGame.Shooter
                 @ShootSecondary.started -= instance.OnShootSecondary;
                 @ShootSecondary.performed -= instance.OnShootSecondary;
                 @ShootSecondary.canceled -= instance.OnShootSecondary;
+                @Pause.started -= instance.OnPause;
+                @Pause.performed -= instance.OnPause;
+                @Pause.canceled -= instance.OnPause;
             }
 
             public void RemoveCallbacks(IShooterActions instance)
@@ -567,6 +607,7 @@ namespace Com.Unnamed.RacingGame.Shooter
             void OnThruster(InputAction.CallbackContext context);
             void OnShootPrimary(InputAction.CallbackContext context);
             void OnShootSecondary(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
     }
 }

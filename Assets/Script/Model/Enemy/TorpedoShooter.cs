@@ -11,7 +11,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
     {
         [Header("Trigger")]
         [SerializeField]
-        private TorpedoTrigger trigger;
+        private List<TorpedoTrigger> triggers;
 
         [Space]
         [Header("Ammo")]
@@ -39,12 +39,15 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 
         private void Awake()
         {
-            if (trigger == null)
+            if (triggers.Count == 0)
                 return;
-            trigger.OnTrigger += (object sender, EventArgs e) => Shoot();
+            foreach (var trigger in triggers)
+            {
+                trigger.OnTrigger += (object sender, EventArgs e) => Shoot();
+            }
             OnShoot += (object sender, Torpedo torpedo) =>
                 torpedo.OnDestroy += (object sender, Torpedo torpedo) =>
-                    trigger.InvokeOnTerminate();
+                    triggers.ForEach(trigger => trigger.InvokeOnTerminate());
         }
 
         public void Shoot()

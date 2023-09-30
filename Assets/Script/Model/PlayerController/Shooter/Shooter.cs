@@ -4,6 +4,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Setting;
+using static UnityEngine.InputSystem.InputAction;
+using static Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Setting.Setting;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
@@ -38,14 +41,17 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private InputAction shootPrimary;
         private InputAction shootSecondary;
         private InputAction thruster;
+        private InputAction pause;
         private float currentThruster;
         internal event EventHandler<AimDelta> OnAim;
         internal event EventHandler<Ammo> OnShoot;
         internal event EventHandler<float> OnThruster;
+        internal event EventHandler OnPause;
 
         protected override void Awake()
         {
             base.Awake();
+            BindToSetting();
             StartCoroutine(ThrusterDeteriorate());
         }
 
@@ -62,8 +68,24 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         {
             if (aimStick != null && IsMappedToSelf(aimStick))
             {
-                Aim(aimStick.ReadValue<Vector2>() * joystickSensitivity * Time.deltaTime);
+                Aim(aimStick.ReadValue<Vector2>() * joystickSensitivity * Time.unscaledDeltaTime);
             }
+        }
+
+        private void BindToSetting()
+        {
+            SettingManager settings = SettingManager.Instance;
+            if (settings == null || !settings.IsOverriden)
+                return;
+
+            settings[MouseAimSensitivity].OnChange += (object sender, float value) =>
+                mouseSensitivity = value;
+            settings[KeyboardAimSensitivity].OnChange += (object sender, float value) =>
+                keyPressSensitivity = value;
+            settings[ConsoleAimSensitivity].OnChange += (object sender, float value) =>
+                joystickSensitivity = value;
+            settings[ConsoleSpamSensitivity].OnChange += (object sender, float value) =>
+                controllerSensitivity = value;
         }
 
         protected override void BindCallbackToAction()
@@ -74,6 +96,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             shootPrimary.started += ShootPrimary;
             shootSecondary.started += ShootSecondary;
             thruster.started += Thruster;
+            pause.started += Pause;
         }
 
         protected override void UnbindCallbackFromAction()
@@ -84,6 +107,27 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             shootPrimary.started -= ShootPrimary;
             shootSecondary.started -= ShootSecondary;
             thruster.started -= Thruster;
+            pause.started -= Pause;
+        }
+
+        protected override void Pause()
+        {
+            aimMouse.started -= AimMouse;
+            aimX.started -= AimX;
+            aimY.started -= AimY;
+            shootPrimary.started -= ShootPrimary;
+            shootSecondary.started -= ShootSecondary;
+            thruster.started -= Thruster;
+        }
+
+        protected override void Resume()
+        {
+            aimMouse.started += AimMouse;
+            aimX.started += AimX;
+            aimY.started += AimY;
+            shootPrimary.started += ShootPrimary;
+            shootSecondary.started += ShootSecondary;
+            thruster.started += Thruster;
         }
 
         protected override void OnPairingSucceed()
@@ -102,16 +146,17 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             shootPrimary = shooter.FindAction("ShootPrimary");
             shootSecondary = shooter.FindAction("ShootSecondary");
             thruster = shooter.FindAction("Thruster");
+            pause = shooter.FindAction("Pause");
         }
 
-        private void AimMouse(InputAction.CallbackContext context)
+        private void AimMouse(CallbackContext context)
         {
             if (!IsMappedToSelf(context))
                 return;
-            Aim(context.ReadValue<Vector2>() * mouseSensitivity * Time.deltaTime);
+            Aim(context.ReadValue<Vector2>() * mouseSensitivity * Time.unscaledDeltaTime);
         }
 
-        private void AimX(InputAction.CallbackContext context)
+        private void AimX(CallbackContext context)
         {
             if (!IsMappedToSelf(context))
                 return;
@@ -119,12 +164,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 AimAxis(
                     aimX,
                     (float value) =>
-                        Aim(new Vector2(value * keyPressSensitivity * Time.deltaTime, 0))
+                        Aim(new Vector2(value * keyPressSensitivity * Time.unscaledDeltaTime, 0))
                 )
             );
         }
 
-        private void AimY(InputAction.CallbackContext context)
+        private void AimY(CallbackContext context)
         {
             if (!IsMappedToSelf(context))
                 return;
@@ -135,7 +180,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                         Aim(
                             new Vector2(
                                 0,
-                                aimY.ReadValue<float>() * keyPressSensitivity * Time.deltaTime
+                                aimY.ReadValue<float>()
+                                    * keyPressSensitivity
+                                    * Time.unscaledDeltaTime
                             )
                         )
                 )
@@ -160,21 +207,21 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 )
             );
 
-        private void ShootPrimary(InputAction.CallbackContext context)
+        private void ShootPrimary(CallbackContext context)
         {
             if (!IsMappedToSelf(context))
                 return;
             OnShoot?.Invoke(this, Ammo.Primary);
         }
 
-        private void ShootSecondary(InputAction.CallbackContext context)
+        private void ShootSecondary(CallbackContext context)
         {
             if (!IsMappedToSelf(context))
                 return;
             OnShoot?.Invoke(this, Ammo.Secondary);
         }
 
-        private void Thruster(InputAction.CallbackContext context)
+        private void Thruster(CallbackContext context)
         {
             if (!IsMappedToSelf(context))
                 return;
@@ -184,6 +231,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 Mathf.Sign(value) != Mathf.Sign(currentThruster) ? value : currentThruster;
         }
 
+        private void Pause(CallbackContext context)
+        {
+            if (!IsMappedToSelf(context))
+                return;
+            OnPause?.Invoke(this, EventArgs.Empty);
+        }
+
         private IEnumerator ThrusterDeteriorate()
         {
             float timeElapsed = 1;
@@ -191,8 +245,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             while (true)
             {
                 sign = Mathf.Sign(currentThruster);
-                timeElapsed += Time.deltaTime;
-                currentThruster -= Time.deltaTime * timeElapsed * Mathf.Sign(currentThruster);
+                timeElapsed += Time.fixedDeltaTime;
+                currentThruster -= Time.fixedDeltaTime * timeElapsed * Mathf.Sign(currentThruster);
                 if (sign != Mathf.Sign(currentThruster))
                 {
                     currentThruster = 0;
