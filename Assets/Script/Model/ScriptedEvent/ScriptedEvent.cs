@@ -1,5 +1,6 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Timescale;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,11 +15,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         private LayerMask receptible;
         public LayerMask Receptible => receptible;
         protected ScriptedEventManager scriptedEventManager;
+        protected TimescaleManager timescaleManager;
         protected CameraManager cameraManager;
 
         private ITrigger<T> trigger;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             trigger = GetComponent<ITrigger<T>>();
             trigger.OnTrigger += (object sender, EventArgs e) => TriggerCallback();
@@ -28,6 +30,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         private void Start()
         {
             cameraManager = CameraManager.Instance;
+            timescaleManager = TimescaleManager.Instance;
             scriptedEventManager = ScriptedEventManager.Instance;
         }
 

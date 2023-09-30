@@ -2,7 +2,8 @@ using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player;
-using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Timescale;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
     public enum GameState
     {
         InProgress,
+        Pause,
         Win,
         Lose
     }
@@ -22,6 +24,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
         internal VehicleMovement Vehicle { get; private set; }
         public event EventHandler<GameState> OnGameStateChange;
         private CheckpointManager checkpointManager;
+        private TimescaleManager timescaleManager;
+        private PauseManager pauseManager;
 
         private void Awake()
         {
@@ -41,6 +45,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
         private void Start()
         {
             checkpointManager = CheckpointManager.Instance;
+            timescaleManager = TimescaleManager.Instance;
+            pauseManager = PauseManager.Instance;
+
+            pauseManager.OnTogglePause += (object sender, bool pause) =>
+                OnGameStateChange?.Invoke(sender, pause ? GameState.Pause : GameState.InProgress);
         }
 
         internal void RegisterVehicle(VehicleMovement vehicle) => Vehicle = vehicle;
@@ -51,23 +60,36 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
 
         internal void RegisterTerminalTrigger(TerminalStateTrigger trigger) =>
             trigger.OnTerminate += (object sender, TerminalState state) =>
-                OnGameStateChange?.Invoke(
-                    sender,
-                    state == TerminalState.Lose ? GameState.Lose : GameState.Win
-                );
+            {
+                if (state == TerminalState.Lose)
+                {
+                    Vehicle.Respawn(checkpointManager.LatestCheckpoint);
+                    return;
+                }
+                OnGameStateChange?.Invoke(sender, GameState.Win);
+            };
 
         private void HandleGameStateChange(object sender, GameState state)
         {
             switch (state)
             {
                 case GameState.InProgress:
+                    timescaleManager.RestoreTimescale();
+                    Cursor.lockState = CursorLockMode.Locked;
+                    break;
+                case GameState.Pause:
+                    timescaleManager.AdjustTimescale(0);
+                    Cursor.lockState = CursorLockMode.Confined;
                     break;
                 case GameState.Win:
-                    Time.timeScale = 0;
+                    timescaleManager.AdjustTimescale(0);
+                    Cursor.lockState = CursorLockMode.Confined;
                     OnGameStateChange -= HandleGameStateChange;
                     break;
                 case GameState.Lose:
-                    Vehicle.Respawn(checkpointManager.LatestCheckpoint);
+                    timescaleManager.AdjustTimescale(0);
+                    Cursor.lockState = CursorLockMode.Confined;
+                    OnGameStateChange -= HandleGameStateChange;
                     break;
                 default:
                     break;

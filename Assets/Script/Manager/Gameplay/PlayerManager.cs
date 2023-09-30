@@ -1,7 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
 {
@@ -13,7 +13,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
 
     public sealed class PlayerManager : Singleton<PlayerManager>
     {
-        private PlayerInputManager inputManager;
         public Shooter.Shooter Shooter { get; private set; }
         public Driver.Driver Driver { get; private set; }
 
@@ -29,7 +28,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
             }
             Instance = this;
 
-            inputManager = GetComponent<PlayerInputManager>();
             Shooter = GetComponentInChildren<Shooter.Shooter>();
             Driver = GetComponentInChildren<Driver.Driver>();
         }

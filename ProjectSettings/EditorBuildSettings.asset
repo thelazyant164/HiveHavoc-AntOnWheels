@@ -6,9 +6,33 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ControllerPicker.unity
+    path: Assets/Scenes/Menu/MainMenu.unity
+    guid: 4c46b2cde98e7dd49890a53ab28429d6
+  - enabled: 1
+    path: Assets/Scenes/Game/ControllerPicker.unity
     guid: c58c86dab8ec9bc479166c29759b0c3f
   - enabled: 1
-    path: Assets/Scenes/CombinedDemo.unity
-    guid: 99f750bdd53bc1449bd6c2809c042bd9
+    path: Assets/Scenes/Game/LakeScene.unity
+    guid: d4d400754266ee34497a507ec994eb70
+  - enabled: 1
+    path: Assets/Scenes/Menu/WinMenu.unity
+    guid: 25e35c4eb237a50499c08ae3ec458901
+  - enabled: 1
+    path: Assets/Scenes/Menu/LoseMenu.unity
+    guid: 8d0326c745a5edf4691debd768009b05
+  - enabled: 1
+    path: Assets/Scenes/Menu/PauseMenu.unity
+    guid: 81d2bd42cead2224b8b5b2215cd3faa4
+  - enabled: 1
+    path: Assets/Scenes/Menu/ConfirmQuitMenu.unity
+    guid: 4e7e098f888971b4fbfe824094da9522
+  - enabled: 1
+    path: Assets/Scenes/Menu/OptionsMenu.unity
+    guid: 740d2c35d6c5ebf4491fd8d21625d780
+  - enabled: 1
+    path: Assets/Scenes/Menu/MappingMenu.unity
+    guid: d5223eab3039b134390ae7ba48f2eb2b
+  - enabled: 1
+    path: Assets/Scenes/Menu/CreditsMenu.unity
+    guid: 6a277140b4b693d48b5564ef0d457bba
   m_configObjects: {}

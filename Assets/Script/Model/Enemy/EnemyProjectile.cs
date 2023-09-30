@@ -66,19 +66,20 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
             {
                 while (timeElapsed < pursuitInterval)
                 {
-                    timeElapsed += Time.deltaTime;
+                    timeElapsed += Time.fixedDeltaTime;
                     rb.MovePosition(
                         rb.transform.position
-                            + targetLock.TargetDirection * velocity * Time.deltaTime
+                            + targetLock.TargetDirection * velocity * Time.fixedDeltaTime
                     );
                     rb.MoveRotation(targetLock.RotationTowardTarget);
                     yield return new WaitForFixedUpdate();
                 }
                 while (timeElapsed > 0)
                 {
-                    timeElapsed -= Time.deltaTime;
+                    timeElapsed -= Time.fixedDeltaTime;
                     rb.MovePosition(
-                        rb.transform.position + rb.transform.forward * velocity * Time.deltaTime
+                        rb.transform.position
+                            + rb.transform.forward * velocity * Time.fixedDeltaTime
                     );
                     yield return new WaitForFixedUpdate();
                 }

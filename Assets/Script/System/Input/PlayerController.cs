@@ -33,6 +33,18 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input
             inputMap = PlayerControllerManager.Instance;
             inputMap.OnDeviceAdd += AddDevice;
             inputMap.OnDeviceRemove += RemoveDevice;
+
+            PauseManager pauseManager = PauseManager.Instance;
+            if (pauseManager != null)
+            {
+                pauseManager.OnTogglePause += (object sender, bool pause) =>
+                {
+                    if (pause)
+                        Pause();
+                    else
+                        Resume();
+                };
+            }
         }
 
         private void AddDevice(object sender, InputDevice device)
@@ -140,6 +152,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input
         protected abstract void MapSchemeTo(InputActionAsset action);
         protected abstract void BindCallbackToAction();
         protected abstract void UnbindCallbackFromAction();
+
+        protected virtual void Pause() { }
+
+        protected virtual void Resume() { }
 
         protected virtual void OnPairingSucceed() => action.Enable();
 

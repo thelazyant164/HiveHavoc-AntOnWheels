@@ -46,15 +46,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         [Header("Rotation Clamping")]
         [SerializeField]
         private float maxPitch = 45f; // Max pitch angle in degrees
+
         [SerializeField]
-        private float maxRoll = 30f;  // Max roll angle in degrees
+        private float maxRoll = 30f; // Max roll angle in degrees
 
         [Header("Dampening")]
-        [SerializeField] 
+        [SerializeField]
         private float dampeningThreshold = 10f; // Start dampening when 10 degrees away from max
+
         [SerializeField]
         private float dampeningAmount = 3f;
-
 
         [Space]
         [Header("Wheel colliders")]
@@ -113,13 +114,22 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             HandleSteering(steer);
             UpdateWheels();
         }
-        
+
+        private void Reset()
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            throttle = 0;
+            steer = 0;
+            brake = false;
+            thruster = 0;
+        }
 
         internal void Respawn(Transform transform)
         {
             rb.transform.position = transform.position;
             rb.transform.rotation = transform.rotation;
-            rb.velocity = Vector3.zero;
+            Reset();
         }
 
         private void HandleThruster()
@@ -174,7 +184,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
                     actualThruster = thrusterForce;
                     thrusterBurnDuration = 0;
                 }
-                thrusterBurnDuration += Time.deltaTime;
+                thrusterBurnDuration += Time.fixedDeltaTime;
                 actualThruster -= thrusterBurnDuration * thrusterDeteriorateRate;
                 yield return new WaitForFixedUpdate();
             }
@@ -183,10 +193,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         private void ClampRotation()
         {
             Vector3 eulerRotation = transform.eulerAngles;
-            
+
             // Ensure angles are between 0 and 360
-            if (eulerRotation.x > 180) eulerRotation.x -= 360;
-            if (eulerRotation.z > 180) eulerRotation.z -= 360;
+            if (eulerRotation.x > 180)
+                eulerRotation.x -= 360;
+            if (eulerRotation.z > 180)
+                eulerRotation.z -= 360;
 
             eulerRotation.x = Mathf.Clamp(eulerRotation.x, -maxPitch, maxPitch);
             eulerRotation.z = Mathf.Clamp(eulerRotation.z, -maxRoll, maxRoll);
@@ -195,19 +207,29 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
             // Debug.Log("Roll Amount: " + eulerRotation.z);
         }
+
         private void DampenRotation()
         {
             Vector3 eulerRotation = transform.eulerAngles;
-            
-            float pitchDampening = Mathf.InverseLerp(maxPitch - dampeningThreshold, maxPitch, eulerRotation.x);
-            float rollDampening = Mathf.InverseLerp(maxRoll - dampeningThreshold, maxRoll, eulerRotation.z);
-            
-            Vector3 angularVelocity = rb.angularVelocity;
-            angularVelocity.x *= pitchDampening / dampeningAmount; 
-            angularVelocity.z *= rollDampening / dampeningAmount;  
-            rb.angularVelocity = angularVelocity;
-            Debug.Log("Roll Dampening: " + rollDampening + ", AngularVelocity: " + angularVelocity.z);
-        }
 
+            float pitchDampening = Mathf.InverseLerp(
+                maxPitch - dampeningThreshold,
+                maxPitch,
+                eulerRotation.x
+            );
+            float rollDampening = Mathf.InverseLerp(
+                maxRoll - dampeningThreshold,
+                maxRoll,
+                eulerRotation.z
+            );
+
+            Vector3 angularVelocity = rb.angularVelocity;
+            angularVelocity.x *= pitchDampening / dampeningAmount;
+            angularVelocity.z *= rollDampening / dampeningAmount;
+            rb.angularVelocity = angularVelocity;
+            //Debug.Log(
+            //    "Roll Dampening: " + rollDampening + ", AngularVelocity: " + angularVelocity.z
+            //);
+        }
     }
 }

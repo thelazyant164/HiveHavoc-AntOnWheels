@@ -71,6 +71,15 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""9acb24ef-3271-4838-bd2b-89cf0c67f7db"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -260,6 +269,28 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d95d2b4-beb5-4b4f-a378-61c55988e75d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse/Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e2a77ac-2257-409f-83ad-75488df5bada"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -301,6 +332,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
         m_Driver_MovementController = m_Driver.FindAction("MovementController", throwIfNotFound: true);
         m_Driver_Brake = m_Driver.FindAction("Brake", throwIfNotFound: true);
         m_Driver_Reload = m_Driver.FindAction("Reload", throwIfNotFound: true);
+        m_Driver_Pause = m_Driver.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -367,6 +399,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Driver_MovementController;
     private readonly InputAction m_Driver_Brake;
     private readonly InputAction m_Driver_Reload;
+    private readonly InputAction m_Driver_Pause;
     public struct DriverActions
     {
         private @DriverController m_Wrapper;
@@ -376,6 +409,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
         public InputAction @MovementController => m_Wrapper.m_Driver_MovementController;
         public InputAction @Brake => m_Wrapper.m_Driver_Brake;
         public InputAction @Reload => m_Wrapper.m_Driver_Reload;
+        public InputAction @Pause => m_Wrapper.m_Driver_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Driver; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -400,6 +434,9 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IDriverActions instance)
@@ -419,6 +456,9 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IDriverActions instance)
@@ -461,5 +501,6 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
         void OnMovementController(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

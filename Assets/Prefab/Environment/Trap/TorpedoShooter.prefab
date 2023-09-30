@@ -192,9 +192,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2184dc7de2b870e418b99c5520bb1432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: {fileID: 0}
+  triggers:
+  - {fileID: 0}
   projectile: {fileID: 7821879163868374488, guid: 6dc3d723ce9d2624ba618c5423830315,
     type: 3}
-  initialImpulse: 100
+  initialImpulse: 50
   spawn: {fileID: 8748472966842199704}
   nozzle: {fileID: 2947494061404602422}
