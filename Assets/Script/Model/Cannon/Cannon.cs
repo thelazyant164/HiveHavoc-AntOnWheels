@@ -1,4 +1,5 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -48,10 +49,23 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private Shooter shooter;
         public Vector3 AimDirection => (nozzle.position - spawn.position).normalized;
 
+        [Space]
+        [Header("Aim crosshair")]
+        [SerializeField]
+        private float maxAimDistance;
+        public float MaxAimDistance => maxAimDistance;
+
+        [SerializeField]
+        private LayerMask aimInterest;
+        public LayerMask AimInterest => aimInterest;
+
         public event EventHandler<Cannonball> OnShoot;
+        public event EventHandler<AimTarget> OnAimTargetChange;
 
         private void Start()
         {
+            OnAimTargetChange?.Invoke(this, AimTarget.None); // silence warning
+
             shooter = PlayerManager.Instance.Shooter;
             shooter.OnAim += OnAim;
             shooter.OnShoot += (object sender, Ammo ammo) => Shoot();
@@ -91,6 +105,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             Launch(cannonball);
             OnShoot?.Invoke(this, cannonball);
             gameObject.SetTimeOut(cooldownDuration, () => Ready = true);
+        }
+
+        public bool TryGetAimTarget(out AimTarget result)
+        {
+            result = AimTarget.None;
+            return false;
         }
     }
 }

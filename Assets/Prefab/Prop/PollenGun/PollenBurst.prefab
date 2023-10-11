@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7336065739185207010}
   - component: {fileID: 2863569263113040738}
   - component: {fileID: 7251941597899088531}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: PollenBurst
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,15 +74,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  blocking:
+  interceptedBy:
     serializedVersion: 2
-    m_Bits: 1984
+    m_Bits: 8128
   countdown: 1
   blastRadius: 5
   blastForce: 300000
   affected:
     serializedVersion: 2
-    m_Bits: 704
+    m_Bits: 7360
 --- !u!1 &3500918371146534974
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 896719405691127073}
   - component: {fileID: 3140485333363962347}
   - component: {fileID: 1203450536374539667}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: magma_ball_v2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

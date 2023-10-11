@@ -51,7 +51,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 Debug.LogError($"{this} trying to spend {ammo} from {Ammo} reserve");
                 return;
             }
-            ammo -= ammo;
+            this.ammo -= ammo;
         }
 
         public void Reload()

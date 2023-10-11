@@ -6,15 +6,9 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
-    public abstract class PollenShooter<T> : ISwappableShooter, IShootable<T>
-        where T : PollenProjectile
+    [RequireComponent(typeof(PollenGun))]
+    public abstract class PollenShooter : ISwappableShooter
     {
-        [Space]
-        [Header("Ammo")]
-        [SerializeField]
-        private T projectile;
-        public T Projectile => projectile;
-
         [SerializeField]
         private float initialImpulse;
         public float InitialImpulse => initialImpulse;
@@ -33,20 +27,25 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private float cooldownDuration;
         public float CooldownDuration => cooldownDuration;
-        public bool Ready { get; private set; } = true;
+        public bool Ready { get; protected set; } = true;
+    }
+
+    public abstract class PollenShooter<T> : PollenShooter, IShootable<T> where T : PollenProjectile
+    {
+        [Space]
+        [Header("Ammo")]
+        [SerializeField]
+        private T projectile;
+        public T Projectile => projectile;
 
         public event EventHandler<T> OnShoot;
 
         public T SpawnProjectile() =>
             GameObject
-                .Instantiate(
-                    projectile.gameObject,
-                    nozzle.position,
-                    Quaternion.LookRotation(AimDirection)
-                )
+                .Instantiate(projectile.gameObject, Nozzle, Quaternion.LookRotation(AimDirection))
                 .GetComponent<T>();
 
-        public void Launch(T projectile) => projectile.Launch(AimDirection * initialImpulse);
+        public void Launch(T projectile) => projectile.Launch(AimDirection * InitialImpulse);
 
         public override void Shoot()
         {
@@ -56,7 +55,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             T projectile = SpawnProjectile();
             Launch(projectile);
             OnShoot?.Invoke(this, projectile);
-            gameObject.SetTimeOut(cooldownDuration, () => Ready = true);
+            gameObject.SetTimeOut(CooldownDuration, () => Ready = true);
         }
     }
 }

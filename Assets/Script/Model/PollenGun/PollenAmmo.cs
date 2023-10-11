@@ -17,6 +17,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private LayerMask receptible;
         public LayerMask Receptible => receptible;
 
+        [SerializeField]
+        private LayerMask destructive;
+        public LayerMask DestroyedBy => destructive;
+
         public event EventHandler<PollenAmmo> OnPickUp;
         public event EventHandler<PollenAmmo> OnDestroy;
 

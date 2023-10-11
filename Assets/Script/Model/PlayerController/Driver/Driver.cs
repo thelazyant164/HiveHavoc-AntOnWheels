@@ -13,7 +13,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         private InputAction throttle;
         private InputAction steer;
-        private InputAction movementController;
+        private InputAction steerController;
         private InputAction brake;
         private InputAction reload;
         private InputAction pause;
@@ -37,11 +37,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         private void Update()
         {
-            if (movementController == null || !IsMappedToSelf(movementController))
+            if (steerController == null || !IsMappedToSelf(steerController))
                 return;
-            Vector2 inputValue = movementController.ReadValue<Vector2>();
-            OnSteer?.Invoke(this, inputValue.x);
-            OnAccelerate?.Invoke(this, inputValue.y);
+            OnSteer?.Invoke(this, steerController.ReadValue<float>());
         }
 
         protected override void BindCallbackToAction()
@@ -83,7 +81,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             InputActionMap driver = action.FindActionMap("Driver");
             throttle = driver.FindAction("Throttle");
             steer = driver.FindAction("Steer");
-            movementController = driver.FindAction("MovementController");
+            steerController = driver.FindAction("SteerController");
             brake = driver.FindAction("Brake");
             reload = driver.FindAction("Reload");
             pause = driver.FindAction("Pause");
@@ -114,7 +112,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         private IEnumerator Move(InputAction input, Action<float> callback)
         {
-            while (input.IsPressed())
+            while (!input.WasReleasedThisFrame())
             {
                 callback(input.ReadValue<float>());
                 yield return null;

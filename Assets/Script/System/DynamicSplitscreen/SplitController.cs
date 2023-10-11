@@ -36,20 +36,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
             while (timeElapsed < time)
             {
                 timeElapsed += Time.unscaledDeltaTime;
-                camera.rect = Lerp(current, target, timeElapsed / time);
+                camera.rect = RectExtension.Lerp(current, target, timeElapsed / time);
                 yield return null;
             }
             camera.rect = target;
             Adjusting = false;
-        }
-
-        private static Rect Lerp(Rect start, Rect target, float ratio)
-        {
-            float x = Mathf.Lerp(start.x, target.x, ratio);
-            float y = Mathf.Lerp(start.y, target.y, ratio);
-            float width = Mathf.Lerp(start.width, target.width, ratio);
-            float height = Mathf.Lerp(start.height, target.height, ratio);
-            return new Rect(x, y, width, height);
         }
     }
 }

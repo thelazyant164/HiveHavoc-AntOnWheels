@@ -25,7 +25,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private LayerMask affected;
         public LayerMask Affected => affected;
-        public LayerMask Triggering => Blocking;
+        public LayerMask Triggering => InterceptedBy;
 
         public Explosion<PollenBurst> Explosion =>
             new Explosion<PollenBurst>(this, transform.position);
@@ -42,7 +42,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.InLayerMask(Blocking))
+            if (collision.gameObject.InLayerMask(InterceptedBy))
             {
                 //Debug.LogWarning($"Pollen burst exploded on contact with {collision.gameObject}");
                 OnExplode?.Invoke(collision.gameObject, EventArgs.Empty);
@@ -92,7 +92,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             return dynamicEntities;
         }
 
-        public void Destroy()
+        public override void Destroy()
         {
             OnDestroy?.Invoke(this, this);
             OnExplode?.Invoke(this, EventArgs.Empty);

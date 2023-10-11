@@ -20,8 +20,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         public float Damage => damage;
 
         [SerializeField]
-        private LayerMask blocking;
-        public LayerMask Blocking => blocking;
+        private LayerMask interceptedBy;
+        public LayerMask InterceptedBy => interceptedBy;
+        public LayerMask DestroyedBy => interceptedBy;
 
         public IDamaging.Target TargetType => IDamaging.Target.Enemy;
 
@@ -32,5 +33,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         public void Launch(Vector3 spatialImpulse) =>
             rb.AddForce(spatialImpulse, ForceMode.Impulse);
+
+        public abstract void Destroy();
     }
 }

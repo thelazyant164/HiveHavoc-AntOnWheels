@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2457613294487813298}
   - component: {fileID: 4027451245523845214}
   - component: {fileID: 6710202605562201055}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: TnT_Low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1586838840085563247}
   - component: {fileID: 6946670067251681767}
   - component: {fileID: 4982126914869618695}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: List_Low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 3928491900622569198}
   - component: {fileID: 1037559110074241890}
   - component: {fileID: 646590497836077724}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Gvozd_Low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 7147772428149204137}
   - component: {fileID: 5640795660070418324}
   - component: {fileID: 1824381150793833745}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Ring_Low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 256430584812403902}
   - component: {fileID: 517602483020916864}
   - component: {fileID: 7668520268836137765}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: BarrelTNT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,10 +436,10 @@ MonoBehaviour:
   blastForce: 20000000
   affected:
     serializedVersion: 2
-    m_Bits: 1856
+    m_Bits: 7232
   triggering:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 4096
   damage: 10
 --- !u!1 &6161894540179038748
 GameObject:
@@ -452,7 +452,7 @@ GameObject:
   - component: {fileID: 3007428786690082070}
   - component: {fileID: 5055423796893847301}
   - component: {fileID: 9072649684403606003}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Doska_Low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -535,7 +535,7 @@ GameObject:
   - component: {fileID: 8107059243261813265}
   - component: {fileID: 3313304433658178001}
   - component: {fileID: 5588895225701677081}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Bolt_Low
   m_TagString: Untagged
   m_Icon: {fileID: 0}

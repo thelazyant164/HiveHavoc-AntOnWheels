@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7267574900888035448}
   - component: {fileID: 526272036247428723}
   - component: {fileID: 315958609096041726}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: PollenSingle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,9 +74,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  blocking:
+  interceptedBy:
     serializedVersion: 2
-    m_Bits: 960
+    m_Bits: 8128
 --- !u!1 &6412276205734659315
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 7212778710053573100}
   - component: {fileID: 4898798519586825510}
   - component: {fileID: 4128891905325159088}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: magma_ball_v2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

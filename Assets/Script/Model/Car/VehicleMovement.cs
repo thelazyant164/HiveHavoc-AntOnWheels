@@ -1,12 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 {
+    public enum WheelLayout
+    {
+        FrontLeft,
+        FrontRight,
+        RearLeft,
+        RearRight
+    }
+
+    [Serializable]
+    public sealed class WheelSet : SerializableDictionary<WheelLayout, Wheel> { }
+
     public sealed class VehicleMovement : MonoBehaviour
     {
         [Header("Current input")]
@@ -37,10 +49,19 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         private float steerAngle;
 
         [SerializeField]
+        private float flightSteerPropulsion;
+
+        [SerializeField]
         private float thrusterForce;
 
         [SerializeField]
         private float thrusterDeteriorateRate;
+
+        [SerializeField]
+        private float forwardFrictionModifier = 1;
+
+        [SerializeField]
+        private float sidewaysFrictionModifier = 1;
 
         [Space]
         [Header("Rotation Clamping")]
@@ -58,38 +79,20 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         private float dampeningAmount = 3f;
 
         [Space]
-        [Header("Wheel colliders")]
-        [SerializeField]
-        private WheelCollider frontLeftWheelCollider;
-
-        [SerializeField]
-        private WheelCollider frontRightWheelCollider;
-
-        [SerializeField]
-        private WheelCollider rearLeftWheelCollider;
-
-        [SerializeField]
-        private WheelCollider rearRightWheelCollider;
-
-        [Space]
         [Header("Wheels")]
         [SerializeField]
-        private Transform frontLeftWheelTransform;
-
-        [SerializeField]
-        private Transform frontRightWheelTransform;
-
-        [SerializeField]
-        private Transform rearLeftWheelTransform;
-
-        [SerializeField]
-        private Transform rearRightWheelTransform;
+        private WheelSet wheels;
 
         private Rigidbody rb;
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+            foreach (Wheel wheel in wheels.Values)
+            {
+                wheel.SetForwardFrictionModifier(forwardFrictionModifier);
+                wheel.SetSidewaysFrictionModifier(sidewaysFrictionModifier);
+            }
             StartCoroutine(ThrusterDeteriorate());
         }
 
@@ -111,8 +114,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             ClampRotation();
             HandleThruster();
             HandleMotor(throttle);
-            HandleSteering(steer);
-            UpdateWheels();
+            HandleBrake(brake);
+            HandleSteer(steer);
         }
 
         private void Reset()
@@ -123,6 +126,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             steer = 0;
             brake = false;
             thruster = 0;
+
+            foreach (Wheel wheel in wheels.Values)
+            {
+                wheel.Reset();
+            }
         }
 
         internal void Respawn(Transform transform)
@@ -134,44 +142,43 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         private void HandleThruster()
         {
-            rb.AddForce(Vector3.up * thruster * actualThruster, ForceMode.Force);
+            Vector3 thrusterForce = thruster * actualThruster * Vector3.up;
+            rb.AddForce(thrusterForce, ForceMode.Force);
         }
 
-        private void HandleMotor(float verticalInput)
+        private void HandleMotor(float throttle)
         {
-            frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
-            frontRightWheelCollider.motorTorque = verticalInput * motorForce;
-            ApplyBraking(brake ? brakeForce : 0f);
+            float motorInput = throttle * motorForce;
+            wheels[WheelLayout.FrontLeft].ApplyMotor(motorInput);
+            wheels[WheelLayout.FrontRight].ApplyMotor(motorInput);
+            wheels[WheelLayout.RearLeft].ApplyMotor(motorInput);
+            wheels[WheelLayout.RearRight].ApplyMotor(motorInput);
         }
 
-        private void ApplyBraking(float brakeForce)
+        private void HandleBrake(bool brake)
         {
-            frontRightWheelCollider.brakeTorque = brakeForce;
-            frontLeftWheelCollider.brakeTorque = brakeForce;
-            rearLeftWheelCollider.brakeTorque = brakeForce;
-            rearRightWheelCollider.brakeTorque = brakeForce;
+            float brakeInput = brake ? brakeForce : 0;
+            wheels[WheelLayout.FrontLeft].ApplyBrake(brakeInput);
+            wheels[WheelLayout.FrontRight].ApplyBrake(brakeInput);
+            wheels[WheelLayout.RearLeft].ApplyBrake(brakeInput);
+            wheels[WheelLayout.RearRight].ApplyBrake(brakeInput);
         }
 
-        private void HandleSteering(float horizontalInput)
+        private void HandleSteer(float steer)
         {
-            float currentSteerAngle = steerAngle * horizontalInput;
-            frontLeftWheelCollider.steerAngle = currentSteerAngle;
-            frontRightWheelCollider.steerAngle = currentSteerAngle;
-        }
-
-        private void UpdateWheels()
-        {
-            UpdateSingleWheel(frontLeftWheelCollider, frontLeftWheelTransform);
-            UpdateSingleWheel(frontRightWheelCollider, frontRightWheelTransform);
-            UpdateSingleWheel(rearRightWheelCollider, rearRightWheelTransform);
-            UpdateSingleWheel(rearLeftWheelCollider, rearLeftWheelTransform);
-        }
-
-        private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
-        {
-            wheelCollider.GetWorldPose(out Vector3 pos, out Quaternion rot);
-            wheelTransform.rotation = rot;
-            wheelTransform.position = pos;
+            if (wheels.Values.All(wheel => !wheel.Grounded))
+            {
+                // Debug.LogWarning("Flying");
+                Vector3 steerInput = steer * flightSteerPropulsion * rb.transform.right;
+                rb.AddRelativeTorque(steerInput, ForceMode.Force);
+            }
+            else
+            {
+                // Debug.LogWarning("Driving");
+                float steerInput = steerAngle * steer;
+                wheels[WheelLayout.FrontLeft].ApplySteer(steerInput);
+                wheels[WheelLayout.FrontRight].ApplySteer(steerInput);
+            }
         }
 
         private IEnumerator ThrusterDeteriorate()

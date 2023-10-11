@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7053828290604372542}
   - component: {fileID: 7657540644637392396}
   - component: {fileID: 7137362874887643700}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingRigid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9033312989964716964
 MeshFilter:
@@ -102,7 +102,7 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}

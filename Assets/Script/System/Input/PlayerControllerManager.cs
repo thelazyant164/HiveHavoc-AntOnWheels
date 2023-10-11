@@ -68,14 +68,19 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input
             };
         }
 
-        private void Start()
+        internal void Reset()
         {
-            IndicatorManager indicatorManager = IndicatorManager.Instance;
-            if (indicatorManager == null)
-                return;
-
-            indicatorManager.OnReady += (object sender, InputMap inputMap) => Mapping = inputMap;
+            mapping = null;
+            Pairings.Clear();
         }
+
+        internal void Register(IndicatorManager indicatorManager) =>
+            indicatorManager.OnReady += Proceed;
+
+        internal void Unregister(IndicatorManager indicatorManager) =>
+            indicatorManager.OnReady -= Proceed;
+
+        private void Proceed(object sender, InputMap inputMap) => Mapping = inputMap;
 
         private void ManageDeviceList(InputDevice device, InputDeviceChange changeEvent)
         {

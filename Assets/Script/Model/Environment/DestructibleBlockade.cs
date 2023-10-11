@@ -11,7 +11,19 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         public Transform Transform => transform;
         public GameObject GameObject => gameObject;
 
+        [SerializeField]
+        private LayerMask destroyedBy;
+        public LayerMask DestroyedBy => destroyedBy;
+
         public event EventHandler<DestructibleBlockade> OnDestroy;
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.InLayerMask(destroyedBy))
+            {
+                Destroy();
+            }
+        }
 
         public void Destroy()
         {

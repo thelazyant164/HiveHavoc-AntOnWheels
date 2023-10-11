@@ -8,6 +8,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
 {
@@ -19,13 +22,15 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
         Lose
     }
 
-    public sealed class GameManager : Singleton<GameManager>
+    public sealed class GameManager : Singleton<GameManager>, IServiceProvider<PollenGun>
     {
         internal VehicleMovement Vehicle { get; private set; }
         public event EventHandler<GameState> OnGameStateChange;
         private CheckpointManager checkpointManager;
         private TimescaleManager timescaleManager;
         private PauseManager pauseManager;
+
+        public event EventHandler<PollenGun> OnAvailable;
 
         private void Awake()
         {
@@ -58,6 +63,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
             vehicle.OnDeath += (object sender, EventArgs e) =>
                 OnGameStateChange?.Invoke(sender, GameState.Lose);
 
+        public void Register(PollenGun gun) => OnAvailable?.Invoke(this, gun);
+
         internal void RegisterTerminalTrigger(TerminalStateTrigger trigger) =>
             trigger.OnTerminate += (object sender, TerminalState state) =>
             {
@@ -84,11 +91,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                 case GameState.Win:
                     timescaleManager.AdjustTimescale(0);
                     Cursor.lockState = CursorLockMode.Confined;
+                    PlayerControllerManager.Instance.Reset();
                     OnGameStateChange -= HandleGameStateChange;
                     break;
                 case GameState.Lose:
                     timescaleManager.AdjustTimescale(0);
                     Cursor.lockState = CursorLockMode.Confined;
+                    PlayerControllerManager.Instance.Reset();
                     OnGameStateChange -= HandleGameStateChange;
                     break;
                 default:

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7267574900888035448}
   - component: {fileID: 526272036247428723}
   - component: {fileID: 3643624209057684951}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Stinger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,9 +73,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 031bfe0622eb4d2468b787e88416927f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blocking:
+  interceptedBy:
     serializedVersion: 2
-    m_Bits: 960
+    m_Bits: 8064
   damage: 1
   velocity: 10
   pursuitInterval: 1
@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 5367279448809283545}
   - component: {fileID: 7897237255727147795}
   - component: {fileID: 2852456510448916582}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: ice_shard
   m_TagString: Untagged
   m_Icon: {fileID: 0}

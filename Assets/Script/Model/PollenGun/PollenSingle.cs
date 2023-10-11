@@ -13,7 +13,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.InLayerMask(Blocking))
+            if (collision.gameObject.InLayerMask(InterceptedBy))
             {
                 if (collision.gameObject.TryFindImmediateComponent(out IDamageable damageable))
                 {
@@ -24,7 +24,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             }
         }
 
-        public void Destroy()
+        public override void Destroy()
         {
             OnDestroy?.Invoke(this, this);
             Destroy(gameObject);

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5807495498975476160}
   - component: {fileID: 1963900501293030255}
   - component: {fileID: 80432725745776796}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: HoneyTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4599503079364606542}
   - component: {fileID: 4907464568372404858}
   - component: {fileID: 7521956972094683455}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: DestructibleBlockade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,3 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf620937e3b6ea4fbb36ba216031ed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyedBy:
+    serializedVersion: 2
+    m_Bits: 6144

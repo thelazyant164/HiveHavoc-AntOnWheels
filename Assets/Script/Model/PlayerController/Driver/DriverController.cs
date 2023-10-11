@@ -46,10 +46,10 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""MovementController"",
+                    ""name"": ""SteerController"",
                     ""type"": ""Value"",
                     ""id"": ""084048c6-7a89-4fa3-8521-a3f408ad29b0"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -150,6 +150,39 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Controller"",
+                    ""id"": ""dcd477c9-c812-4d5e-a40f-0ac61d5931a3"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""e7c185c7-af4e-42b7-8b96-edd02bf64bd8"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""9c01cc83-3c60-46b1-9ec9-8e76b84bcd19"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""A/D"",
                     ""id"": ""fd7fc6e5-b40a-4f79-8318-9ecc55efc363"",
                     ""path"": ""1DAxis"",
@@ -218,11 +251,11 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d030fb6b-4690-466a-b4ec-0a5e5ac42528"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""path"": ""<Gamepad>/leftStick/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""MovementController"",
+                    ""action"": ""SteerController"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -240,7 +273,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3fd61a19-b71c-40c8-9f9a-166e819d7ea8"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -262,7 +295,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1d6238b2-0bf4-465e-b7e9-2bbc5e33d376"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -329,7 +362,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
         m_Driver = asset.FindActionMap("Driver", throwIfNotFound: true);
         m_Driver_Throttle = m_Driver.FindAction("Throttle", throwIfNotFound: true);
         m_Driver_Steer = m_Driver.FindAction("Steer", throwIfNotFound: true);
-        m_Driver_MovementController = m_Driver.FindAction("MovementController", throwIfNotFound: true);
+        m_Driver_SteerController = m_Driver.FindAction("SteerController", throwIfNotFound: true);
         m_Driver_Brake = m_Driver.FindAction("Brake", throwIfNotFound: true);
         m_Driver_Reload = m_Driver.FindAction("Reload", throwIfNotFound: true);
         m_Driver_Pause = m_Driver.FindAction("Pause", throwIfNotFound: true);
@@ -396,7 +429,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
     private List<IDriverActions> m_DriverActionsCallbackInterfaces = new List<IDriverActions>();
     private readonly InputAction m_Driver_Throttle;
     private readonly InputAction m_Driver_Steer;
-    private readonly InputAction m_Driver_MovementController;
+    private readonly InputAction m_Driver_SteerController;
     private readonly InputAction m_Driver_Brake;
     private readonly InputAction m_Driver_Reload;
     private readonly InputAction m_Driver_Pause;
@@ -406,7 +439,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
         public DriverActions(@DriverController wrapper) { m_Wrapper = wrapper; }
         public InputAction @Throttle => m_Wrapper.m_Driver_Throttle;
         public InputAction @Steer => m_Wrapper.m_Driver_Steer;
-        public InputAction @MovementController => m_Wrapper.m_Driver_MovementController;
+        public InputAction @SteerController => m_Wrapper.m_Driver_SteerController;
         public InputAction @Brake => m_Wrapper.m_Driver_Brake;
         public InputAction @Reload => m_Wrapper.m_Driver_Reload;
         public InputAction @Pause => m_Wrapper.m_Driver_Pause;
@@ -425,9 +458,9 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
             @Steer.started += instance.OnSteer;
             @Steer.performed += instance.OnSteer;
             @Steer.canceled += instance.OnSteer;
-            @MovementController.started += instance.OnMovementController;
-            @MovementController.performed += instance.OnMovementController;
-            @MovementController.canceled += instance.OnMovementController;
+            @SteerController.started += instance.OnSteerController;
+            @SteerController.performed += instance.OnSteerController;
+            @SteerController.canceled += instance.OnSteerController;
             @Brake.started += instance.OnBrake;
             @Brake.performed += instance.OnBrake;
             @Brake.canceled += instance.OnBrake;
@@ -447,9 +480,9 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
             @Steer.started -= instance.OnSteer;
             @Steer.performed -= instance.OnSteer;
             @Steer.canceled -= instance.OnSteer;
-            @MovementController.started -= instance.OnMovementController;
-            @MovementController.performed -= instance.OnMovementController;
-            @MovementController.canceled -= instance.OnMovementController;
+            @SteerController.started -= instance.OnSteerController;
+            @SteerController.performed -= instance.OnSteerController;
+            @SteerController.canceled -= instance.OnSteerController;
             @Brake.started -= instance.OnBrake;
             @Brake.performed -= instance.OnBrake;
             @Brake.canceled -= instance.OnBrake;
@@ -498,7 +531,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
     {
         void OnThrottle(InputAction.CallbackContext context);
         void OnSteer(InputAction.CallbackContext context);
-        void OnMovementController(InputAction.CallbackContext context);
+        void OnSteerController(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);

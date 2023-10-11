@@ -19,8 +19,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         public Rigidbody Rigidbody => rb;
 
         [SerializeField]
-        private LayerMask blocking;
-        public LayerMask Blocking => blocking;
+        private LayerMask interceptedBy;
+        public LayerMask InterceptedBy => interceptedBy;
 
         [SerializeField]
         private float damage;
@@ -45,7 +45,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         [SerializeField]
         private LayerMask affected;
         public LayerMask Affected => affected;
-        public LayerMask Triggering => Blocking;
+        public LayerMask Triggering => interceptedBy;
+        public LayerMask DestroyedBy => interceptedBy;
         public IDamaging.Target TargetType => IDamaging.Target.Player;
         public Explosion<Torpedo> Explosion => new Explosion<Torpedo>(this, transform.position);
 
@@ -85,7 +86,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.InLayerMask(Blocking))
+            if (collision.gameObject.InLayerMask(InterceptedBy))
             {
                 //Debug.LogWarning($"Pollen burst exploded on contact with {collision.gameObject}");
                 Destroy();

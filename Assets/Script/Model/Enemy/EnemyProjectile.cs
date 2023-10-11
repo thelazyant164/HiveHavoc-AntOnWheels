@@ -21,8 +21,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         public Rigidbody Rigidbody => rb;
 
         [SerializeField]
-        private LayerMask blocking;
-        public LayerMask Blocking => blocking;
+        private LayerMask interceptedBy;
+        public LayerMask InterceptedBy => interceptedBy;
+        public LayerMask DestroyedBy => interceptedBy;
 
         [SerializeField]
         private float damage;
@@ -48,7 +49,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.InLayerMask(blocking))
+            if (collision.gameObject.InLayerMask(interceptedBy))
             {
                 if (collision.gameObject.TryGetComponent(out IDamageable damageable))
                 {

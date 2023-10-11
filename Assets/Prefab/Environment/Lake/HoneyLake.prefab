@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1553639234020242162}
   - component: {fileID: 5561177165277104122}
-  m_Layer: 9
+  m_Layer: 4
   m_Name: HoneyLake
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6379644808186367511}
   - component: {fileID: 1505709721995383974}
   - component: {fileID: 5301106659412504541}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: StaticTNT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,8 +150,8 @@ MonoBehaviour:
   blastForce: 5000000
   affected:
     serializedVersion: 2
-    m_Bits: 1856
+    m_Bits: 7232
   triggering:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 4096
   damage: 10

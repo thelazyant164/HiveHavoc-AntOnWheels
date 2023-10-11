@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6736254439494735006}
   - component: {fileID: 1883819613907630098}
   - component: {fileID: 6117280061793746606}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingPoint (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,6 +66,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa14348be0bb43aa34bda6fc2aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buoyantForce: 0
+  weightDistribution: 0
 --- !u!1 &375515579792132421
 GameObject:
   m_ObjectHideFlags: 0
@@ -77,7 +79,7 @@ GameObject:
   - component: {fileID: 7061729184985158368}
   - component: {fileID: 5063181256835848618}
   - component: {fileID: 1700065407150052347}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingPoint (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,6 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa14348be0bb43aa34bda6fc2aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buoyantForce: 0
+  weightDistribution: 0
 --- !u!1 &1582573732220460991
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +150,7 @@ GameObject:
   - component: {fileID: 1470711887734641484}
   - component: {fileID: 7492842793569701006}
   - component: {fileID: 4501399392863606214}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +181,7 @@ Transform:
   - {fileID: 1942025458585114683}
   - {fileID: 7061729184985158368}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1222427571271010695
 MeshFilter:
@@ -245,7 +249,7 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
+  m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
@@ -289,7 +293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7a32eae6b4c114cb21b64a1b0c8e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  submergedDimensionDepth: 0
   density: 550
   ratioToBoundVolume: 1
   explosionUpwardForceModifier: 0
@@ -304,7 +307,7 @@ GameObject:
   - component: {fileID: 5215765609899909126}
   - component: {fileID: 8486203978236661124}
   - component: {fileID: 3895196837889182325}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingPoint (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,6 +362,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa14348be0bb43aa34bda6fc2aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buoyantForce: 0
+  weightDistribution: 0
 --- !u!1 &3452764978758005349
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +375,7 @@ GameObject:
   - component: {fileID: 2751020249543722465}
   - component: {fileID: 2134239363709831720}
   - component: {fileID: 666852854137496871}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingPoint (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,6 +430,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa14348be0bb43aa34bda6fc2aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buoyantForce: 0
+  weightDistribution: 0
 --- !u!1 &3596338798286031105
 GameObject:
   m_ObjectHideFlags: 0
@@ -436,7 +443,7 @@ GameObject:
   - component: {fileID: 8151781471743607293}
   - component: {fileID: 748729210009212467}
   - component: {fileID: 1569778037892153315}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingPoint (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,6 +498,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa14348be0bb43aa34bda6fc2aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buoyantForce: 0
+  weightDistribution: 0
 --- !u!1 &4342462666683405574
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +511,7 @@ GameObject:
   - component: {fileID: 8151763999401663336}
   - component: {fileID: 5034713685405119590}
   - component: {fileID: 6656628142126710460}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -557,6 +566,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa14348be0bb43aa34bda6fc2aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buoyantForce: 0
+  weightDistribution: 0
 --- !u!1 &5594830253393313565
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,7 +579,7 @@ GameObject:
   - component: {fileID: 1942025458585114683}
   - component: {fileID: 7518499172137692201}
   - component: {fileID: 1011407227747604153}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingPoint (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -623,6 +634,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa14348be0bb43aa34bda6fc2aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buoyantForce: 0
+  weightDistribution: 0
 --- !u!1 &6340409885917725116
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,7 +647,7 @@ GameObject:
   - component: {fileID: 8040392361189364816}
   - component: {fileID: 8460795037589490327}
   - component: {fileID: 7010054712064058841}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingPoint (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -689,6 +702,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa14348be0bb43aa34bda6fc2aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buoyantForce: 0
+  weightDistribution: 0
 --- !u!1 &6783214584687274752
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,7 +715,7 @@ GameObject:
   - component: {fileID: 1861169958016350857}
   - component: {fileID: 1069258494479744670}
   - component: {fileID: 4090771719364384663}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingPoint (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -755,6 +770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa14348be0bb43aa34bda6fc2aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buoyantForce: 0
+  weightDistribution: 0
 --- !u!1 &8084818243669449948
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,7 +783,7 @@ GameObject:
   - component: {fileID: 8991039575781289837}
   - component: {fileID: 7200557169801543941}
   - component: {fileID: 5391353893234681533}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingPoint (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -821,6 +838,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa14348be0bb43aa34bda6fc2aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buoyantForce: 0
+  weightDistribution: 0
 --- !u!1 &8287183798700826336
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,7 +851,7 @@ GameObject:
   - component: {fileID: 8935931243623836547}
   - component: {fileID: 1202664820179907428}
   - component: {fileID: 3135038197499130748}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: FloatingPoint (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -887,3 +906,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eafa14348be0bb43aa34bda6fc2aa3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buoyantForce: 0
+  weightDistribution: 0

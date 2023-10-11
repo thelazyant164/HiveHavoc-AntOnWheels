@@ -42,7 +42,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private InputAction shootSecondary;
         private InputAction thruster;
         private InputAction pause;
+
         private float currentThruster;
+        private float thrusterBurnout;
         internal event EventHandler<AimDelta> OnAim;
         internal event EventHandler<Ammo> OnShoot;
         internal event EventHandler<float> OnThruster;
@@ -52,7 +54,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         {
             base.Awake();
             BindToSetting();
-            StartCoroutine(ThrusterDeteriorate());
         }
 
         protected override void Start()
@@ -97,10 +98,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             shootSecondary.started += ShootSecondary;
             thruster.started += Thruster;
             pause.started += Pause;
+
+            StartCoroutine(ThrusterDeteriorate());
         }
 
         protected override void UnbindCallbackFromAction()
         {
+            ResetThruster();
+
             aimMouse.started -= AimMouse;
             aimX.started -= AimX;
             aimY.started -= AimY;
@@ -112,6 +117,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         protected override void Pause()
         {
+            ResetThruster();
+
             aimMouse.started -= AimMouse;
             aimX.started -= AimX;
             aimY.started -= AimY;
@@ -240,21 +247,28 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         private IEnumerator ThrusterDeteriorate()
         {
-            float timeElapsed = 1;
+            thrusterBurnout = 1;
             float sign;
             while (true)
             {
                 sign = Mathf.Sign(currentThruster);
-                timeElapsed += Time.fixedDeltaTime;
-                currentThruster -= Time.fixedDeltaTime * timeElapsed * Mathf.Sign(currentThruster);
+                thrusterBurnout += Time.fixedDeltaTime;
+                currentThruster -=
+                    Time.fixedDeltaTime * thrusterBurnout * Mathf.Sign(currentThruster);
                 if (sign != Mathf.Sign(currentThruster))
                 {
-                    currentThruster = 0;
-                    timeElapsed = 1;
+                    ResetThruster();
                 }
                 OnThruster?.Invoke(this, Mathf.Abs(currentThruster));
                 yield return new WaitForFixedUpdate();
             }
+        }
+
+        private void ResetThruster()
+        {
+            currentThruster = 0;
+            thrusterBurnout = 1;
+            OnThruster?.Invoke(this, 0);
         }
     }
 }

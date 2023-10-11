@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3307268263937996935}
   - component: {fileID: 6704260001777558186}
   - component: {fileID: 6386182814105774048}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: polySurface1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3985727729405387140}
   - component: {fileID: 2036178055470538091}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: BeeHive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,6 +132,9 @@ MonoBehaviour:
     type: 3}
   maxCapacity: 5
   spawnCooldown: 5
+  destroyedBy:
+    serializedVersion: 2
+    m_Bits: 6144
 --- !u!1 &8027559248533801018
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7218230298028413568}
   - component: {fileID: 412602504926243179}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: beehive
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -32,9 +32,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         public float BlastForce => blastForce;
 
         [SerializeField]
-        private LayerMask blocking;
-        public LayerMask Blocking => blocking;
-        public LayerMask Triggering => blocking;
+        private LayerMask interceptedBy;
+        public LayerMask InterceptedBy => interceptedBy;
+        public LayerMask Triggering => interceptedBy;
+        public LayerMask DestroyedBy => interceptedBy;
 
         [SerializeField]
         private LayerMask affected;
@@ -55,7 +56,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.InLayerMask(blocking))
+            if (collision.gameObject.InLayerMask(interceptedBy))
             {
                 // Debug.LogWarning($"Cannonball exploded on contact with {collision.gameObject}");
                 OnExplode?.Invoke(collision.gameObject, EventArgs.Empty);

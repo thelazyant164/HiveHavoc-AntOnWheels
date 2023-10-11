@@ -85,4 +85,4 @@ MonoBehaviour:
   receptible:
     serializedVersion: 2
     m_Bits: 128
-  sloMoTimeScale: 0.5
+  sloMoTimeScale: 0.8

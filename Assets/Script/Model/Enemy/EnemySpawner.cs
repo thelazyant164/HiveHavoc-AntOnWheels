@@ -23,6 +23,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         [SerializeField]
         private float spawnCooldown = 5f;
 
+        [SerializeField]
+        private LayerMask destroyedBy;
+        public LayerMask DestroyedBy => destroyedBy;
+
         private Coroutine spawn;
         private EnemyManager enemyManager;
         private HashSet<Enemy> spawned = new();

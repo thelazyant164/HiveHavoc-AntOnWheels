@@ -729,7 +729,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 0
+  m_Priority: 1
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 1432741436399294820}
   m_Follow: {fileID: 1432741436399294820}
@@ -979,11 +979,6 @@ PrefabInstance:
         type: 3}
       propertyPath: field of view
       value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4271825491169476769, guid: d79e023d81c88a944b3f7c19200b8fdc,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4087
       objectReference: {fileID: 0}
     - target: {fileID: 4271825491169476769, guid: d79e023d81c88a944b3f7c19200b8fdc,
         type: 3}

@@ -29,6 +29,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         [SerializeField]
         private LayerMask triggering;
         public LayerMask Triggering => triggering;
+        public LayerMask DestroyedBy => triggering;
 
         public Explosion<Explosive> Explosion => new Explosion<Explosive>(this, transform.position);
 

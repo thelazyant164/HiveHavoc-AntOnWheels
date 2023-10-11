@@ -27,11 +27,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         {
             mainCamera = cameraManager[Role.Shooter].MainCamera;
             cameraManager[Role.Shooter].SwitchCamera(torpedoDemoFocusCamera);
+            PlayerManager.Instance.Shooter.gameObject.SetActive(false);
         }
 
         protected override void TerminateCallback()
         {
             cameraManager[Role.Shooter].SwitchCamera(mainCamera);
+            PlayerManager.Instance.Shooter.gameObject.SetActive(true);
         }
     }
 }
