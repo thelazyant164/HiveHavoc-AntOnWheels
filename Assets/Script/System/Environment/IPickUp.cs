@@ -8,8 +8,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 {
     public interface IPickUp<T> : ITrigger, IDestructible<T>
     {
-        public abstract event EventHandler<T> OnPickUp;
+        public float VFXDuration { get; }
+        public ParticleSystem PickUpVFX { get; }
+        public event EventHandler<T> OnPickUp;
 
-        public abstract void PickUp(object sender, T pickUp);
+        public void PickUp(object sender, T pickUp);
+        public void PlayPickUpVFX();
     }
 }

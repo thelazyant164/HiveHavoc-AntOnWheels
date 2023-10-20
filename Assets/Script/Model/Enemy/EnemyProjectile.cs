@@ -14,9 +14,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
             ITargetSeeking<IProjectile>,
             IDestructible<EnemyProjectile>
     {
-        public Transform Transform => transform;
-        public GameObject GameObject => gameObject;
-
         private Rigidbody rb;
         public Rigidbody Rigidbody => rb;
 
@@ -39,12 +36,19 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         public float PursuitInterval => pursuitInterval;
         public Coroutine PursuitRoutine { get; private set; }
 
+        [SerializeField]
+        private ParticleSystem impactVFX;
+
+        [SerializeField]
+        private float impactVFXDuration;
+
         public event EventHandler<EnemyProjectile> OnDestroy;
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
+            OnDestroy += (object sender, EnemyProjectile projectile) => PlayImpactVFX();
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -105,7 +109,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
             rb.isKinematic = false;
             OnDestroy?.Invoke(this, this);
             Destroy(gameObject);
-            //gameObject.SetTimeOut(.5f, () => Destroy(gameObject)); // delay .5f before destroy -> explode?
+        }
+
+        private void PlayImpactVFX()
+        {
+            impactVFX.transform.SetParent(null, true);
+            impactVFX.transform.rotation = Quaternion.LookRotation(Vector3.up);
+            impactVFX.Play();
+            gameObject.SetTimeOut(impactVFXDuration, () => Destroy(impactVFX.gameObject));
         }
     }
 }

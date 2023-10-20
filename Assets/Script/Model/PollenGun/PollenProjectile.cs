@@ -10,9 +10,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
     public abstract class PollenProjectile : MonoBehaviour, IProjectile
     {
-        public Transform Transform => transform;
-        public GameObject GameObject => gameObject;
-
         private Rigidbody rb;
 
         [SerializeField]
@@ -23,6 +20,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private LayerMask interceptedBy;
         public LayerMask InterceptedBy => interceptedBy;
         public LayerMask DestroyedBy => interceptedBy;
+
+        [SerializeField]
+        private ParticleSystem impactVFX;
+        protected ParticleSystem ImpactVFX => impactVFX;
+
+        [SerializeField]
+        private float impactVFXDuration;
+        public float ExplosionVFXDuration => impactVFXDuration;
 
         public IDamaging.Target TargetType => IDamaging.Target.Enemy;
 

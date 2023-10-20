@@ -53,6 +53,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         [SerializeField]
         private float thrusterForce;
+        internal float ThrusterForce
+        {
+            set => thrusterForce = value;
+        }
 
         [SerializeField]
         private float thrusterDeteriorateRate;

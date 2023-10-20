@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 {
-    public sealed class TorpedoSloMo : ScriptedEvent<TorpedoTrigger>
+    public sealed class TorpedoSloMo : ScriptedEvent<TrapTrigger>
     {
         [SerializeField]
         private float sloMoTimeScale = .5f;

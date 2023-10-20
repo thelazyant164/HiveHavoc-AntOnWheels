@@ -1,9 +1,5 @@
 using Cinemachine;
-using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
-using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
 using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent

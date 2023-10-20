@@ -38,7 +38,23 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private T projectile;
         public T Projectile => projectile;
 
+        [SerializeField]
+        private ParticleSystem muzzleFlash;
+
         public event EventHandler<T> OnShoot;
+
+        private void Awake()
+        {
+            if (muzzleFlash == null)
+            {
+                Debug.LogError($"Muzzle flash not assigned to {this}");
+                return;
+            }
+            OnShoot += (object sender, T projectile) =>
+            {
+                muzzleFlash.Play();
+            };
+        }
 
         public T SpawnProjectile() =>
             GameObject

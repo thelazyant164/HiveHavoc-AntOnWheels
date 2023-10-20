@@ -361,20 +361,18 @@ MonoBehaviour:
   motorForce: 1000
   brakeForce: 100
   steerAngle: 40
+  flightSteerPropulsion: 2500
   thrusterForce: 17500
   thrusterDeteriorateRate: 1
+  forwardFrictionModifier: 5
+  sidewaysFrictionModifier: 10
   maxPitch: 45
   maxRoll: 30
   dampeningThreshold: 10
   dampeningAmount: 3
-  frontLeftWheelCollider: {fileID: 0}
-  frontRightWheelCollider: {fileID: 0}
-  rearLeftWheelCollider: {fileID: 0}
-  rearRightWheelCollider: {fileID: 0}
-  frontLeftWheelTransform: {fileID: 357627942936286352}
-  frontRightWheelTransform: {fileID: 2612968343891118403}
-  rearLeftWheelTransform: {fileID: 377445838432007059}
-  rearRightWheelTransform: {fileID: 5221533784940009600}
+  wheels:
+    m_keys: 
+    m_values: []
 --- !u!114 &2844326706716944533
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
 using System;
 using System.Collections;
@@ -11,8 +12,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player
     [RequireComponent(typeof(Rigidbody))]
     public sealed class VehicleHealth : MonoBehaviour, IDamageable, IMovable, IProgressBar
     {
-        public Transform Transform => transform;
-        public GameObject GameObject => gameObject;
         private Rigidbody rb;
 
         [SerializeField]
@@ -87,5 +86,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
+
+        public void Register(IServiceProvider<RespawnTrigger> provider) { }
     }
 }

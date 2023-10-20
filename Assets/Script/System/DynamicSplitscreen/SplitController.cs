@@ -8,6 +8,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
     [RequireComponent(typeof(UnityEngine.Camera))]
     public sealed class SplitController : MonoBehaviour
     {
+        [SerializeField]
+        private bool hasUI = false;
+
+        [SerializeField, ShowWhen("hasUI", true)]
+        private UnityEngine.Camera UICamera;
+
         private new UnityEngine.Camera camera;
 
         [SerializeField]
@@ -24,8 +30,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
             SplitManager.Instance.Register(this, role);
         }
 
-        internal void AdjustTo(Split newSplit, float time) =>
+        internal void AdjustTo(Split newSplit, float time)
+        {
+            if (hasUI)
+            {
+                UICamera?.gameObject.SetActive(newSplit.weight != 0);
+            }
             StartCoroutine(AdaptTo(newSplit, time));
+        }
 
         private IEnumerator AdaptTo(Split newSplit, float time)
         {

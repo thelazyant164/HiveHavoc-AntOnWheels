@@ -7,26 +7,26 @@ using Cinemachine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 {
-    public sealed class TorpedoDemoFocus : ScriptedEvent<TorpedoTrigger>
+    public sealed class TorpedoDemoFocus : ScriptedEvent<TrapTrigger>
     {
         [SerializeField]
-        private TorpedoShooter torpedoShooter;
+        private TrapShooter trapShooter;
 
         [SerializeField]
-        private CinemachineVirtualCamera torpedoDemoFocusCamera;
+        private CinemachineVirtualCamera trapDemoFocusCamera;
         private CinemachineVirtualCamera mainCamera;
 
         protected override void Awake()
         {
             base.Awake();
-            torpedoShooter.OnShoot += (object sender, Torpedo torpedo) =>
-                torpedoDemoFocusCamera.LookAt = torpedo.transform;
+            trapShooter.OnShoot += (object sender, EnemyProjectile projectile) =>
+                trapDemoFocusCamera.LookAt = projectile.transform;
         }
 
         protected override void TriggerCallback()
         {
             mainCamera = cameraManager[Role.Shooter].MainCamera;
-            cameraManager[Role.Shooter].SwitchCamera(torpedoDemoFocusCamera);
+            cameraManager[Role.Shooter].SwitchCamera(trapDemoFocusCamera);
             PlayerManager.Instance.Shooter.gameObject.SetActive(false);
         }
 

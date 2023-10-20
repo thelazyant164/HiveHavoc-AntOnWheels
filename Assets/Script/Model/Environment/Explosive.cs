@@ -1,4 +1,5 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,8 +9,11 @@ using UnityEngine;
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 {
     [RequireComponent(typeof(Rigidbody), typeof(Collider))]
-    public class Explosive : MonoBehaviour, IExplosive<Explosive>
+    public class Explosive : MonoBehaviour, IExplosive<Explosive>, IRespawnable
     {
+        private Rigidbody rb;
+        protected Rigidbody Rb => rb;
+
         public Transform Transform => transform;
         public GameObject GameObject => gameObject;
 
@@ -39,11 +43,21 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         private float damage;
         public float Damage => damage;
 
+        [SerializeField]
+        private float particleDuration;
+        public float ExplosionVFXDuration => particleDuration;
+
+        private ParticleSystem particle;
+        public ParticleSystem ExplosionVFX => particle;
+
         public event EventHandler OnExplode;
         public event EventHandler<Explosive> OnDestroy;
 
         protected virtual void Awake()
         {
+            particle = GetComponentInChildren<ParticleSystem>();
+            rb = GetComponent<Rigidbody>();
+            OnExplode += (object sender, EventArgs e) => PlayExplosionVFX();
             OnExplode += Explode;
         }
 
@@ -68,7 +82,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
             OnExplode?.Invoke(this, EventArgs.Empty);
         }
 
-        public void Explode(object sender, EventArgs e)
+        protected void Explode() => OnExplode?.Invoke(this, EventArgs.Empty);
+
+        public virtual void Explode(object sender, EventArgs e)
         {
             OnExplode -= Explode; // only explodes once
 
@@ -89,7 +105,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
                 }
             }
             // DebugExtension.DrawWireSphere(transform.position, blastRadius, Color.red, 1f);
-            // gameObject.SetTimeOut(.5f, () => Destroy(gameObject)); // destroys self after .5f -> play explosion animation?
             Destroy(gameObject);
         }
 
@@ -109,6 +124,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
                 })
                 .Where(entity => entity != null);
             return dynamicEntities;
+        }
+
+        public void PlayExplosionVFX()
+        {
+            particle.transform.SetParent(null, true);
+            particle.transform.rotation = Quaternion.LookRotation(Vector3.up);
+            particle.Play();
+            gameObject.SetTimeOut(particleDuration, () => Destroy(particle.gameObject));
         }
     }
 }

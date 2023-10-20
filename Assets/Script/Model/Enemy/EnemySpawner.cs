@@ -9,9 +9,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 {
     public sealed class EnemySpawner : MonoBehaviour, IDestructible<EnemySpawner>
     {
-        public Transform Transform => transform;
-        public GameObject GameObject => gameObject;
-
         [SerializeField]
         private Enemy enemyPrefab;
         private Transform spawnPosition;

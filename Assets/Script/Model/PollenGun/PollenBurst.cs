@@ -27,6 +27,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         public LayerMask Affected => affected;
         public LayerMask Triggering => InterceptedBy;
 
+        public ParticleSystem ExplosionVFX => ImpactVFX;
+
         public Explosion<PollenBurst> Explosion =>
             new Explosion<PollenBurst>(this, transform.position);
 
@@ -37,6 +39,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         {
             base.Awake();
             BeginCountdown();
+            OnExplode += (object sender, EventArgs e) => PlayExplosionVFX();
             OnExplode += Explode;
         }
 
@@ -108,6 +111,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                     OnExplode?.Invoke(this, EventArgs.Empty);
                 }
             );
+        }
+
+        public void PlayExplosionVFX()
+        {
+            ExplosionVFX.transform.SetParent(null, true);
+            ExplosionVFX.transform.rotation = Quaternion.LookRotation(Vector3.up);
+            ExplosionVFX.Play();
+            gameObject.SetTimeOut(ExplosionVFXDuration, () => Destroy(ExplosionVFX.gameObject));
         }
     }
 }

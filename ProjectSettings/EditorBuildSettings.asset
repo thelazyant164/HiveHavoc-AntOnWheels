@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu/MainMenu.unity
     guid: 4c46b2cde98e7dd49890a53ab28429d6
   - enabled: 1
+    path: Assets/Scenes/Game/Cutscene.unity
+    guid: cd3215f129e2cd549b90375af788c556
+  - enabled: 1
     path: Assets/Scenes/Game/ControllerPicker.unity
     guid: c58c86dab8ec9bc479166c29759b0c3f
   - enabled: 1

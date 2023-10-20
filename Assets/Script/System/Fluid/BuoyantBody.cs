@@ -1,4 +1,5 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
     /// <remarks><see cref="Density"/> and <see cref="RatioToBoundVolume"/> will be overriden by children <see cref="BuoyantBodyComponent"/>s.
     /// <see cref="Volume"/> and <see cref="Rigidbody.mass"/> will be the sum of all children, assuming no physical overlap.</remarks>
     [RequireComponent(typeof(Rigidbody))]
-    public sealed class BuoyantBody : MonoBehaviour, IFloatableBody, IMovable
+    public sealed class BuoyantBody : MonoBehaviour, IFloatableBody, IMovable, IRespawnable
     {
         public Transform Transform => transform;
         public GameObject GameObject => gameObject;
@@ -25,20 +26,30 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
         public float Volume { get; private set; }
 
         [SerializeField]
+        private bool isComposite = false;
+        private Collider mainCollider;
+
+        [SerializeField, ShowWhen("isComposite", false)]
         private float density;
         public float Density => density;
 
-        [SerializeField]
+        [SerializeField, ShowWhen("isComposite", false)]
         private float ratioToBoundVolume;
         public float RatioToBoundVolume => ratioToBoundVolume;
 
-        [SerializeField]
+        [SerializeField, ShowWhen("isComposite", false)]
         private float explosionUpwardForceModifier;
+
         public float ExplosionUpwardForceModifier => explosionUpwardForceModifier;
 
         private void Awake()
         {
             Rigidbody = GetComponent<Rigidbody>();
+            if (!isComposite)
+            {
+                if (!TryGetComponent(out mainCollider))
+                    Debug.LogError("No collider detected on BuoyantBody marked as non-composite");
+            }
         }
 
         private void Start()
@@ -58,7 +69,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
 
         public void RegisterFloatPoints()
         {
-            if (TryGetComponent(out Collider floatingCollider))
+            if (!isComposite)
             {
                 FloatPoints = GetComponentsInChildren<BuoyantPoint>().Length;
                 return;
@@ -69,12 +80,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
 
         public void ResetMass()
         {
-            if (TryGetComponent(out Collider floatingCollider))
+            if (!isComposite)
             {
-                Volume = floatingCollider.GetBoundVolume() * ratioToBoundVolume;
+                Volume = mainCollider.GetBoundVolume() * ratioToBoundVolume;
                 Rigidbody.mass = density * Volume;
 
-                SubmergedDimensionDepth = floatingCollider.bounds.size.y;
+                SubmergedDimensionDepth = mainCollider.bounds.size.y;
                 return;
             }
 

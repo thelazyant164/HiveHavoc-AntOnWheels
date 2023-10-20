@@ -1,4 +1,5 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
 using System;
 using System.Collections;
 using System.Collections.Generic;
