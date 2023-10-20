@@ -60,7 +60,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         private void Start()
         {
-            Register(GameManager.Instance);
+            Register(ServiceManager.Instance.AimService);
 
             Shooter shooter = PlayerManager.Instance.Shooter;
             shooter.OnAim += OnAim;

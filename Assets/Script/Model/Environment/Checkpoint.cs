@@ -6,11 +6,7 @@ using UnityEngine;
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
 {
     [RequireComponent(typeof(Collider))]
-    public sealed class Checkpoint
-        : MonoBehaviour,
-            ITrigger<Checkpoint>,
-            IServiceProvider<Checkpoint>,
-            IService<Checkpoint>
+    public sealed class Checkpoint : MonoBehaviour, ITrigger<Checkpoint>
     {
         [SerializeField]
         private LayerMask receptible;
@@ -27,7 +23,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
 
         private void Start()
         {
-            Register(this);
+            CheckpointManager.Instance.Register(this);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -41,16 +37,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
         private void OnDestroy()
         {
             OnTerminate?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void Register(Checkpoint service)
-        {
-            CheckpointManager.Instance.Register(this);
-        }
-
-        public void Register(IServiceProvider<Checkpoint> provider)
-        {
-            CheckpointManager.Instance.Register(this);
         }
     }
 }

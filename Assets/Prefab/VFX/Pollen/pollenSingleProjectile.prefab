@@ -5139,7 +5139,7 @@ MonoBehaviour:
   damage: 1
   interceptedBy:
     serializedVersion: 2
-    m_Bits: 8128
+    m_Bits: 8000
   impactVFX: {fileID: 7063767712537730522}
   impactVFXDuration: 2
 --- !u!1 &1799161408891886

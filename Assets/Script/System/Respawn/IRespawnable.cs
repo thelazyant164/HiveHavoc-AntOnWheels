@@ -10,7 +10,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
         Movable
     }
 
-    public struct RespawnableData
+    public class RespawnableData
     {
         private readonly RespawnableType type;
         private Vector3 position;
@@ -39,12 +39,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
         {
             if (obj == null && respawned == null && type is RespawnableType.Destructible)
             {
-                GameObject reconstructed = GameObject.Instantiate(
-                    template.GameObject,
-                    template.Transform.parent
-                );
-                reconstructed.SetActive(true);
-                respawned = reconstructed;
+                respawned = GameObject.Instantiate(template.GameObject, template.Transform.parent);
+                respawned.SetActive(true);
             }
             else if (obj is IMovable movable)
             {

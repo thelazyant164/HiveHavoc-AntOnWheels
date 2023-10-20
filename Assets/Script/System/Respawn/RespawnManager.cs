@@ -7,10 +7,9 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
 {
-    public sealed class RespawnManager : Singleton<RespawnManager>, IServiceProvider<RespawnTrigger>
+    public sealed class RespawnManager : Singleton<RespawnManager>
     {
         private Dictionary<GameObject, RespawnableData> dynamicCache = new();
-        public event EventHandler<RespawnTrigger> OnAvailable;
         public event EventHandler<GameObject> OnRespawn;
 
         private void Awake()
@@ -33,7 +32,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
                 Cache(dynamic);
             }
             service.OnTrigger += (object sender, EventArgs e) => ResetAll(service.Respawnables);
-            OnAvailable?.Invoke(this, service);
         }
 
         private void Cache(GameObject dynamic)

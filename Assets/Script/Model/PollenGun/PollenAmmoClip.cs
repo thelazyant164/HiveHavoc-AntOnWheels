@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
-    public sealed class PollenAmmoClip : MonoBehaviour, IDepletableAmmo
+    public sealed class PollenAmmoClip : MonoBehaviour, IDepletableAmmo, IService<PollenAmmoClip>
     {
         [Header("Current")]
         [SerializeField]
@@ -38,10 +38,17 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private float restockTime;
 
+        internal event EventHandler<bool> OnReload;
+
         private void Awake()
         {
             ammo = maxAmmo;
             ammoStock = maxAmmoStock;
+        }
+
+        private void Start()
+        {
+            Register(ServiceManager.Instance.ReloadService);
         }
 
         public void Consume(int ammo)
@@ -63,6 +70,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 Debug.LogError($"{this} trying to reload when ammo stock is empty");
                 return;
             }
+            OnReload?.Invoke(this, true);
             reloading = true;
             gameObject.SetTimeOut(
                 reloadTime,
@@ -71,10 +79,24 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                     ammo = maxAmmo;
                     ammoStock--;
                     reloading = false;
+                    OnReload?.Invoke(this, false);
                 }
             );
         }
 
-        public void Restock() => gameObject.SetTimeOut(restockTime, () => ammoStock = maxAmmoStock);
+        public void Restock()
+        {
+            OnReload?.Invoke(this, true);
+            gameObject.SetTimeOut(
+                restockTime,
+                () =>
+                {
+                    ammoStock = maxAmmoStock;
+                    OnReload?.Invoke(this, false);
+                }
+            );
+        }
+
+        public void Register(IServiceProvider<PollenAmmoClip> provider) => provider.Register(this);
     }
 }

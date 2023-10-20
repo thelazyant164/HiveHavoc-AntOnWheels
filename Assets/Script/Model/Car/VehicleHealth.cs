@@ -86,7 +86,5 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Player
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
-
-        public void Register(IServiceProvider<RespawnTrigger> provider) { }
     }
 }

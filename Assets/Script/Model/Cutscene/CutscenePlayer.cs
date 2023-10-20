@@ -17,8 +17,17 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Cutscene
 
         private Image skipped;
         private VideoPlayer player;
-        private List<Sprite> statics = new();
-        private List<VideoClip> content = new();
+
+        [SerializeField]
+        private List<Sprite> statics;
+
+        [SerializeField]
+        private List<VideoClip> content;
+
+        private static int CompareByNumericName<T>(T a, T b) where T : UnityEngine.Object
+        {
+            return Int32.Parse(a.name).CompareTo(Int32.Parse(b.name));
+        }
 
         [SerializeField]
         private int playing = 0;
@@ -45,10 +54,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Cutscene
                 }
             };
 
-            player.loopPointReached += (VideoPlayer playback) =>
-            {
-                Next();
-            };
+            player.started += (VideoPlayer playback) => skipped.sprite = statics[playing];
+
+            player.loopPointReached += (VideoPlayer playback) => Next();
 
             Setup();
             Init();
@@ -65,6 +73,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Cutscene
             content = Resources.LoadAll(playbackPath, typeof(VideoClip)).Cast<VideoClip>().ToList();
             statics = Resources.LoadAll(staticPath, typeof(Sprite)).Cast<Sprite>().ToList();
 
+            content.Sort(CompareByNumericName);
+            statics.Sort(CompareByNumericName);
+
             Assert.AreEqual(content.Count, statics.Count);
         }
 
@@ -74,14 +85,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Cutscene
             player.clip = content[playing];
             skipped.sprite = statics[playing];
             player.Play();
-            skipped.enabled = false;
         }
 
         private void Skip()
         {
             player.Pause();
             player.enabled = false;
-            skipped.enabled = true;
         }
 
         private void Next()
@@ -98,10 +107,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Cutscene
             if (playing < content.Count)
             {
                 player.clip = content[playing];
-                skipped.sprite = statics[playing];
             }
             player.Play();
-            skipped.enabled = false;
         }
     }
 }

@@ -16,9 +16,27 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         public event EventHandler OnTrigger;
         public event EventHandler OnTerminate;
 
+        private bool triggered = false;
+
+        [SerializeField]
+        private bool playOnceOnly = false;
+
+        private void Awake()
+        {
+            OnTrigger += (object sender, EventArgs e) => triggered = true;
+        }
+
+        private void Start()
+        {
+            if (!playOnceOnly)
+            {
+                GameManager.Instance.OnRespawn += (object sender, EventArgs e) => triggered = false;
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.InLayerMask(receptible))
+            if (!triggered && other.gameObject.InLayerMask(receptible))
             {
                 // Debug.LogWarning($"Trigger activated on contact with {collision.gameObject}");
                 OnTrigger?.Invoke(this, EventArgs.Empty);

@@ -22,7 +22,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
         Lose
     }
 
-    public sealed class GameManager : Singleton<GameManager>, IServiceProvider<PollenGun>
+    public sealed class GameManager : Singleton<GameManager>
     {
         internal VehicleMovement Vehicle { get; private set; }
         public event EventHandler<GameState> OnGameStateChange;
@@ -30,7 +30,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
         private TimescaleManager timescaleManager;
         private PauseManager pauseManager;
 
-        public event EventHandler<PollenGun> OnAvailable;
+        internal event EventHandler OnRespawn;
 
         private void Awake()
         {
@@ -63,14 +63,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
             vehicle.OnDeath += (object sender, EventArgs e) =>
                 OnGameStateChange?.Invoke(sender, GameState.Lose);
 
-        public void Register(PollenGun gun) => OnAvailable?.Invoke(this, gun);
-
         internal void RegisterTerminalTrigger(TerminalStateTrigger trigger) =>
             trigger.OnTerminate += (object sender, TerminalState state) =>
             {
                 if (state == TerminalState.Lose)
                 {
                     Vehicle.Respawn(checkpointManager.LatestCheckpoint);
+                    OnRespawn?.Invoke(this, EventArgs.Empty);
                     return;
                 }
                 OnGameStateChange?.Invoke(sender, GameState.Win);

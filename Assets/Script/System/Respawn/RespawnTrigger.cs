@@ -8,10 +8,7 @@ using UnityEngine;
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
 {
     [RequireComponent(typeof(Collider))]
-    public sealed class RespawnTrigger
-        : MonoBehaviour,
-            ITrigger<RespawnTrigger>,
-            IService<RespawnTrigger>
+    public sealed class RespawnTrigger : MonoBehaviour, ITrigger<RespawnTrigger>
     {
         [SerializeField]
         private LayerMask receptible;
@@ -31,7 +28,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
 
         private void Start()
         {
-            Register(RespawnManager.Instance);
+            RespawnManager.Instance.Register(this);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -41,7 +38,5 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
                 OnTrigger?.Invoke(this, EventArgs.Empty);
             }
         }
-
-        public void Register(IServiceProvider<RespawnTrigger> provider) => provider.Register(this);
     }
 }

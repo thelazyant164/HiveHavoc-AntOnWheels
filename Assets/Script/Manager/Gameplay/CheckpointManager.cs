@@ -5,9 +5,7 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
 {
-    public sealed class CheckpointManager
-        : Singleton<CheckpointManager>,
-            IServiceConsumer<Checkpoint>
+    public sealed class CheckpointManager : Singleton<CheckpointManager>
     {
         [SerializeField]
         private Checkpoint latestCheckpoint;
@@ -27,13 +25,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
             Instance = this;
         }
 
-        public void Register(IServiceProvider<Checkpoint> provider)
-        {
-            if (provider is Checkpoint checkpoint)
-            {
-                checkpoint.OnTrigger += (object sender, EventArgs e) =>
-                    latestCheckpoint = checkpoint;
-            }
-        }
+        public void Register(Checkpoint checkpoint) =>
+            checkpoint.OnTrigger += (object sender, EventArgs e) => latestCheckpoint = checkpoint;
     }
 }
