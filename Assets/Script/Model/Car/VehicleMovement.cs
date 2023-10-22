@@ -21,6 +21,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
     public sealed class VehicleMovement : MonoBehaviour
     {
+
         [Header("Current input")]
         [SerializeField]
         private float throttle;
@@ -120,6 +121,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             HandleMotor(throttle);
             HandleBrake(brake);
             HandleSteer(steer);
+            ApplyFlipTorque();
         }
 
         private void Reset()
@@ -208,14 +210,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             // Ensure angles are between 0 and 360
             if (eulerRotation.x > 180)
                 eulerRotation.x -= 360;
-            if (eulerRotation.z > 180)
-                eulerRotation.z -= 360;
+            // if (eulerRotation.z > 180)
+            //     eulerRotation.z -= 360;
 
             eulerRotation.x = Mathf.Clamp(eulerRotation.x, -maxPitch, maxPitch);
-            eulerRotation.z = Mathf.Clamp(eulerRotation.z, -maxRoll, maxRoll);
+            // eulerRotation.z = Mathf.Clamp(eulerRotation.z, -maxRoll, maxRoll);
 
             transform.eulerAngles = eulerRotation;
-
             // Debug.Log("Roll Amount: " + eulerRotation.z);
         }
 
@@ -228,19 +229,35 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
                 maxPitch,
                 eulerRotation.x
             );
-            float rollDampening = Mathf.InverseLerp(
-                maxRoll - dampeningThreshold,
-                maxRoll,
-                eulerRotation.z
-            );
+            // float rollDampening = Mathf.InverseLerp(
+            //     maxRoll - dampeningThreshold,
+            //     maxRoll,
+            //     eulerRotation.z
+            // );
 
             Vector3 angularVelocity = rb.angularVelocity;
             angularVelocity.x *= pitchDampening / dampeningAmount;
-            angularVelocity.z *= rollDampening / dampeningAmount;
+            // angularVelocity.z *= rollDampening / dampeningAmount;
             rb.angularVelocity = angularVelocity;
             //Debug.Log(
             //    "Roll Dampening: " + rollDampening + ", AngularVelocity: " + angularVelocity.z
             //);
+        }
+        private void ApplyFlipTorque()
+        {
+            // Check if the vehicle is upside down
+            if (Vector3.Dot(transform.up, Vector3.down) > -0.5f)  // Adjust the threshold as needed
+            {
+                // Apply torque to right the vehicle
+                StartCoroutine(ApplyFlipTorqueCoroutine());
+            }
+        }
+        private IEnumerator ApplyFlipTorqueCoroutine()
+        {
+            // Apply torque to right the vehicle
+            rb.AddTorque(rb.transform.forward * Time.deltaTime * 9000f, ForceMode.Impulse);  // Adjust the torque value as needed
+
+            yield return new WaitForSeconds(3);  // Wait for 1 secs
         }
     }
 }
