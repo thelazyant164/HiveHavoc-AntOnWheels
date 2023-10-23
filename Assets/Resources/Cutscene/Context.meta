@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Package/GabrielAguiarProductions/Unique_Projectiles_Volume_1/HDRP/UniqueProjectilesVol1_HDRP_2018.3.7f1.unitypackage.meta
+guid: e0f109c23ce42f945b3e5e99e976b1d4
+========
 guid: 39bc711f1caf2104b9f1edfd49d80569
 folderAsset: yes
+>>>>>>>> 4eca077 (Stuff):Assets/Resources/Cutscene/Context.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

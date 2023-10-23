@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Script/Model/Car/CP - CarPhysics.meta
-guid: e2e71c45e83cadb4984c7cafe2efaf39
-========
 guid: 1693987da0f9d154bb311ef6be6ff461
->>>>>>>> remote/merge-levels:Assets/Script/System/Cinematic.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

@@ -39,8 +39,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Cutscene
         private string nextScene;
 
         // TODO: make generic interface
-        // [SerializeField, ShowWhen("transitionSceneWhenDone", false)]
-        // private CutscenePlayer nextCutscene;
+        [SerializeField, ShowWhen("transitionSceneWhenDone", false)]
+        private CutscenePlayer nextCutscene;
 
         private event EventHandler OnSkip;
 
@@ -127,7 +127,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Cutscene
                 SceneManager.LoadSceneAsync(nextScene, LoadSceneMode.Single);
                 return;
             }
-            // nextCutscene?.Play();
+            nextCutscene?.Play();
         }
     }
 }
