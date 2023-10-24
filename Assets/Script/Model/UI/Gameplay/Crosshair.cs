@@ -86,9 +86,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
             {
                 if (reloadInProgress)
                 {
-                    reloading.transform.Rotate(Vector3.forward, -5f);
+                    reloading.transform.Rotate(Vector3.forward, -1f);
                 }
-                yield return new WaitForFixedUpdate();
+                yield return new WaitForEndOfFrame();
             }
         }
     }

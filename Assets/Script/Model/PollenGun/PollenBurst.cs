@@ -10,6 +10,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
     public sealed class PollenBurst : PollenProjectile, IPrimedExplosive<PollenBurst>
     {
+        [Space]
+        [Header("Explosive")]
         [SerializeField]
         private float countdown;
         public float Countdown => countdown;
@@ -97,6 +99,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         public override void Destroy()
         {
+            AudioSource.PlayClipAtPoint(ImpactSFX, transform.position);
             OnDestroy?.Invoke(this, this);
             OnExplode?.Invoke(this, EventArgs.Empty);
         }

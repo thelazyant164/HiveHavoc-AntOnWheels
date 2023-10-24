@@ -5139,15 +5139,16 @@ MonoBehaviour:
   damage: 10
   interceptedBy:
     serializedVersion: 2
-    m_Bits: 8000
+    m_Bits: 3904
   impactVFX: {fileID: 745882522608593541}
   impactVFXDuration: 2
+  impactSFX: {fileID: 8300000, guid: 3da929b8995bc174884bb04fed4f23dc, type: 3}
   countdown: 1
   blastRadius: 5
   blastForce: 300000
   affected:
     serializedVersion: 2
-    m_Bits: 7360
+    m_Bits: 3264
 --- !u!1 &1799161408891886
 GameObject:
   m_ObjectHideFlags: 0

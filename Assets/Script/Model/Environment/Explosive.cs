@@ -1,5 +1,6 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Combat;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 
         public Transform Transform => transform;
         public GameObject GameObject => gameObject;
+
+        [SerializeField]
+        private AudioClip explosionAudio;
 
         [Header("Explosive config")]
         [SerializeField]
@@ -104,6 +108,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
                     movable.ReactTo(Explosion);
                 }
             }
+            AudioSource.PlayClipAtPoint(explosionAudio, transform.position);
             // DebugExtension.DrawWireSphere(transform.position, blastRadius, Color.red, 1f);
             Destroy(gameObject);
         }

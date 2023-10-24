@@ -26,8 +26,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         [Space]
         [Header("Constraint")]
-        [SerializeField]
-        private float minAltitudeX = 320;
+        [SerializeField, Range(-180, 0)]
+        private float minAngle = -30;
+
+        [SerializeField, Range(0, 180)]
+        private float maxAngle = 90;
 
         [Space]
         [Header("Ammo types")]
@@ -49,6 +52,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private LayerMask aimInterest;
         public LayerMask AimInterest => aimInterest;
+
+        [Space]
+        [Header("SFX")]
+        [SerializeField]
+        private AudioSource ammoAudio;
+
+        [SerializeField]
+        private AudioClip blankSFX;
 
         public event EventHandler<AimTarget> OnAimTargetChange;
 
@@ -89,6 +100,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 ammoClip.Consume(gun.AmmoCost);
                 gun.Shoot();
             }
+            else
+            {
+                ammoAudio.PlayOneShot(blankSFX);
+            }
         }
 
         private void OnReload(object sender, EventArgs e) => ammoClip.Reload();
@@ -98,7 +113,20 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             if (TryAimAz(delta.az))
                 azMount.localRotation *= delta.az;
             if (TryAimAlt(delta.alt))
+            {
                 altMount.localRotation *= delta.alt;
+            }
+            else
+            {
+                altMount.SetLocalPositionAndRotation(
+                    altMount.localPosition,
+                    Quaternion.Euler(
+                        ClampOriginalRotationX(altMount.localRotation, minAngle, maxAngle),
+                        altMount.localRotation.y,
+                        altMount.localRotation.z
+                    )
+                );
+            }
         }
 
         public bool TryGetAimTarget(out AimTarget result)
@@ -120,7 +148,34 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         {
             Quaternion rot = altMount.localRotation;
             rot *= deltaAlt;
-            return minAltitudeX < rot.eulerAngles.x;
+
+            float currentRot = GetNormalizedRotationX(rot);
+            return minAngle <= currentRot && currentRot <= maxAngle;
         }
+
+        private float ClampOriginalRotationX(
+            Quaternion quat,
+            float minNormalized,
+            float maxNormalized
+        )
+        {
+            float normalizedX = GetNormalizedRotationX(quat);
+            float clampedNormalized = ClampNormalizedRotationX(
+                normalizedX,
+                minNormalized,
+                maxNormalized
+            );
+            float original = GetOriginalRotationX(clampedNormalized);
+            return original;
+        }
+
+        private float GetNormalizedRotationX(Quaternion quat) =>
+            quat.eulerAngles.x >= 180 ? 360 - quat.eulerAngles.x : -quat.eulerAngles.x;
+
+        private float ClampNormalizedRotationX(float normalizedX, float minAngle, float maxAngle) =>
+            Mathf.Clamp(normalizedX, minAngle, maxAngle);
+
+        private float GetOriginalRotationX(float normalizedX) =>
+            normalizedX >= 0 ? 360 - normalizedX : -normalizedX;
     }
 }

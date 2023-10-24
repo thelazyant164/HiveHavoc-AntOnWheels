@@ -11,6 +11,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
     {
         public Rigidbody Rigidbody { get; private set; }
         public int FloatPoints { get; private set; }
+
         [SerializeField]
         private float submergedDimensionDepth;
         public float SubmergedDimensionDepth => submergedDimensionDepth;

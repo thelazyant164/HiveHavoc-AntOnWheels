@@ -68,12 +68,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631a286a61bf01a4db60d82e88342a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popAudio: {fileID: 8300000, guid: e5c5431fe976f03468c738388487e23a, type: 3}
   receptible:
     serializedVersion: 2
     m_Bits: 128
   destroyedBy:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 6144
   pickUpVFXDuration: 2
   pickUpVFX: {fileID: 1546476646839837694}
 --- !u!1001 &1714006304847334378

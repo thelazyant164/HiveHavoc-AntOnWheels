@@ -10,6 +10,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
     {
         internal AimService AimService { get; private set; }
         internal ReloadService ReloadService { get; private set; }
+        internal HotspotHighlightService HotspotHighlightService { get; private set; }
 
         private void Awake()
         {
@@ -25,6 +26,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
 
             AimService = GetComponentInChildren<AimService>();
             ReloadService = GetComponentInChildren<ReloadService>();
+            HotspotHighlightService = GetComponentInChildren<HotspotHighlightService>();
         }
     }
 }

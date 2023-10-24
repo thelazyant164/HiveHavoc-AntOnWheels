@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 {
@@ -16,6 +17,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         private CinemachineVirtualCamera trapDemoFocusCamera;
         private CinemachineVirtualCamera mainCamera;
 
+        [SerializeField]
+        private AudioClip audioAlert;
+
         protected override void Awake()
         {
             base.Awake();
@@ -27,13 +31,19 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         {
             mainCamera = cameraManager[Role.Shooter].MainCamera;
             cameraManager[Role.Shooter].SwitchCamera(trapDemoFocusCamera);
-            PlayerManager.Instance.Shooter.gameObject.SetActive(false);
+
+            UIManager.Instance.Audio.PlayOneShot(audioAlert);
+
+            PlayerManager.Instance.Shooter.gameObject.SetActive(false); // disable shooter controls
+            UIManager.Instance.Crosshair.gameObject.SetActive(false); // disable crosshair to takeaway false affordance
         }
 
         protected override void TerminateCallback()
         {
             cameraManager[Role.Shooter].SwitchCamera(mainCamera);
+
             PlayerManager.Instance.Shooter.gameObject.SetActive(true);
+            UIManager.Instance.Crosshair.gameObject.SetActive(true);
         }
     }
 }

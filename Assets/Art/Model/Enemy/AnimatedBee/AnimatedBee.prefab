@@ -2325,7 +2325,7 @@ Transform:
   - {fileID: 1398995806242870793}
   - {fileID: 6851059074344009921}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2305865787348033034
 Animator:
@@ -2361,7 +2361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teleportVFX: {fileID: 0}
-  duration: 1
+  teleportDuration: 0
 --- !u!1 &5426231272670281503
 GameObject:
   m_ObjectHideFlags: 0
@@ -3645,30 +3645,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1661707786246352, guid: e6f9f8005e060234ba5a08b9cd77a07d,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 581889250978792672}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6f9f8005e060234ba5a08b9cd77a07d, type: 3}
---- !u!1 &6847632358903820755 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1661707786246352, guid: e6f9f8005e060234ba5a08b9cd77a07d,
-    type: 3}
-  m_PrefabInstance: {fileID: 6846115789808822531}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &581889250978792672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6847632358903820755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3035c04a19b6122499d54da567753730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6851059074344009921 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4947682665867714, guid: e6f9f8005e060234ba5a08b9cd77a07d,

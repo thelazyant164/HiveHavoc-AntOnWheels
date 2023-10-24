@@ -1,16 +1,16 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
     [RequireComponent(typeof(Collider))]
     public sealed class PollenAmmo : MonoBehaviour, IPickUp<PollenAmmo>
     {
+        [SerializeField]
+        private AudioClip popAudio;
+
         [SerializeField]
         private LayerMask receptible;
         public LayerMask Receptible => receptible;
@@ -64,6 +64,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         public void Destroy()
         {
             OnDestroy?.Invoke(this, this);
+            AudioSource.PlayClipAtPoint(popAudio, transform.position);
             Destroy(gameObject);
         }
 

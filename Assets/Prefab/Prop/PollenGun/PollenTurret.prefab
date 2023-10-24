@@ -570,6 +570,9 @@ MonoBehaviour:
   maxAmmoStock: 3
   reloadTime: 3
   restockTime: 1
+  ammoAudio: {fileID: 0}
+  reloadSFX: {fileID: 8300000, guid: bd48b124cfc03c34eb28d249d58f2092, type: 3}
+  restockSFX: {fileID: 8300000, guid: 5d1372d872a261144ad734c80acc4601, type: 3}
 --- !u!114 &1209813810922817301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,7 +587,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   azMount: {fileID: 6524375080536677958}
   altMount: {fileID: 2162064657413699067}
-  minAltitudeX: 320
+  minAngle: -30
+  maxAngle: 60
   ammoType:
     m_keys: 0000000001000000
     m_values:
@@ -594,6 +598,8 @@ MonoBehaviour:
   aimInterest:
     serializedVersion: 2
     m_Bits: 0
+  ammoAudio: {fileID: 0}
+  blankSFX: {fileID: 8300000, guid: c7acc1b906e932741b7d0151c5eb22f6, type: 3}
 --- !u!114 &1179768775434458776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,10 +615,14 @@ MonoBehaviour:
   initialImpulse: 50
   spawn: {fileID: 4014825698217374635}
   nozzle: {fileID: 8094876464514380115}
+  nozzleAudio: {fileID: 0}
   cooldownDuration: 1
   projectile: {fileID: 3385403596886314932, guid: 249cff817fe66f54b8b3fb9ece0f1062,
     type: 3}
   muzzleFlash: {fileID: 7440991358678800244}
+  shootSFX: {fileID: 8300000, guid: ce5056c32161cd541abb58c86fc7110a, type: 3}
+  shootEmptySFX: {fileID: 8300000, guid: c7acc1b906e932741b7d0151c5eb22f6, type: 3}
+  readySFX: {fileID: 8300000, guid: 6b3d9f034e37b3f469287d9c9ec9517d, type: 3}
   ammoCost: 1
 --- !u!114 &1642084773891082085
 MonoBehaviour:
@@ -629,10 +639,14 @@ MonoBehaviour:
   initialImpulse: 100
   spawn: {fileID: 4014825698217374635}
   nozzle: {fileID: 8094876464514380115}
+  nozzleAudio: {fileID: 0}
   cooldownDuration: 3
   projectile: {fileID: 2563597524999299473, guid: f4298b85ca65ac245940bb729a89b373,
     type: 3}
   muzzleFlash: {fileID: 4828450238064896856}
+  shootSFX: {fileID: 8300000, guid: e7e9fcb5edd7b0749b422382d4a265e7, type: 3}
+  shootEmptySFX: {fileID: 8300000, guid: c7acc1b906e932741b7d0151c5eb22f6, type: 3}
+  readySFX: {fileID: 8300000, guid: a7c7d9de53bab6b4aa8b3a54f7e91b85, type: 3}
   ammoCost: 7
 --- !u!1 &3754873487691745623
 GameObject:

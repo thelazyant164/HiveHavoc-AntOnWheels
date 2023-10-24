@@ -1,4 +1,5 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
 using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
@@ -8,12 +9,18 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         [SerializeField]
         private float sloMoTimeScale = .5f;
 
+        [SerializeField]
+        private AudioClip dangerAlert;
+
         protected override void TriggerCallback()
         {
             scriptedEventManager.AdjustScreenSplit(
                 Camera.SplitConfiguration.VerticalShooterEmphasis
             );
             timescaleManager.AdjustTimescale(sloMoTimeScale);
+
+            if (dangerAlert != null)
+                UIManager.Instance.Audio.PlayOneShot(dangerAlert);
         }
 
         protected override void TerminateCallback()

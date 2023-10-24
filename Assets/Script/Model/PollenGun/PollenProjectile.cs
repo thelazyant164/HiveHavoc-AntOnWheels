@@ -12,6 +12,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
     {
         private Rigidbody rb;
 
+        [Space]
+        [Header("Projectile")]
         [SerializeField]
         private float damage;
         public float Damage => damage;
@@ -21,6 +23,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         public LayerMask InterceptedBy => interceptedBy;
         public LayerMask DestroyedBy => interceptedBy;
 
+        [Space]
+        [Header("VFX")]
         [SerializeField]
         private ParticleSystem impactVFX;
         protected ParticleSystem ImpactVFX => impactVFX;
@@ -28,6 +32,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private float impactVFXDuration;
         public float ExplosionVFXDuration => impactVFXDuration;
+
+        [Space]
+        [Header("SFX")]
+        [SerializeField]
+        private AudioClip impactSFX;
+        protected AudioClip ImpactSFX => impactSFX;
 
         public IDamaging.Target TargetType => IDamaging.Target.Enemy;
 

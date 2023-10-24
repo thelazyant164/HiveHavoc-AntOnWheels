@@ -38,6 +38,17 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private float restockTime;
 
+        [Space]
+        [Header("SFX")]
+        [SerializeField]
+        private AudioSource ammoAudio;
+
+        [SerializeField]
+        private AudioClip reloadSFX;
+
+        [SerializeField]
+        private AudioClip restockSFX;
+
         internal event EventHandler<bool> OnReload;
 
         private void Awake()
@@ -55,7 +66,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         {
             if (Ammo < ammo)
             {
-                Debug.LogError($"{this} trying to spend {ammo} from {Ammo} reserve");
+                // Debug.LogWarning($"{this} trying to spend {ammo} from {Ammo} reserve");
                 return;
             }
             this.ammo -= ammo;
@@ -67,11 +78,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 return;
             if (ammoStock == 0)
             {
-                Debug.LogError($"{this} trying to reload when ammo stock is empty");
+                //Debug.LogWarning($"{this} trying to reload when ammo stock is empty");
                 return;
             }
             OnReload?.Invoke(this, true);
             reloading = true;
+            ammoAudio.PlayOneShot(reloadSFX);
             gameObject.SetTimeOut(
                 reloadTime,
                 () =>
@@ -87,6 +99,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         public void Restock()
         {
             OnReload?.Invoke(this, true);
+            ammoAudio.PlayOneShot(restockSFX);
             gameObject.SetTimeOut(
                 restockTime,
                 () =>

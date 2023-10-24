@@ -32,6 +32,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         public override void Destroy()
         {
+            AudioSource.PlayClipAtPoint(ImpactSFX, transform.position);
             OnDestroy?.Invoke(this, this);
             Destroy(gameObject);
         }

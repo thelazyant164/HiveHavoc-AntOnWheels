@@ -22,6 +22,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         public Vector3 Nozzle => nozzle.position;
         public Vector3 AimDirection => (nozzle.position - spawn.position).normalized;
 
+        [SerializeField]
+        protected AudioSource nozzleAudio;
+
         [Space]
         [Header("Cooldown")]
         [SerializeField]
@@ -38,8 +41,21 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private T projectile;
         public T Projectile => projectile;
 
+        [Space]
+        [Header("VFX")]
         [SerializeField]
         private ParticleSystem muzzleFlash;
+
+        [Space]
+        [Header("SFX")]
+        [SerializeField]
+        private AudioClip shootSFX;
+
+        [SerializeField]
+        private AudioClip shootEmptySFX;
+
+        [SerializeField]
+        private AudioClip readySFX;
 
         public event EventHandler<T> OnShoot;
 
@@ -53,6 +69,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             OnShoot += (object sender, T projectile) =>
             {
                 muzzleFlash.Play();
+                nozzleAudio.PlayOneShot(shootSFX);
             };
         }
 
@@ -66,12 +83,22 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         public override void Shoot()
         {
             if (!Ready)
+            {
+                nozzleAudio.PlayOneShot(shootEmptySFX);
                 return;
+            }
             Ready = false;
             T projectile = SpawnProjectile();
             Launch(projectile);
             OnShoot?.Invoke(this, projectile);
-            gameObject.SetTimeOut(CooldownDuration, () => Ready = true);
+            gameObject.SetTimeOut(
+                CooldownDuration,
+                () =>
+                {
+                    Ready = true;
+                    nozzleAudio.PlayOneShot(readySFX);
+                }
+            );
         }
     }
 }
