@@ -20,7 +20,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
             timescaleManager.AdjustTimescale(sloMoTimeScale);
 
             if (dangerAlert != null)
-                UIManager.Instance.Audio.PlayOneShot(dangerAlert);
+                UIManager.Instance.VocalAudio.PlayOneShot(dangerAlert);
         }
 
         protected override void TerminateCallback()

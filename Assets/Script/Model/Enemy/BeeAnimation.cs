@@ -19,6 +19,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         private float teleportDuration;
         private Vector3 originalScale;
 
+        [SerializeField]
+        private AudioClip buzz;
+
         internal event EventHandler<Trajectory> OnEstablish;
 
         private void Awake()
@@ -54,6 +57,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
             }
             transform.parent.localScale = originalScale;
             animator.SetTrigger("Shoot");
+
+            Debug.Log("Play buzz");
+            AudioSource.PlayClipAtPoint(buzz, GameManager.Instance.Vehicle.transform.position);
         }
 
         // TODO: (LIMITATION) due to hotfix of "modifying local scale" to simulate disappear after shoot & only reappear when shoot again, when player die & respawn cannot shoot ahead

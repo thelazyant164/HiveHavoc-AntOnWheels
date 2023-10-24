@@ -2362,6 +2362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teleportVFX: {fileID: 0}
   teleportDuration: 0
+  buzz: {fileID: 8300000, guid: 0027834be20df274f891ca62f86b0ff7, type: 3}
 --- !u!1 &5426231272670281503
 GameObject:
   m_ObjectHideFlags: 0

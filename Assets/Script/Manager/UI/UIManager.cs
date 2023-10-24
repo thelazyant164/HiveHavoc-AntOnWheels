@@ -11,7 +11,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
         private GameManager gameManager;
         internal Crosshair Crosshair { get; private set; }
         internal VehicleHealthBar HealthBar { get; private set; }
-        internal AudioSource Audio { get; private set; }
+
+        [SerializeField]
+        private AudioSource uiAudio;
+        internal AudioSource UIAudio => uiAudio;
+
+        [SerializeField]
+        private AudioSource vocalAudio;
+        internal AudioSource VocalAudio => vocalAudio;
+
+        internal AudioSource Vocal { get; private set; }
         private List<Scene> openedPauseScenesBuffer = new();
 
         private void Awake()
@@ -28,7 +37,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
 
             Crosshair = GetComponentInChildren<Crosshair>();
             HealthBar = GetComponentInChildren<VehicleHealthBar>();
-            Audio = GetComponentInChildren<AudioSource>();
 
             SceneManager.sceneLoaded += (Scene scene, LoadSceneMode mode) =>
             {

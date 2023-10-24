@@ -32,7 +32,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
             mainCamera = cameraManager[Role.Shooter].MainCamera;
             cameraManager[Role.Shooter].SwitchCamera(trapDemoFocusCamera);
 
-            UIManager.Instance.Audio.PlayOneShot(audioAlert);
+            UIManager.Instance.VocalAudio.PlayOneShot(audioAlert);
 
             PlayerManager.Instance.Shooter.gameObject.SetActive(false); // disable shooter controls
             UIManager.Instance.Crosshair.gameObject.SetActive(false); // disable crosshair to takeaway false affordance
