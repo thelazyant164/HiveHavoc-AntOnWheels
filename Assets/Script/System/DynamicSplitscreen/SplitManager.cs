@@ -150,6 +150,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
 
         public static SplitConfiguration VerticalDriverOnly =>
             new SplitConfiguration(Role.Driver, SplitSide.Bottom, 1f);
+
+        public static SplitConfiguration HorizontalDriverOnly =>
+            new SplitConfiguration(Role.Driver, SplitSide.Left, 1f);
     }
 
     public sealed class SplitManager : Singleton<SplitManager>
