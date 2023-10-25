@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3035c04a19b6122499d54da567753730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shootSFX: {fileID: 8300000, guid: a0dae3058e83df44e8e6633f76789a79, type: 3}
 --- !u!1 &1735373116630442
 GameObject:
   m_ObjectHideFlags: 0

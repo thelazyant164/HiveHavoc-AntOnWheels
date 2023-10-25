@@ -30,6 +30,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 
         internal event EventHandler<Trajectory> OnEstablish;
 
+        [SerializeField]
+        private AudioClip shootSFX;
+
         internal void Enable() => gameObject.SetActive(true);
 
         internal void Disable() => gameObject.SetActive(false);
@@ -45,6 +48,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
                 tip = transform.position;
                 Disable();
                 OnEstablish?.Invoke(this, new Trajectory(origin, tip, gameObject));
+                AudioSource.PlayClipAtPoint(shootSFX, tip);
             }
         }
     }

@@ -61,6 +61,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         public static event Action<VehicleMovement> OnLeavingGround = vehicleMovement => { };
         public static event Action<VehicleMovement> OnLanding = vehicleMovement => { };
 
+        internal bool Grounded => !wheels.Values.All(wheel => !wheel.Grounded);
+
         private void Awake()
         {
             rb = GetComponentInChildren<Rigidbody>();

@@ -12,13 +12,20 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         private Animator animator;
         private AnimatedProjectile projectile;
 
+        [Space]
+        [Header("Teleport")]
         [SerializeField]
         private ParticleSystem teleportVFX;
+
+        [SerializeField]
+        private AudioClip teleportSFX;
 
         [SerializeField]
         private float teleportDuration;
         private Vector3 originalScale;
 
+        [Space]
+        [Header("Ambience")]
         [SerializeField]
         private AudioClip buzz;
 
@@ -64,6 +71,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         // TODO: (LIMITATION) due to hotfix of "modifying local scale" to simulate disappear after shoot & only reappear when shoot again, when player die & respawn cannot shoot ahead
         internal void PlayTeleport()
         {
+            AudioSource.PlayClipAtPoint(teleportSFX, transform.position);
             teleportVFX.Play();
             // TODO: (LIMITATION) decouple hierarchy from anim play when teleport away
             transform.parent.localScale = Vector3.zero;
@@ -71,6 +79,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 
         internal void PlayTeleportDetached()
         {
+            AudioSource.PlayClipAtPoint(teleportSFX, transform.position);
             teleportVFX.transform.SetParent(null, true);
             teleportVFX.Play();
             gameObject.SetTimeOut(teleportDuration, () => Destroy(teleportVFX.gameObject));
