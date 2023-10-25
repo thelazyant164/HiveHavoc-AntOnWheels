@@ -58,7 +58,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
             transform.parent.localScale = originalScale;
             animator.SetTrigger("Shoot");
 
-            Debug.Log("Play buzz");
             AudioSource.PlayClipAtPoint(buzz, GameManager.Instance.Vehicle.transform.position);
         }
 

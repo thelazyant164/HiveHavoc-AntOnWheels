@@ -11,12 +11,12 @@ PrefabInstance:
     - target: {fileID: 576791020690265574, guid: f3992a7b44806644c923e13a18f754b0,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9766328
+      value: 0.9766327
       objectReference: {fileID: 0}
     - target: {fileID: 576791020690265574, guid: f3992a7b44806644c923e13a18f754b0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.21491529
+      value: 0.21491528
       objectReference: {fileID: 0}
     - target: {fileID: 576791020690265574, guid: f3992a7b44806644c923e13a18f754b0,
         type: 3}
@@ -26,12 +26,12 @@ PrefabInstance:
     - target: {fileID: 576791020690265574, guid: f3992a7b44806644c923e13a18f754b0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000014901161
+      value: -0.000000026077032
       objectReference: {fileID: 0}
     - target: {fileID: 1432741436399294820, guid: f3992a7b44806644c923e13a18f754b0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1432741436399294820, guid: f3992a7b44806644c923e13a18f754b0,
         type: 3}
@@ -88,10 +88,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: CarCinemachineDynamic
       objectReference: {fileID: 0}
+    - target: {fileID: 7434667983801049875, guid: f3992a7b44806644c923e13a18f754b0,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7716818625766579995, guid: f3992a7b44806644c923e13a18f754b0,
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.000000013038516
+      objectReference: {fileID: 0}
+    - target: {fileID: 7807170763369617610, guid: f3992a7b44806644c923e13a18f754b0,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
