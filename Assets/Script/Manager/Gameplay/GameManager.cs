@@ -24,7 +24,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
 
     public sealed class GameManager : Singleton<GameManager>
     {
-        internal VehicleMovement Vehicle { get; private set; }
+        internal Driver.VehicleMovement Vehicle { get; private set; }
         public event EventHandler<GameState> OnGameStateChange;
         private CheckpointManager checkpointManager;
         private TimescaleManager timescaleManager;
@@ -57,7 +57,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                 OnGameStateChange?.Invoke(sender, pause ? GameState.Pause : GameState.InProgress);
         }
 
-        internal void RegisterVehicle(VehicleMovement vehicle) => Vehicle = vehicle;
+        internal void RegisterVehicle(Driver.VehicleMovement vehicle) => Vehicle = vehicle;
 
         internal void RegisterVehicle(VehicleHealth vehicle) =>
             vehicle.OnDeath += (object sender, EventArgs e) =>
@@ -103,5 +103,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                     break;
             }
         }
+
+
     }
 }
