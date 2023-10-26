@@ -10,10 +10,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         private CinemachineVirtualCamera lakeSequenceDriverCamera;
         [SerializeField]
         private CinemachineVirtualCamera lakeSequenceShooterCamera;
-
-        [SerializeField]
-        private CinemachineVirtualCamera lakeSequenceShooterCamera;
-
+        
         protected override void TriggerCallback()
         {
             scriptedEventManager.AdjustScreenSplit(Camera.SplitConfiguration.VerticalEven);

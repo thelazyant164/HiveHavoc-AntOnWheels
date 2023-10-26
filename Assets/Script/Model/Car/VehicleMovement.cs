@@ -107,7 +107,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             input.accelInput = throttle;
             input.steeringInput = steer;
             input.brake = brake;
-            Debug.Log($"input.steeringInput: {input.steeringInput}, steer: {steer}");
+            // Debug.Log($"input.steeringInput: {input.steeringInput}, steer: {steer}");
 
         }
         private void HandleThruster()

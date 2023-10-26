@@ -20,11 +20,13 @@ public class CpDrag : MonoBehaviour
     public bool freeWheelDragCheck;
 
     private VehicleMovement cpMain;
+    private Rigidbody rb;
 
     private void Awake()
     {
         cpMain = transform.parent.GetComponent<VehicleMovement>();
-        cpMain.rb.angularDrag = angularDrag;
+        rb = transform.GetComponent<Rigidbody>();
+        rb.angularDrag = angularDrag;
     }
     private void Start()
     {
@@ -34,7 +36,7 @@ public class CpDrag : MonoBehaviour
     private void Update()
     {
         UpdateDrag(
-            cpMain.rb,
+            rb,
             cpMain.wheelData.grounded,
             cpMain.input,
             cpMain.speedData
