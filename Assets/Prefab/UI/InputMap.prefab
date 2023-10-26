@@ -52,13 +52,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: {fileID: 2888477096945416585}
-  indicatorSwitchTime: 0.5
+  indicatorSwitchTime: 0.25
   countdown: 3
   roles:
     m_keys: 0000000001000000
     m_values:
     - {fileID: 4546925496807909995}
     - {fileID: 5146591591942002778}
+  gameScene: LakeScene
 --- !u!1 &1576990846406058336
 GameObject:
   m_ObjectHideFlags: 0

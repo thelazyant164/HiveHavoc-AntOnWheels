@@ -9,9 +9,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 {
     public sealed class EnemySpawner : MonoBehaviour, IDestructible<EnemySpawner>
     {
-        public Transform Transform => transform;
-        public GameObject GameObject => gameObject;
-
         [SerializeField]
         private Enemy enemyPrefab;
         private Transform spawnPosition;
@@ -22,6 +19,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
 
         [SerializeField]
         private float spawnCooldown = 5f;
+
+        [SerializeField]
+        private LayerMask destroyedBy;
+        public LayerMask DestroyedBy => destroyedBy;
 
         private Coroutine spawn;
         private EnemyManager enemyManager;

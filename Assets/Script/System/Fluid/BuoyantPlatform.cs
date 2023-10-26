@@ -1,5 +1,6 @@
 using Bitgem.VFX.StylisedWater;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
 {
     [RequireComponent(typeof(Collider), typeof(Rigidbody))]
-    public sealed class BuoyantPlatform : MonoBehaviour, IFloatable, IMovable
+    public sealed class BuoyantPlatform : MonoBehaviour, IFloatable, IMovable, IRespawnable
     {
         public Transform Transform => transform;
         public GameObject GameObject => gameObject;

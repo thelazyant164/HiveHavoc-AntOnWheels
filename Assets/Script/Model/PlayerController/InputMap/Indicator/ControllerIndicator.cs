@@ -40,6 +40,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
         private InputAction unreadyAction;
         internal Role Role { get; private set; }
 
+        private Coroutine switching;
+
         internal event EventHandler<Direction> OnSwitch;
         internal event EventHandler<ControllerMap> OnReady;
 
@@ -133,8 +135,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
             Role = role;
             leftPrompt.SetActive(Enum.IsDefined(typeof(Role), (int)role - 1));
             rightPrompt.SetActive(Enum.IsDefined(typeof(Role), (int)role + 1));
-
-            StartCoroutine(
+            if (switching != null)
+                StopCoroutine(switching);
+            switching = StartCoroutine(
                 rect.LerpTo(new Vector3(target.position.x, rect.position.y, rect.position.z), time)
             );
         }

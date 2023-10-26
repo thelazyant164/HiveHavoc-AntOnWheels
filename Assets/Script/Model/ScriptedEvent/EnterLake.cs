@@ -1,9 +1,5 @@
 using Cinemachine;
-using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
-using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
 using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
@@ -13,10 +9,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         [SerializeField]
         private CinemachineVirtualCamera lakeSequenceDriverCamera;
 
+        [SerializeField]
+        private CinemachineVirtualCamera lakeSequenceShooterCamera;
+
         protected override void TriggerCallback()
         {
-            scriptedEventManager.AdjustScreenSplit(Camera.SplitConfiguration.VerticalEven);
             cameraManager[Role.Driver].SwitchCamera(lakeSequenceDriverCamera);
+            cameraManager[Role.Shooter].SwitchCamera(lakeSequenceShooterCamera);
         }
     }
 }

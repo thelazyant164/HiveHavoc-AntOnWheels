@@ -10,6 +10,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
     public sealed class PollenBurst : PollenProjectile, IPrimedExplosive<PollenBurst>
     {
+        [Space]
+        [Header("Explosive")]
         [SerializeField]
         private float countdown;
         public float Countdown => countdown;
@@ -25,7 +27,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private LayerMask affected;
         public LayerMask Affected => affected;
-        public LayerMask Triggering => Blocking;
+        public LayerMask Triggering => InterceptedBy;
+
+        public ParticleSystem ExplosionVFX => ImpactVFX;
 
         public Explosion<PollenBurst> Explosion =>
             new Explosion<PollenBurst>(this, transform.position);
@@ -37,12 +41,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         {
             base.Awake();
             BeginCountdown();
+            OnExplode += (object sender, EventArgs e) => PlayExplosionVFX();
             OnExplode += Explode;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.InLayerMask(Blocking))
+            if (collision.gameObject.InLayerMask(InterceptedBy))
             {
                 //Debug.LogWarning($"Pollen burst exploded on contact with {collision.gameObject}");
                 OnExplode?.Invoke(collision.gameObject, EventArgs.Empty);
@@ -92,8 +97,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             return dynamicEntities;
         }
 
-        public void Destroy()
+        public override void Destroy()
         {
+            AudioSource.PlayClipAtPoint(ImpactSFX, transform.position);
             OnDestroy?.Invoke(this, this);
             OnExplode?.Invoke(this, EventArgs.Empty);
         }
@@ -108,6 +114,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                     OnExplode?.Invoke(this, EventArgs.Empty);
                 }
             );
+        }
+
+        public void PlayExplosionVFX()
+        {
+            ExplosionVFX.transform.SetParent(null, true);
+            ExplosionVFX.transform.rotation = Quaternion.LookRotation(Vector3.up);
+            ExplosionVFX.Play();
+            gameObject.SetTimeOut(ExplosionVFXDuration, () => Destroy(ExplosionVFX.gameObject));
         }
     }
 }

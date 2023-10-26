@@ -8,6 +8,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
     [RequireComponent(typeof(UnityEngine.Camera))]
     public sealed class SplitController : MonoBehaviour
     {
+        [SerializeField]
+        private bool hasUI = false;
+
+        [SerializeField, ShowWhen("hasUI", true)]
+        private UnityEngine.Camera UICamera;
+
         private new UnityEngine.Camera camera;
 
         [SerializeField]
@@ -24,8 +30,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
             SplitManager.Instance.Register(this, role);
         }
 
-        internal void AdjustTo(Split newSplit, float time) =>
+        internal void AdjustTo(Split newSplit, float time)
+        {
+            if (hasUI)
+            {
+                UICamera?.gameObject.SetActive(newSplit.weight != 0);
+            }
             StartCoroutine(AdaptTo(newSplit, time));
+        }
 
         private IEnumerator AdaptTo(Split newSplit, float time)
         {
@@ -36,20 +48,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
             while (timeElapsed < time)
             {
                 timeElapsed += Time.unscaledDeltaTime;
-                camera.rect = Lerp(current, target, timeElapsed / time);
+                camera.rect = RectExtension.Lerp(current, target, timeElapsed / time);
                 yield return null;
             }
             camera.rect = target;
             Adjusting = false;
-        }
-
-        private static Rect Lerp(Rect start, Rect target, float ratio)
-        {
-            float x = Mathf.Lerp(start.x, target.x, ratio);
-            float y = Mathf.Lerp(start.y, target.y, ratio);
-            float width = Mathf.Lerp(start.width, target.width, ratio);
-            float height = Mathf.Lerp(start.height, target.height, ratio);
-            return new Rect(x, y, width, height);
         }
     }
 }

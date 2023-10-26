@@ -40,7 +40,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         {
             if (other.gameObject.InLayerMask(receptible))
             {
-                // Debug.LogWarning($"Terminal state triggered on contact with {other.gameObject}");
+                Debug.LogWarning($"Terminal state triggered on contact with {other.gameObject}");
                 OnTerminate?.Invoke(this, state);
             }
         }

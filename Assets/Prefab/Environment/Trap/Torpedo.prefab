@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7434433568575420281}
   - component: {fileID: 6228675560478396824}
   - component: {fileID: 8625226742984368261}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: ice_shard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 2863569263113040738}
   - component: {fileID: 7821879163868374488}
   - component: {fileID: -1797453787764212439}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Torpedo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,9 +197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ef2af7fcb1f0404cad14addb258e30a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blocking:
+  interceptedBy:
     serializedVersion: 2
-    m_Bits: 1920
+    m_Bits: 8064
   damage: 3
   velocity: 10
   countdown: 10
@@ -207,7 +207,7 @@ MonoBehaviour:
   blastForce: 10000
   affected:
     serializedVersion: 2
-    m_Bits: 1728
+    m_Bits: 7360
   density: 0
   ratioToBoundVolume: 0
 --- !u!114 &-1797453787764212439
@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 2166993464737136224}
   - component: {fileID: 6782483657831861372}
   - component: {fileID: 2064535298844539198}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: FloatingPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

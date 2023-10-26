@@ -1,7 +1,3 @@
-using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input;
-using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile
@@ -18,14 +14,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile
         }
     }
 
-    public interface IAltitudeAzimuthMount
+    public interface IAltitudeAzimuthMount : IAim
     {
-        public abstract Transform Azimuth { get; }
-        public abstract Transform Altitude { get; }
+        public Transform Azimuth { get; }
+        public Transform Altitude { get; }
 
-        public abstract bool TryAimAz(Quaternion deltaAz);
-        public abstract bool TryAimAlt(Quaternion deltaAlt);
+        public bool TryAimAz(Quaternion deltaAz);
+        public bool TryAimAlt(Quaternion deltaAlt);
 
-        public abstract void OnAim(object sender, AimDelta delta);
+        public void OnAim(object sender, AimDelta delta);
     }
 }

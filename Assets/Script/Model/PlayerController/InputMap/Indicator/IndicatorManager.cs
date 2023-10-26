@@ -57,6 +57,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
             }
         }
 
+        private void Start()
+        {
+            PlayerControllerManager.Instance.Register(this);
+        }
+
+        private void OnDestroy()
+        {
+            PlayerControllerManager.Instance.Unregister(this);
+        }
+
         private void Switch(object sender, Direction direction)
         {
             ControllerIndicator indicator = sender as ControllerIndicator;

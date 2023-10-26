@@ -24,10 +24,10 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MovementController",
+                    "name": "SteerController",
                     "type": "Value",
                     "id": "084048c6-7a89-4fa3-8521-a3f408ad29b0",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -128,6 +128,39 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "Controller",
+                    "id": "dcd477c9-c812-4d5e-a40f-0ac61d5931a3",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Throttle",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "e7c185c7-af4e-42b7-8b96-edd02bf64bd8",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Throttle",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "9c01cc83-3c60-46b1-9ec9-8e76b84bcd19",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Throttle",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "A/D",
                     "id": "fd7fc6e5-b40a-4f79-8318-9ecc55efc363",
                     "path": "1DAxis",
@@ -196,11 +229,11 @@
                 {
                     "name": "",
                     "id": "d030fb6b-4690-466a-b4ec-0a5e5ac42528",
-                    "path": "<Gamepad>/leftStick",
+                    "path": "<Gamepad>/leftStick/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "MovementController",
+                    "action": "SteerController",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -218,7 +251,7 @@
                 {
                     "name": "",
                     "id": "3fd61a19-b71c-40c8-9f9a-166e819d7ea8",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<XInputController>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
@@ -240,7 +273,7 @@
                 {
                     "name": "",
                     "id": "1d6238b2-0bf4-465e-b7e9-2bbc5e33d376",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",

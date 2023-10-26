@@ -9,81 +9,41 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
-    public sealed class Cannonball : MonoBehaviour, IProjectile, IPrimedExplosive<Cannonball>
+    public sealed class Cannonball : Explosive, IProjectile, IPrimedExplosive<Cannonball>
     {
-        public Transform Transform => transform;
-        public GameObject GameObject => gameObject;
-        private Rigidbody rb;
-
         [SerializeField]
         private float countdown;
         public float Countdown => countdown;
 
         [SerializeField]
-        private float damage;
-        public float Damage => damage;
-
-        [SerializeField]
-        private float blastRadius;
-        public float BlastRadius => blastRadius;
-
-        [SerializeField]
-        private float blastForce;
-        public float BlastForce => blastForce;
-
-        [SerializeField]
-        private LayerMask blocking;
-        public LayerMask Blocking => blocking;
-        public LayerMask Triggering => blocking;
-
-        [SerializeField]
-        private LayerMask affected;
-        public LayerMask Affected => affected;
-        public Explosion<Cannonball> Explosion =>
+        private LayerMask interceptedBy;
+        public LayerMask InterceptedBy => interceptedBy;
+        public new Explosion<Cannonball> Explosion =>
             new Explosion<Cannonball>(this, transform.position);
-        public IDamaging.Target TargetType => IDamaging.Target.Enemy;
+        public new IDamaging.Target TargetType => IDamaging.Target.Enemy;
 
-        public event EventHandler OnExplode;
-        public event EventHandler<Cannonball> OnDestroy;
+        public new event EventHandler<Cannonball> OnDestroy;
 
-        private void Awake()
+        protected override void Awake()
         {
-            rb = GetComponent<Rigidbody>();
+            base.Awake();
             BeginCountdown();
-            OnExplode += Explode;
+            OnDestroy?.Invoke(this, this); // silence warning
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.InLayerMask(blocking))
+            if (collision.gameObject.InLayerMask(interceptedBy))
             {
                 // Debug.LogWarning($"Cannonball exploded on contact with {collision.gameObject}");
-                OnExplode?.Invoke(collision.gameObject, EventArgs.Empty);
+                Explode();
             }
         }
 
         public void Launch(Vector3 spatialImpulse) =>
-            rb.AddForce(spatialImpulse, ForceMode.Impulse);
+            Rb.AddForce(spatialImpulse, ForceMode.Impulse);
 
-        public IEnumerable<IDynamic> GetAffectedEntityInBlastZone()
-        {
-            IEnumerable<Collider> colliderInBlastZone = Physics.OverlapSphere(
-                transform.position,
-                blastRadius,
-                affected
-            );
-            IEnumerable<IDynamic> dynamicEntities = colliderInBlastZone
-                .Select(collider =>
-                {
-                    if (collider.gameObject.TryFindImmediateComponent(out IDynamic dynamic))
-                        return dynamic;
-                    return null;
-                })
-                .Where(entity => entity != null);
-            return dynamicEntities;
-        }
-
-        public void Explode(object sender, EventArgs e)
+        public override void Explode(object sender, EventArgs e)
         {
             OnExplode -= Explode; // only explodes once
 
@@ -108,13 +68,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             Destroy(gameObject);
         }
 
-        public void Destroy()
-        {
-            // Debug.LogWarning($"Cannonball blown up by another explosive");
-            OnDestroy?.Invoke(this, this);
-            OnExplode?.Invoke(this, EventArgs.Empty);
-        }
-
         public void BeginCountdown()
         {
             gameObject.SetTimeOut(
@@ -122,7 +75,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 () =>
                 {
                     // Debug.LogWarning("Cannonball expired");
-                    OnExplode?.Invoke(this, EventArgs.Empty);
+                    Explode();
                 }
             ); // auto-explode without contact if timer expired
         }

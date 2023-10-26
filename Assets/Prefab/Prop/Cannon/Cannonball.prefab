@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7336065739185207010}
   - component: {fileID: 2863569263113040738}
   - component: {fileID: 9009222961822033251}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Cannonball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,12 +77,12 @@ MonoBehaviour:
   damage: 10
   blastRadius: 10
   blastForce: 500
-  blocking:
+  interceptedBy:
     serializedVersion: 2
-    m_Bits: 960
+    m_Bits: 8128
   affected:
     serializedVersion: 2
-    m_Bits: 704
+    m_Bits: 7360
 --- !u!1 &5880619761626689315
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7888094046061197884}
   - component: {fileID: 5376406200018079478}
   - component: {fileID: 166367125495246847}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

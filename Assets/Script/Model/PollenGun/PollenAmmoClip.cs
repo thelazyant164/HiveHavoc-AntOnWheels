@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
-    public sealed class PollenAmmoClip : MonoBehaviour, IDepletableAmmo
+    public sealed class PollenAmmoClip : MonoBehaviour, IDepletableAmmo, IService<PollenAmmoClip>
     {
         [Header("Current")]
         [SerializeField]
@@ -38,20 +38,38 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private float restockTime;
 
+        [Space]
+        [Header("SFX")]
+        [SerializeField]
+        private AudioSource ammoAudio;
+
+        [SerializeField]
+        private AudioClip reloadSFX;
+
+        [SerializeField]
+        private AudioClip restockSFX;
+
+        internal event EventHandler<bool> OnReload;
+
         private void Awake()
         {
             ammo = maxAmmo;
             ammoStock = maxAmmoStock;
         }
 
+        private void Start()
+        {
+            Register(ServiceManager.Instance.ReloadService);
+        }
+
         public void Consume(int ammo)
         {
             if (Ammo < ammo)
             {
-                Debug.LogError($"{this} trying to spend {ammo} from {Ammo} reserve");
+                // Debug.LogWarning($"{this} trying to spend {ammo} from {Ammo} reserve");
                 return;
             }
-            ammo -= ammo;
+            this.ammo -= ammo;
         }
 
         public void Reload()
@@ -60,10 +78,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                 return;
             if (ammoStock == 0)
             {
-                Debug.LogError($"{this} trying to reload when ammo stock is empty");
+                //Debug.LogWarning($"{this} trying to reload when ammo stock is empty");
                 return;
             }
+            OnReload?.Invoke(this, true);
             reloading = true;
+            ammoAudio.PlayOneShot(reloadSFX);
             gameObject.SetTimeOut(
                 reloadTime,
                 () =>
@@ -71,10 +91,25 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                     ammo = maxAmmo;
                     ammoStock--;
                     reloading = false;
+                    OnReload?.Invoke(this, false);
                 }
             );
         }
 
-        public void Restock() => gameObject.SetTimeOut(restockTime, () => ammoStock = maxAmmoStock);
+        public void Restock()
+        {
+            OnReload?.Invoke(this, true);
+            ammoAudio.PlayOneShot(restockSFX);
+            gameObject.SetTimeOut(
+                restockTime,
+                () =>
+                {
+                    ammoStock = maxAmmoStock;
+                    OnReload?.Invoke(this, false);
+                }
+            );
+        }
+
+        public void Register(IServiceProvider<PollenAmmoClip> provider) => provider.Register(this);
     }
 }

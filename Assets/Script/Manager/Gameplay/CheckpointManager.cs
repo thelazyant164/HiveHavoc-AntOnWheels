@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay
+namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
 {
     public sealed class CheckpointManager : Singleton<CheckpointManager>
     {
         [SerializeField]
         private Checkpoint latestCheckpoint;
+
         internal Transform LatestCheckpoint => latestCheckpoint.transform;
 
         private void Awake()
@@ -24,7 +25,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay
             Instance = this;
         }
 
-        internal void RegisterCheckpoint(Checkpoint checkpoint) =>
+        public void Register(Checkpoint checkpoint) =>
             checkpoint.OnTrigger += (object sender, EventArgs e) => latestCheckpoint = checkpoint;
     }
 }

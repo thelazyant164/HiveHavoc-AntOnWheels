@@ -11,32 +11,32 @@ TagManager:
   - 
   - Water
   - UI
-  - Entity
+  - Enemy
   - Player
   - Ground
   - Environment
+  - EnvironmentDynamic
+  - Explosive
   - Projectile
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - Driver Cam
   - Shooter Cam
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0

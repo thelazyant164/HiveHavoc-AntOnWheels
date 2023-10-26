@@ -32,6 +32,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 
     public interface IExplosive<T> : IDamaging, IDestructible<T>
     {
+        public ParticleSystem ExplosionVFX { get; }
+        public float ExplosionVFXDuration { get; }
         public float BlastRadius { get; }
         public float BlastForce { get; }
         public LayerMask Affected { get; }
@@ -39,7 +41,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         public Explosion<T> Explosion { get; }
         public abstract event EventHandler OnExplode;
 
-        public abstract IEnumerable<IDynamic> GetAffectedEntityInBlastZone();
-        public abstract void Explode(object sender, EventArgs e);
+        public IEnumerable<IDynamic> GetAffectedEntityInBlastZone();
+        public void Explode(object sender, EventArgs e);
+        public void PlayExplosionVFX();
     }
 }

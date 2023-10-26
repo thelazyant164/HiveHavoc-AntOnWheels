@@ -167,6 +167,39 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "Right stick",
+                    "id": "4e82c9d1-651a-4a4d-9706-da0a7520b5b3",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "13075bc6-922c-4f31-8ceb-96f5e03d2c15",
+                    "path": "<Gamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "909bb312-0270-471c-9a99-a42d33ff22d6",
+                    "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "b93d0aa6-1f8c-4d34-b86b-0905d91bc14a",
                     "path": "<Gamepad>/rightTrigger",

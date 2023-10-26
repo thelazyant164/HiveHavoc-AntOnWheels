@@ -1,4 +1,5 @@
 using Bitgem.VFX.StylisedWater;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
     public sealed class FluidBody : MonoBehaviour, IFluidBody
     {
         private WaterVolumeHelper helper;
-        public float Density {get; private set;}
+        public float Density { get; private set; }
         public float Drag { get; private set; }
         public float AngularDrag { get; private set; }
 
@@ -27,6 +28,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
             {
                 //Debug.LogWarning($"{collider.gameObject} begin touching water");
                 floatable.Enter(this);
+            }
+            if (collider.gameObject.TryFindImmediateComponent(out IProjectile projectile))
+            {
+                projectile.Destroy();
             }
         }
 
@@ -48,7 +53,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Fluid
             fluidHelper.WaterVolume = fluidBody;
 
             fluidVolume.isTrigger = true;
-            fluidVolume.size = new Vector3(fluidBody.Dimensions.x, fluidBody.Dimensions.y * fluidBody.TileSize, fluidBody.Dimensions.z);
+            fluidVolume.size = new Vector3(
+                fluidBody.Dimensions.x,
+                fluidBody.Dimensions.y * fluidBody.TileSize,
+                fluidBody.Dimensions.z
+            );
             fluidVolume.center = (fluidVolume.size - Vector3.one) / 2;
         }
 

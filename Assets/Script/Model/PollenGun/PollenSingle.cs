@@ -11,9 +11,15 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
     {
         public event EventHandler<PollenSingle> OnDestroy;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            OnDestroy += (object sender, PollenSingle projectile) => PlayImpactVFX();
+        }
+
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.InLayerMask(Blocking))
+            if (collision.gameObject.InLayerMask(InterceptedBy))
             {
                 if (collision.gameObject.TryFindImmediateComponent(out IDamageable damageable))
                 {
@@ -24,10 +30,24 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             }
         }
 
-        public void Destroy()
+        public override void Destroy()
         {
+            AudioSource.PlayClipAtPoint(ImpactSFX, transform.position);
             OnDestroy?.Invoke(this, this);
             Destroy(gameObject);
+        }
+
+        private void PlayImpactVFX()
+        {
+            if (ImpactVFX == null)
+            {
+                Debug.LogWarning($"No impact VFX assigned to {this}");
+                return;
+            }
+            ImpactVFX.transform.SetParent(null, true);
+            ImpactVFX.transform.rotation = Quaternion.LookRotation(Vector3.up);
+            ImpactVFX.Play();
+            gameObject.SetTimeOut(ExplosionVFXDuration, () => Destroy(ImpactVFX.gameObject));
         }
     }
 }

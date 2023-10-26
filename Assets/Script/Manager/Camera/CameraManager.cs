@@ -17,8 +17,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
         public Role role;
 
         [SerializeField]
+        private UnityEngine.Camera camera;
+
+        [SerializeField]
         private List<CinemachineVirtualCamera> associated;
 
+        internal UnityEngine.Camera Camera => camera;
         internal CinemachineVirtualCamera MainCamera =>
             associated.Find(camera => camera.Priority == (int)CameraPriority.Show);
 
@@ -39,6 +43,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
 
     public sealed class CameraManager : Singleton<CameraManager>
     {
+        [SerializeField]
+        private float shooterPivotTime = .5f;
+        internal float ShooterPivotTime => shooterPivotTime;
+
         [SerializeField]
         private List<CameraAssociation> cameraAssociations;
         internal CameraAssociation this[Role role] =>
