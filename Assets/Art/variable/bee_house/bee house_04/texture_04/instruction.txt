@@ -1,0 +1,1 @@
+Somehow I can't bake the roof texture. Then I export a fbx instead. Drag this one into Unity and see if the roof texture is visible. It's kinda a honey simulation texture. And then use the wall texture in this folder to replace the missing wall texture of my fbx.

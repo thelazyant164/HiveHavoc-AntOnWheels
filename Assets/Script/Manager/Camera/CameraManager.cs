@@ -44,6 +44,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
     public sealed class CameraManager : Singleton<CameraManager>
     {
         [SerializeField]
+        private float shooterPivotTime = .5f;
+        internal float ShooterPivotTime => shooterPivotTime;
+
+        [SerializeField]
         private List<CameraAssociation> cameraAssociations;
         internal CameraAssociation this[Role role] =>
             cameraAssociations.Find(cameraAssociation => cameraAssociation.role == role);

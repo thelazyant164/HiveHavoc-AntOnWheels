@@ -11,6 +11,7 @@ using UnityEngine;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Input;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
 {
@@ -59,8 +60,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
 
         internal void RegisterVehicle(Driver.VehicleMovement vehicle) => Vehicle = vehicle;
 
-        internal void RegisterVehicle(VehicleHealth vehicle) =>
-            vehicle.OnDeath += (object sender, EventArgs e) =>
+        //internal void RegisterVehicle(VehicleHealth vehicle) =>
+        //    vehicle.OnDeath += (object sender, EventArgs e) =>
+        //        OnGameStateChange?.Invoke(sender, GameState.Lose);
+
+        internal void RegisterGate(GateTimer gate) =>
+            gate.OnClose += (object sender, EventArgs e) =>
                 OnGameStateChange?.Invoke(sender, GameState.Lose);
 
         internal void RegisterTerminalTrigger(TerminalStateTrigger trigger) =>

@@ -14699,7 +14699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b7cdb640bfd8e64fafc9ed0ce47c6af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
   explosionUpwardForceModifier: 0
 --- !u!1 &927075852278676019
 GameObject:
@@ -14809,7 +14808,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318695660296962501}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.6683197, y: 2.8899317, z: -1.0107789}
+  m_LocalPosition: {x: -2.6680493, y: 2.8898935, z: -1.0106218}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14976,7 +14975,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1700940149238814712}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.495687, y: 1.7899176, z: -3.70256}
+  m_LocalPosition: {x: -3.4957323, y: 1.7899994, z: -3.7010498}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15050,8 +15049,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1711047483392249575}
-  m_LocalRotation: {x: 0.11922805, y: -0.00000017881393, z: 0.000000022351742, w: 0.9928669}
-  m_LocalPosition: {x: 0.000001847744, y: 4.1800003, z: -1.1300007}
+  m_LocalRotation: {x: 0.119228065, y: 0.000000029802322, z: -0, w: 0.99286693}
+  m_LocalPosition: {x: -0.0000009909272, y: 4.1799994, z: -1.1300007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -30463,7 +30462,7 @@ MonoBehaviour:
   azMount: {fileID: 4075122292112823903}
   altMount: {fileID: 8937306506822712802}
   minAngle: -30
-  maxAngle: 60
+  maxAngle: 30
   ammoType:
     m_keys: 0000000001000000
     m_values:
@@ -30487,6 +30486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56262213710e78f428889a16d76b8c81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vehicleRecoilImpulse: 5000
   initialImpulse: 500
   spawn: {fileID: 6174720963024698290}
   nozzle: {fileID: 1319631599815965002}
@@ -30511,6 +30511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d3428cd6511bc4fb7a8d9d833eed21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vehicleRecoilImpulse: 10000
   initialImpulse: 100
   spawn: {fileID: 6174720963024698290}
   nozzle: {fileID: 1319631599815965002}
@@ -30610,8 +30611,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7072994302097434404}
-  m_LocalRotation: {x: 0.21518528, y: 0.000000029802322, z: -0.000000018626451, w: 0.9765733}
-  m_LocalPosition: {x: -0.000011920929, y: 6.0599995, z: -5.0699916}
+  m_LocalRotation: {x: 0.21518525, y: 0.000000059604645, z: 0.000000014901161, w: 0.9765733}
+  m_LocalPosition: {x: -0.0000004172325, y: 6.0600004, z: -5.0700016}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -30890,7 +30891,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7254724101650002585}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.495687, y: 1.7899176, z: -3.70256}
+  m_LocalPosition: {x: -3.4957323, y: 1.7899994, z: -3.7010498}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -31269,8 +31270,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7865080877615507862}
-  m_LocalRotation: {x: 0.11922805, y: -0.00000017881393, z: 0.000000022351742, w: 0.9928669}
-  m_LocalPosition: {x: 0.000001847744, y: 4.1800003, z: -1.1300007}
+  m_LocalRotation: {x: 0.119228065, y: 0.000000029802322, z: -0, w: 0.99286693}
+  m_LocalPosition: {x: -0.0000009909272, y: 4.1799994, z: -1.1300007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

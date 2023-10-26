@@ -170,6 +170,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         public float accelInput;
         public float steeringInput;
         public bool brake;
+        internal void ApplyRecoil(Vector3 recoilImpulse)
+        {
+            rb.AddForce(recoilImpulse, ForceMode.Impulse);
+        }
     }
 }
 

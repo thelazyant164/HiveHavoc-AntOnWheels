@@ -10,6 +10,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
     public abstract class PollenShooter : ISwappableShooter
     {
         [SerializeField]
+        protected float vehicleRecoilImpulse;
+
+        [SerializeField]
         private float initialImpulse;
         public float InitialImpulse => initialImpulse;
 
@@ -91,6 +94,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             T projectile = SpawnProjectile();
             Launch(projectile);
             OnShoot?.Invoke(this, projectile);
+            GameManager.Instance.Vehicle.ApplyRecoil(vehicleRecoilImpulse * -AimDirection);
             gameObject.SetTimeOut(
                 CooldownDuration,
                 () =>

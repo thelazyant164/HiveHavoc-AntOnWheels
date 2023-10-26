@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter;
+using UnityEngine.Assertions;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 {
-    public sealed class TorpedoDemoFocus : ScriptedEvent<TrapTrigger>
+    public sealed class TorpedoDemoFocus : ScriptedEvent<TrapTrigger>, IServiceConsumer<PollenGun>
     {
         [SerializeField]
         private TrapShooter trapShooter;
@@ -19,6 +21,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 
         [SerializeField]
         private AudioClip audioAlert;
+        private PollenGun gun;
 
         protected override void Awake()
         {
@@ -27,15 +30,40 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
                 trapDemoFocusCamera.LookAt = projectile.transform;
         }
 
+        protected override void Start()
+        {
+            base.Start();
+            Register(ServiceManager.Instance.AimService);
+        }
+
+        public void Register(IServiceProvider<PollenGun> provider)
+        {
+            if (provider.Service != null)
+            {
+                gun = provider.Service;
+                return;
+            }
+            provider.OnAvailable += (object sender, PollenGun gun) => this.gun = gun;
+        }
+
         protected override void TriggerCallback()
         {
-            mainCamera = cameraManager[Role.Shooter].MainCamera;
-            cameraManager[Role.Shooter].SwitchCamera(trapDemoFocusCamera);
+            Assert.IsNotNull(gun);
 
-            UIManager.Instance.VocalAudio.PlayOneShot(audioAlert);
+            gun.LookAt(trapShooter.transform.position, cameraManager.ShooterPivotTime);
+            gameObject.SetTimeOut(
+                cameraManager.ShooterPivotTime,
+                () =>
+                {
+                    mainCamera = cameraManager[Role.Shooter].MainCamera;
+                    cameraManager[Role.Shooter].SwitchCamera(trapDemoFocusCamera);
 
-            PlayerManager.Instance.Shooter.gameObject.SetActive(false); // disable shooter controls
-            UIManager.Instance.Crosshair.gameObject.SetActive(false); // disable crosshair to takeaway false affordance
+                    UIManager.Instance.VocalAudio.PlayOneShot(audioAlert);
+
+                    PlayerManager.Instance.Shooter.gameObject.SetActive(false); // disable shooter controls
+                    UIManager.Instance.Crosshair.gameObject.SetActive(false); // disable crosshair to takeaway false affordance
+                }
+            );
         }
 
         protected override void TerminateCallback()

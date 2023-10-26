@@ -2,7 +2,9 @@ using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Projectile;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
@@ -26,11 +28,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         [Space]
         [Header("Constraint")]
-        [SerializeField, Range(-180, 0)]
+        [SerializeField, Range(-90, 0)]
         private float minAngle = -30;
 
-        [SerializeField, Range(0, 180)]
-        private float maxAngle = 90;
+        [SerializeField, Range(0, 90)]
+        private float maxAngle = 30;
 
         [Space]
         [Header("Ammo types")]
@@ -41,7 +43,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private PollenAmmoClip ammoClip;
         public IDepletableAmmo Ammo => ammoClip;
 
-        private PollenShooter shooter;
+        private PollenShooter shooterComponent;
 
         [Space]
         [Header("Aim crosshair")]
@@ -61,24 +63,30 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         [SerializeField]
         private AudioClip blankSFX;
 
+        private Shooter shooter;
+
         public event EventHandler<AimTarget> OnAimTargetChange;
 
         private void Awake()
         {
             ammoClip = GetComponent<PollenAmmoClip>();
-            shooter = GetComponent<PollenShooter>();
+            shooterComponent = GetComponent<PollenShooter>();
         }
 
         private void Start()
         {
             Register(ServiceManager.Instance.AimService);
 
-            Shooter shooter = PlayerManager.Instance.Shooter;
+            shooter = PlayerManager.Instance.Shooter;
             shooter.OnAim += OnAim;
             shooter.OnShoot += OnShoot;
 
             Driver.Driver driver = PlayerManager.Instance.Driver;
             driver.OnReload += OnReload;
+
+            // reset rotation after constraint applied to ensure within range
+            azMount.localRotation = Quaternion.identity;
+            altMount.localRotation = Quaternion.identity;
         }
 
         private void Update()
@@ -88,6 +96,73 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         }
 
         public void Register(IServiceProvider<PollenGun> provider) => provider.Register(this);
+
+        /// <summary>
+        /// Override gun aim controls for a short duration.
+        /// </summary>
+        /// <remarks>
+        /// Used to pivot turret to point of interest before detach camera.
+        /// </remarks>
+        /// <param name="position">Point of interest.</param>
+        /// <param name="duration">Time to lerp to point of interest. Expected to have pointed at point of interest by the time this runs out.</param>
+        internal void LookAt(Vector3 position, float duration)
+        {
+            shooter.OnAim -= OnAim; // temporarily disable player input-driven aiming
+
+            StartCoroutine(LookAtAz(position, duration));
+            StartCoroutine(LookAtAlt(position, duration));
+
+            gameObject.SetTimeOut(duration, () => shooter.OnAim += OnAim); // enable player input-driven aiming again
+        }
+
+        private IEnumerator LookAtAz(Vector3 target, float duration)
+        {
+            Quaternion targetAz = Quaternion.LookRotation(target - azMount.position, Vector3.up);
+            Quaternion deltaAz = targetAz * Quaternion.Inverse(azMount.rotation);
+            float deltaYaw = deltaAz.eulerAngles.y;
+
+            Quaternion currentRot = azMount.localRotation;
+            Quaternion addedRot = Quaternion.AngleAxis(deltaYaw, azMount.up);
+            Quaternion targetRot = currentRot * addedRot;
+            float timeRemaining = duration;
+            while (timeRemaining > 0)
+            {
+                azMount.localRotation = Quaternion.Lerp(
+                    currentRot,
+                    targetRot,
+                    (duration - timeRemaining) / duration
+                );
+                timeRemaining -= Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
+        private IEnumerator LookAtAlt(Vector3 target, float duration)
+        {
+            Quaternion targetAlt = Quaternion.LookRotation(target - altMount.position, Vector3.up);
+            Quaternion deltaAlt = targetAlt * Quaternion.Inverse(altMount.rotation);
+            float deltaPitch = deltaAlt.eulerAngles.x;
+
+            Quaternion currentRot = altMount.localRotation;
+            Quaternion addedRot = Quaternion.AngleAxis(deltaPitch, azMount.right);
+            Quaternion targetRot = currentRot * addedRot;
+            targetRot = Quaternion.Euler(
+                ClampOriginalRotationX(targetRot, minAngle, maxAngle),
+                0,
+                0
+            );
+            float timeRemaining = duration;
+            while (timeRemaining > 0)
+            {
+                altMount.localRotation = Quaternion.Lerp(
+                    currentRot,
+                    targetRot,
+                    (duration - timeRemaining) / duration
+                );
+                timeRemaining -= Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
+        }
 
         public void OnShoot(object sender, Ammo ammo)
         {
@@ -132,7 +207,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         public bool TryGetAimTarget(out AimTarget result)
         {
             result = AimTarget.None;
-            Ray ray = new Ray(shooter.ProjectileSpawn, shooter.AimDirection);
+            Ray ray = new Ray(shooterComponent.ProjectileSpawn, shooterComponent.AimDirection);
             // Debug.DrawLine(ray.origin, ray.GetPoint(maxAimDistance), Color.red);
             if (Physics.Raycast(ray, out RaycastHit raycastHit, maxAimDistance, aimInterest))
             {

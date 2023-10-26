@@ -27,7 +27,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
             trigger.OnTerminate += (object sender, EventArgs e) => TerminateCallback();
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             cameraManager = CameraManager.Instance;
             timescaleManager = TimescaleManager.Instance;
