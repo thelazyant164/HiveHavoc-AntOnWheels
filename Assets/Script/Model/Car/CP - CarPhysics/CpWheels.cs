@@ -7,7 +7,8 @@ using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver;
 public class CpWheels : MonoBehaviour
 {
     private VehicleMovement cpMain;
-    private Dictionary<Transform, WheelHitData> _mapWheelToLastHitCache = new Dictionary<Transform, WheelHitData>();
+    private Dictionary<Transform, WheelHitData> _mapWheelToLastHitCache =
+        new Dictionary<Transform, WheelHitData>();
 
     private class WheelHitData
     {
@@ -15,11 +16,11 @@ public class CpWheels : MonoBehaviour
         public RaycastHit GroundData;
     }
 
-    //Wheel Variables 
+    //Wheel Variables
     public float wheelHeight;
     public LayerMask groundCheckLayer;
-    [Space]
 
+    [Space]
     public CpWheelData cpWheelData;
 
     private void Awake()
@@ -48,10 +49,16 @@ public class CpWheels : MonoBehaviour
         cpWheelData.numberOfGroundedWheels = 0;
         cpWheelData.grounded = false;
         RaycastHit hit;
-        
-        foreach (var wheel in cpWheelData.physicsWheelPoints)
+
+        foreach (Transform wheel in cpWheelData.physicsWheelPoints)
         {
-            bool didhit = Physics.Raycast(wheel.position, -wheel.transform.up, out hit, wheelHeight, groundCheckLayer);
+            bool didhit = Physics.Raycast(
+                wheel.position,
+                -wheel.transform.up,
+                out hit,
+                wheelHeight,
+                groundCheckLayer
+            );
             Debug.DrawRay(wheel.position, -wheel.transform.up * wheelHeight, Color.red);
 
             WheelHitData wheelHitData = _mapWheelToLastHitCache[wheel];

@@ -64,6 +64,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
                 {
                     gate.StartTimer();
 
+                    scriptedEventManager.AdjustScreenSplit(
+                        Camera.SplitConfiguration.VerticalShooterOnly
+                    );
                     mainCamera = cameraManager[Role.Shooter].MainCamera;
                     cameraManager[Role.Shooter].SwitchCamera(gateFocusCamera);
 
@@ -80,6 +83,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 
         private void Terminate()
         {
+            scriptedEventManager.AdjustScreenSplit(Camera.SplitConfiguration.VerticalEven);
             cameraManager[Role.Shooter].SwitchCamera(mainCamera);
 
             PlayerManager.Instance.Shooter.gameObject.SetActive(true);

@@ -24,25 +24,31 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         // Start is called before the first frame update
         private void Start()
         {
-            _cpMain.speedData = new VehicleSpeed(velocityTimeCurve.keys[velocityTimeCurve.length - 1].value);
+            _cpMain.speedData = new VehicleSpeed(
+                velocityTimeCurve.keys[velocityTimeCurve.length - 1].value
+            );
         }
 
         // Update is called once per frame
         private void Update()
         {
             CalculateSpeedData(_cpMain.rb, _cpMain.speedData);
-            accelerationToApply = GetAccelerationFromVelocityTimeCurve(velocityTimeCurve, _cpMain.input, _cpMain.speedData);
+            accelerationToApply = GetAccelerationFromVelocityTimeCurve(
+                velocityTimeCurve,
+                _cpMain.input,
+                _cpMain.speedData
+            );
         }
 
         private void FixedUpdate()
         {
-            float inputScaledAccel = Mathf.Abs(_cpMain.input.accelInput) * accelerationToApply;
+            float inputScaledAccel =
+                Mathf.Abs(_cpMain.input.accelInput) * accelerationToApply * _cpMain.SpeedModifier;
             ApplyAcceleration(inputScaledAccel, _cpMain.rb, _cpMain.wheelData.grounded);
             // Debug.Log($"Wheel grounded: {_cpMain.wheelData.grounded}");
             // Debug.Log($"Acceleration Input: {_cpMain.input.accelInput}");
             // Debug.Log($"Acceleration to Apply: {accelerationToApply}");
             // Debug.Log($"Scaled Acceleration: {Mathf.Abs(_cpMain.input.accelInput) * accelerationToApply}");
-
         }
 
         private void CalculateSpeedData(Rigidbody rb, VehicleSpeed speedData)
@@ -51,9 +57,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             speedData.forwardSpeed = Vector3.Dot(rb.transform.forward, rb.velocity);
             speedData.speed = rb.velocity.magnitude;
         }
-        
-        private float GetAccelerationFromVelocityTimeCurve(AnimationCurve velocityTime, PlayerInputs input,
-            VehicleSpeed speedData)
+
+        private float GetAccelerationFromVelocityTimeCurve(
+            AnimationCurve velocityTime,
+            PlayerInputs input,
+            VehicleSpeed speedData
+        )
         {
             if (speedData.forwardSpeed > velocityTime.keys[velocityTime.length - 1].value)
                 return 0;
@@ -61,7 +70,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             float speedClamped = Mathf.Clamp(
                 speedData.forwardSpeed,
                 velocityTime.keys[0].value,
-                velocityTime.keys[velocityTime.length - 1].value);
+                velocityTime.keys[velocityTime.length - 1].value
+            );
 
             currentTimeValue = BinarySearchDisplay(velocityTime, speedClamped);
 
@@ -69,11 +79,15 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             {
                 float inputDir = input.accelInput > 0 ? 1 : -1;
                 nextTimeValue = currentTimeValue + inputDir * Time.fixedDeltaTime;
-                nextTimeValue = Mathf.Clamp(nextTimeValue, velocityTime.keys[0].time,
-                    velocityTime.keys[velocityTime.length - 1].time);
+                nextTimeValue = Mathf.Clamp(
+                    nextTimeValue,
+                    velocityTime.keys[0].time,
+                    velocityTime.keys[velocityTime.length - 1].time
+                );
 
                 nextVelocityMagnitude = velocityTime.Evaluate(nextTimeValue);
-                float accelMagnitude = (nextVelocityMagnitude - speedData.forwardSpeed) / (Time.fixedDeltaTime);
+                float accelMagnitude =
+                    (nextVelocityMagnitude - speedData.forwardSpeed) / (Time.fixedDeltaTime);
 
                 return accelMagnitude;
             }

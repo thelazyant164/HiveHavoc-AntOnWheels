@@ -14,7 +14,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 
         protected override void TriggerCallback()
         {
-            scriptedEventManager.AdjustScreenSplit(Camera.SplitConfiguration.VerticalEven);
             cameraManager[Role.Driver].SwitchCamera(lakeSequenceDriverCamera);
             cameraManager[Role.Shooter].SwitchCamera(lakeSequenceShooterCamera);
         }

@@ -54,20 +54,27 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         public float accelerateAxis;
         public float brakingAxis;
 
-        [HideInInspector] public Rigidbody rb;
+        [HideInInspector]
+        public Rigidbody rb;
         public Vector3 averageColliderSurfaceNormal;
+
+        [Header("Scripted event modifier")]
+        [SerializeField]
+        private float speedModifier = 1;
+        internal float SpeedModifier
+        {
+            get => speedModifier;
+            set => speedModifier = value;
+        }
 
         private bool prevGroundedState;
         public static event Action<VehicleMovement> OnLeavingGround = vehicleMovement => { };
         public static event Action<VehicleMovement> OnLanding = vehicleMovement => { };
 
-        internal bool Grounded => !wheels.Values.All(wheel => !wheel.Grounded);
-
         private void Awake()
         {
             rb = GetComponentInChildren<Rigidbody>();
             StartCoroutine(ThrusterDeteriorate());
-
         }
 
         private void Start()
@@ -110,8 +117,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             input.steeringInput = steer;
             input.brake = brake;
             // Debug.Log($"input.steeringInput: {input.steeringInput}, steer: {steer}");
-
         }
+
         private void HandleThruster()
         {
             Vector3 thrusterForce = thruster * actualThruster * Vector3.up;
@@ -161,19 +168,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             // }
         }
 
-
+        internal void ApplyRecoil(Vector3 recoilImpulse) =>
+            rb.AddForce(recoilImpulse, ForceMode.Impulse);
     }
 
-    [System.Serializable]
+    [Serializable]
     public class PlayerInputs
     {
         public float accelInput;
         public float steeringInput;
         public bool brake;
-        internal void ApplyRecoil(Vector3 recoilImpulse)
-        {
-            rb.AddForce(recoilImpulse, ForceMode.Impulse);
-        }
     }
 }
 

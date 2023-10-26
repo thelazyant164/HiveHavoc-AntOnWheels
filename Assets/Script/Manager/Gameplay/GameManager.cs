@@ -25,7 +25,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
 
     public sealed class GameManager : Singleton<GameManager>
     {
-        internal Driver.VehicleMovement Vehicle { get; private set; }
+        internal VehicleMovement Vehicle { get; private set; }
         public event EventHandler<GameState> OnGameStateChange;
         private CheckpointManager checkpointManager;
         private TimescaleManager timescaleManager;
@@ -108,7 +108,5 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                     break;
             }
         }
-
-
     }
 }

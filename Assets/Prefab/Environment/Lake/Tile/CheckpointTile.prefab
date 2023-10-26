@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 838603035022219788}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CheckpointTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 7677215694542311031}
   - component: {fileID: 3566178921841129163}
   - component: {fileID: 3622888252337769822}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: First
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
@@ -102,13 +102,6 @@ MonoBehaviour:
   receptible:
     serializedVersion: 2
     m_Bits: 128
-  memoizeDynamic:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1001 &8252270462201147664
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -81,7 +81,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 908983023605557618}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EntryTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 4440121812587885769}
   - component: {fileID: 7137005354175327674}
   - component: {fileID: 246143439996429551}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Demo
   m_TagString: Untagged
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 2224271682673784437}
   - component: {fileID: 3811134919493525273}
   m_Layer: 31
-  m_Name: GateFocusCam
+  m_Name: ShooterGateFocus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -13,12 +13,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         private float overrideThrusterForce;
 
         [SerializeField]
-        private float overrideMotorForce;
+        private float overrideSpeedModifier;
 
         protected override void TriggerCallback()
         {
             GameManager.Instance.Vehicle.ThrusterForce = overrideThrusterForce;
-            GameManager.Instance.Vehicle.MotorForce = overrideMotorForce;
+            GameManager.Instance.Vehicle.SpeedModifier = overrideSpeedModifier;
             scriptedEventManager.AdjustScreenSplit(Camera.SplitConfiguration.VerticalDriverOnly);
             cameraManager[Role.Driver].SwitchCamera(leapCamera);
         }
