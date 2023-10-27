@@ -402,7 +402,6 @@ GameObject:
   - component: {fileID: 4564777174380679338}
   - component: {fileID: 6683961418190113855}
   - component: {fileID: 5929749826702097967}
-  - component: {fileID: 6216714786128942239}
   m_Layer: 7
   m_Name: Physics
   m_TagString: Player
@@ -530,7 +529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061bae3860c2c8c449646090385a0f65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseTurningForce: 15
+  baseTurningForce: 7.5
   speedFactorOffset: 0.25
   currentTurningForce: 15
   currentAngularVelocity: {x: 0.0000005241427, y: 0.00005124342, z: 0.00000001947035}
@@ -643,19 +642,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linearStabilityForce: 500
   angularStabilityForce: 10000
---- !u!114 &6216714786128942239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3498870803505073107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b7cdb640bfd8e64fafc9ed0ce47c6af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionUpwardForceModifier: 0
 --- !u!1 &4378875793206845591
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,8 +788,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 0
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 290060916628302766}
-  m_Follow: {fileID: 290060916628302766}
+  m_LookAt: {fileID: 7379335072391821174}
+  m_Follow: {fileID: 7379335072391821174}
   m_Lens:
     FieldOfView: 75
     OrthographicSize: 10
@@ -874,8 +860,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 1
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 290060916628302766}
-  m_Follow: {fileID: 290060916628302766}
+  m_LookAt: {fileID: 7379335072391821174}
+  m_Follow: {fileID: 7379335072391821174}
   m_Lens:
     FieldOfView: 75
     OrthographicSize: 10
@@ -906,17 +892,22 @@ PrefabInstance:
     - target: {fileID: 639918652241244974, guid: c46a3bd380955824abd7eb9019a4b491,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.4958274
+      value: -3.4958217
       objectReference: {fileID: 0}
     - target: {fileID: 639918652241244974, guid: c46a3bd380955824abd7eb9019a4b491,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.7899805
       objectReference: {fileID: 0}
+    - target: {fileID: 639918652241244974, guid: c46a3bd380955824abd7eb9019a4b491,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.7010288
+      objectReference: {fileID: 0}
     - target: {fileID: 2230108532739926362, guid: c46a3bd380955824abd7eb9019a4b491,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.4958274
+      value: -3.4958217
       objectReference: {fileID: 0}
     - target: {fileID: 2230108532739926362, guid: c46a3bd380955824abd7eb9019a4b491,
         type: 3}
@@ -926,7 +917,7 @@ PrefabInstance:
     - target: {fileID: 2230108532739926362, guid: c46a3bd380955824abd7eb9019a4b491,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.7010384
+      value: -3.7010288
       objectReference: {fileID: 0}
     - target: {fileID: 2230108532739926362, guid: c46a3bd380955824abd7eb9019a4b491,
         type: 3}
@@ -1016,12 +1007,17 @@ PrefabInstance:
     - target: {fileID: 8252242268487510377, guid: c46a3bd380955824abd7eb9019a4b491,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.6677618
+      value: -2.66738
       objectReference: {fileID: 0}
     - target: {fileID: 8252242268487510377, guid: c46a3bd380955824abd7eb9019a4b491,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.889853
+      value: 2.889864
+      objectReference: {fileID: 0}
+    - target: {fileID: 8252242268487510377, guid: c46a3bd380955824abd7eb9019a4b491,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.09
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
