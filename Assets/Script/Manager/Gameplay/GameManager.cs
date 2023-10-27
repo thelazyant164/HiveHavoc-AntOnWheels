@@ -73,6 +73,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
             {
                 if (state == TerminalState.Lose)
                 {
+                    // Debug.Log(checkpointManager.LatestCheckpoint.position);
                     Vehicle.Respawn(checkpointManager.LatestCheckpoint);
                     OnRespawn?.Invoke(this, EventArgs.Empty);
                     return;

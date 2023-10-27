@@ -143,8 +143,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         internal void Respawn(Transform transform)
         {
-            rb.transform.position = transform.position;
-            rb.transform.rotation = transform.rotation;
+            rb.MovePosition(transform.position);
+            rb.MoveRotation(transform.rotation);
             Reset();
         }
 

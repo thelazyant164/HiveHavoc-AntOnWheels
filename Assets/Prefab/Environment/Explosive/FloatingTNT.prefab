@@ -33,6 +33,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 4378988849678342890}
   - {fileID: 291950377204552357}
   - {fileID: 6346465625777344065}
   - {fileID: 8365418080955253733}
@@ -42,7 +43,6 @@ Transform:
   - {fileID: 267698194588628100}
   - {fileID: 3376316670605520118}
   - {fileID: 8064835165434815738}
-  - {fileID: 4378988849678342890}
   - {fileID: 3124398495038949469}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   blastForce: 12500000
   affected:
     serializedVersion: 2
-    m_Bits: 7232
+    m_Bits: 4032
   triggering:
     serializedVersion: 2
     m_Bits: 4096

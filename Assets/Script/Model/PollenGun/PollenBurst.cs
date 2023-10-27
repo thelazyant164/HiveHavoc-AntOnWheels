@@ -121,7 +121,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             ExplosionVFX.transform.SetParent(null, true);
             ExplosionVFX.transform.rotation = Quaternion.LookRotation(Vector3.up);
             ExplosionVFX.Play();
-            gameObject.SetTimeOut(ExplosionVFXDuration, () => Destroy(ExplosionVFX.gameObject));
         }
     }
 }

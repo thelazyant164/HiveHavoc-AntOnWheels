@@ -136,7 +136,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
             particle.transform.SetParent(null, true);
             particle.transform.rotation = Quaternion.LookRotation(Vector3.up);
             particle.Play();
-            gameObject.SetTimeOut(particleDuration, () => Destroy(particle.gameObject));
         }
     }
 }

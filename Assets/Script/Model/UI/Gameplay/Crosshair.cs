@@ -30,11 +30,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
 
         private bool aimingInterest;
         private bool reloadInProgress;
-
-        private void Awake()
-        {
-            StartCoroutine(Spin());
-        }
+        private Coroutine spinning;
 
         private void Start()
         {
@@ -47,6 +43,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
             reloading.gameObject.SetActive(reloadInProgress);
             normal.gameObject.SetActive(!reloadInProgress && !aimingInterest);
             highlighted.gameObject.SetActive(!reloadInProgress && aimingInterest);
+        }
+
+        private void OnEnable()
+        {
+            spinning = StartCoroutine(Spin());
+        }
+
+        private void OnDisable()
+        {
+            StopCoroutine(spinning);
         }
 
         public void Register(IServiceProvider<PollenGun> serviceProvider)

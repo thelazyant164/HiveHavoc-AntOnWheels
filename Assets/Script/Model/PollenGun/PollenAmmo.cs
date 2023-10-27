@@ -72,7 +72,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         {
             pickUpVFX.transform.SetParent(null, true);
             pickUpVFX.Play();
-            gameObject.SetTimeOut(pickUpVFXDuration, () => Destroy(pickUpVFX.gameObject));
         }
     }
 }

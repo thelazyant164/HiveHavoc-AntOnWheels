@@ -45,7 +45,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
                     .GetComponent<CvWheels>();
                 wheelVisual.SetUpWheel(cpMain.rb);
                 wheelVisuals.Add(wheelVisual);
-                Debug.Log($"wheelVisual transform: {wheelVisual.transform.position}");
+                // Debug.Log($"wheelVisual transform: {wheelVisual.transform.position}");
             }
         }
     }

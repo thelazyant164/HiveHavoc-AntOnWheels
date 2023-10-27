@@ -23,6 +23,23 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay
         [SerializeField]
         private Transform close;
 
+        [Header("SFX")]
+        [SerializeField]
+        private AudioSource gateAmbienceAudio;
+
+        [SerializeField]
+        private AudioSource gateFoleyAudio;
+
+        [SerializeField]
+        private AudioClip gateStart;
+
+        [SerializeField]
+        private AudioClip gateClose;
+
+        [SerializeField]
+        private float gateCloseSFXDuration;
+        private bool playedGateClose = false;
+
         internal event EventHandler OnClose;
 
         private void Awake()
@@ -39,6 +56,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay
 
         private IEnumerator CloseGate(float countdownTime)
         {
+            gateAmbienceAudio.Play();
+            gateFoleyAudio.PlayOneShot(gateStart);
             float timeRemaining = countdownTime;
             while (timeRemaining > 0)
             {
@@ -48,10 +67,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay
                     close.position,
                     (countdownTime - timeRemaining) / countdownTime
                 );
+                if (!playedGateClose && timeRemaining <= gateCloseSFXDuration)
+                {
+                    gateFoleyAudio.PlayOneShot(gateClose);
+                    playedGateClose = true;
+                }
                 yield return new WaitForEndOfFrame();
             }
             gate.position = close.position;
             OnClose?.Invoke(this, EventArgs.Empty);
+            gateAmbienceAudio.Stop();
         }
     }
 }
