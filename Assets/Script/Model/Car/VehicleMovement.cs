@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 
@@ -74,6 +75,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         private void Awake()
         {
             rb = GetComponentInChildren<Rigidbody>();
+            Assert.IsNotNull(rb);
             StartCoroutine(ThrusterDeteriorate());
         }
 
