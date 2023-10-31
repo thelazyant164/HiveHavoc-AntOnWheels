@@ -35,14 +35,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
         private void TogglePause(object sender, EventArgs e)
         {
             pause = !pause;
-            AudioListener.pause = pause;
             OnTogglePause?.Invoke(sender, pause);
         }
 
         internal void Unpause()
         {
             pause = false;
-            AudioListener.pause = pause;
             OnTogglePause?.Invoke(this, pause);
         }
     }

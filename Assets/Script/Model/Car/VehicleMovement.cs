@@ -143,8 +143,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         internal void Respawn(Transform transform)
         {
-            rb.MovePosition(transform.position);
-            rb.MoveRotation(transform.rotation);
+            // ASSUMPTION: transform of VehicleMovement directs all vehicle physics (i.e. VehicleMovement is top-level parent)
+            this.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            Physics.SyncTransforms();
             Reset();
         }
 

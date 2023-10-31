@@ -73,7 +73,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
             {
                 if (state == TerminalState.Lose)
                 {
-                    // Debug.Log(checkpointManager.LatestCheckpoint.position);
                     Vehicle.Respawn(checkpointManager.LatestCheckpoint);
                     OnRespawn?.Invoke(this, EventArgs.Empty);
                     return;
@@ -90,17 +89,17 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                     Cursor.lockState = CursorLockMode.Locked;
                     break;
                 case GameState.Pause:
-                    timescaleManager.AdjustTimescale(0);
+                    timescaleManager.Pause();
                     Cursor.lockState = CursorLockMode.Confined;
                     break;
                 case GameState.Win:
-                    timescaleManager.AdjustTimescale(0);
+                    timescaleManager.Pause();
                     Cursor.lockState = CursorLockMode.Confined;
                     PlayerControllerManager.Instance.Reset();
                     OnGameStateChange -= HandleGameStateChange;
                     break;
                 case GameState.Lose:
-                    timescaleManager.AdjustTimescale(0);
+                    timescaleManager.Pause();
                     Cursor.lockState = CursorLockMode.Confined;
                     PlayerControllerManager.Instance.Reset();
                     OnGameStateChange -= HandleGameStateChange;

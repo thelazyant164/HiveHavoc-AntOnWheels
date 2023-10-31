@@ -1,25 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class cpFollowPhysicsBody : MonoBehaviour
 {
     [SerializeField]
     private Transform physicsBodyTransform;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        if (physicsBodyTransform == null)
-        {
-            Debug.LogError("No physics body attach!");
-        }
+        Assert.IsNotNull(physicsBodyTransform);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        transform.position = physicsBodyTransform.position;
-        transform.rotation = physicsBodyTransform.rotation;
+        transform.SetPositionAndRotation(
+            physicsBodyTransform.position,
+            physicsBodyTransform.rotation
+        );
     }
 }
