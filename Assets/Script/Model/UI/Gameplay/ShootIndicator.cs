@@ -62,7 +62,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
         {
             UnityEngine.Camera shooterCamera = CameraManager.Instance[Role.Shooter].Camera;
 
-            float offsetX = 400; // MAGIC NUMBER - DOES NOT COMPREHEND
+            float offsetX = 400; // for 1920x1080 resolution
 
             while (true)
             {
@@ -86,8 +86,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
 
         private bool IsVisible(Vector3 viewportPoint)
         {
-            bool inRangeX = (0 <= viewportPoint.x && viewportPoint.x <= 1);
-            bool inRangeY = (0 <= viewportPoint.y && viewportPoint.y <= 1);
+            bool inRangeX = 0 <= viewportPoint.x && viewportPoint.x <= 1;
+            bool inRangeY = 0 <= viewportPoint.y && viewportPoint.y <= 1;
             bool inRangeZ = 0 <= viewportPoint.z;
             return inRangeX && inRangeY && inRangeZ;
         }

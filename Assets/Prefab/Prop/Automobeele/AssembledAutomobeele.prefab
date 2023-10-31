@@ -67,6 +67,7 @@ MonoBehaviour:
     grounded: 0
     numberOfGroundedWheels: 0
     averageWheelSurfaceNormal: {x: 0, y: 0, z: 0}
+    numberOfWateredWheels: 0
   accelerateAxis: 0
   brakingAxis: 0
   rb: {fileID: 0}
@@ -455,6 +456,7 @@ MonoBehaviour:
     grounded: 1
     numberOfGroundedWheels: 4
     averageWheelSurfaceNormal: {x: 0, y: 1, z: 0}
+    numberOfWateredWheels: 0
 --- !u!114 &8178822324959259180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,9 +474,9 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0.06644821
-      value: -40.123474
-      inSlope: 9.006891
-      outSlope: 9.006891
+      value: -40
+      inSlope: 8.994552
+      outSlope: 8.994552
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -867,10 +869,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7379335072391821174}
     m_Modifications:
+    - target: {fileID: 2230108532739926362, guid: c46a3bd380955824abd7eb9019a4b491,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.4113544
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230108532739926362, guid: c46a3bd380955824abd7eb9019a4b491,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.081491
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230108532739926362, guid: c46a3bd380955824abd7eb9019a4b491,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -20.307392
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230108532739926362, guid: c46a3bd380955824abd7eb9019a4b491,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9998908
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230108532739926362, guid: c46a3bd380955824abd7eb9019a4b491,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0147823095
+      objectReference: {fileID: 0}
     - target: {fileID: 5780082541345775828, guid: c46a3bd380955824abd7eb9019a4b491,
         type: 3}
       propertyPath: m_Name
       value: Automobeele
+      objectReference: {fileID: 0}
+    - target: {fileID: 6532318938232041135, guid: c46a3bd380955824abd7eb9019a4b491,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6532318938232041135, guid: c46a3bd380955824abd7eb9019a4b491,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7519118326975157835, guid: c46a3bd380955824abd7eb9019a4b491,
         type: 3}

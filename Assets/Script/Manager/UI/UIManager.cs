@@ -19,8 +19,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
         [SerializeField]
         private AudioSource vocalAudio;
         internal AudioSource VocalAudio => vocalAudio;
-
-        internal AudioSource Vocal { get; private set; }
         private List<Scene> openedPauseScenesBuffer = new();
 
         private void Awake()

@@ -150,7 +150,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy
         {
             if (target == null)
             {
-                Debug.LogError($"Missing target for trap shooter {this}");
+                Debug.LogWarning($"Missing target for trap shooter {this}");
+                Destroy(projectile.gameObject);
                 return;
             }
             projectile.AcquireTarget(target);

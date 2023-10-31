@@ -1,3 +1,4 @@
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,8 +38,18 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay
         private AudioClip gateClose;
 
         [SerializeField]
+        private AudioClip announceHalfway;
+
+        [SerializeField]
+        private AudioClip announceQuarter;
+
+        [SerializeField]
         private float gateCloseSFXDuration;
+
         private bool playedGateClose = false;
+        private bool playedHalfway = false;
+        private bool playedQuarter = false;
+        private AudioSource vocalAudio;
 
         internal event EventHandler OnClose;
 
@@ -50,6 +61,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay
         private void Start()
         {
             GameManager.Instance.RegisterGate(this);
+            vocalAudio = UIManager.Instance.VocalAudio;
         }
 
         internal void StartTimer() => StartCoroutine(CloseGate(countdownTime));
@@ -67,6 +79,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay
                     close.position,
                     (countdownTime - timeRemaining) / countdownTime
                 );
+                if (!playedHalfway && timeRemaining <= countdownTime / 2)
+                {
+                    vocalAudio.PlayOneShot(announceHalfway);
+                    playedHalfway = true;
+                }
+                if (!playedQuarter && timeRemaining <= countdownTime / 4)
+                {
+                    vocalAudio.PlayOneShot(announceQuarter);
+                    playedQuarter = true;
+                }
                 if (!playedGateClose && timeRemaining <= gateCloseSFXDuration)
                 {
                     gateFoleyAudio.PlayOneShot(gateClose);
