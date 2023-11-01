@@ -112,6 +112,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             HandleThruster();
         }
 
+        private void Reset()
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            throttle = 0;
+            steer = 0;
+            brake = false;
+            thruster = 0;
+        }
+
         private void HandleInputs()
         {
             // Set accelInput and steeringInput based on throttle and steer values
@@ -151,18 +161,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             Reset();
         }
 
-        private void Reset()
-        {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            throttle = 0;
-            steer = 0;
-            brake = false;
-            thruster = 0;
-        }
-
         internal void ApplyRecoil(Vector3 recoilImpulse) =>
             rb.AddForce(recoilImpulse, ForceMode.Impulse);
+
+        internal bool IsMovingGrounded => wheelData.grounded && speedData.speed > 0;
     }
 
     [Serializable]

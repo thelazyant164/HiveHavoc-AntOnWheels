@@ -32,6 +32,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
         private PauseManager pauseManager;
 
         internal event EventHandler OnRespawn;
+        public event EventHandler<VehicleMovement> OnAvailable;
 
         private void Awake()
         {
@@ -58,7 +59,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                 OnGameStateChange?.Invoke(sender, pause ? GameState.Pause : GameState.InProgress);
         }
 
-        internal void RegisterVehicle(Driver.VehicleMovement vehicle) => Vehicle = vehicle;
+        internal void RegisterVehicle(VehicleMovement vehicle) => Vehicle = vehicle;
 
         //internal void RegisterVehicle(VehicleHealth vehicle) =>
         //    vehicle.OnDeath += (object sender, EventArgs e) =>
@@ -107,6 +108,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                 default:
                     break;
             }
+        }
+
+        public void Register(VehicleMovement service)
+        {
+            throw new NotImplementedException();
         }
     }
 }

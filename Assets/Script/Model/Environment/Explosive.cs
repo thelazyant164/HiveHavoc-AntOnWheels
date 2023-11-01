@@ -18,9 +18,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         public Transform Transform => transform;
         public GameObject GameObject => gameObject;
 
-        [SerializeField]
-        private AudioClip explosionAudio;
-
         [Header("Explosive config")]
         [SerializeField]
         private float blastRadius;
@@ -54,11 +51,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         private ParticleSystem particle;
         public ParticleSystem ExplosionVFX => particle;
 
+        private AudioSource explosionAudio;
+
         public event EventHandler OnExplode;
         public event EventHandler<Explosive> OnDestroy;
 
         protected virtual void Awake()
         {
+            explosionAudio = GetComponentInChildren<AudioSource>();
             particle = GetComponentInChildren<ParticleSystem>();
             rb = GetComponent<Rigidbody>();
             OnExplode += (object sender, EventArgs e) => PlayExplosionVFX();
@@ -108,7 +108,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
                     movable.ReactTo(Explosion);
                 }
             }
-            AudioSource.PlayClipAtPoint(explosionAudio, transform.position);
+            explosionAudio.Play();
             // DebugExtension.DrawWireSphere(transform.position, blastRadius, Color.red, 1f);
             Destroy(gameObject);
         }

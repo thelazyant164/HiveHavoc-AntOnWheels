@@ -25,8 +25,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Animation
 
         private void Start()
         {
-            VehicleMovement vehicle = GameManager.Instance.Vehicle;
-
             shooter = PlayerManager.Instance.Shooter;
             shooter.OnThruster += HandleThruster;
 
