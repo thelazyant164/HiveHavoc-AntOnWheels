@@ -120,8 +120,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   leapCamera: {fileID: 0}
-  overrideThrusterForce: 40
-  overrideSpeedModifier: 1.5
+  overrideThrusterForce: 35
+  overrideSpeedModifier: 1
 --- !u!1001 &233079846167308635
 PrefabInstance:
   m_ObjectHideFlags: 0

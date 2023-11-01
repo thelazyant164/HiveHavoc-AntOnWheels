@@ -44,7 +44,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -154,9 +154,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2132723723123192009}
-  m_LocalRotation: {x: -0.10990886, y: 0.69851273, z: 0.10990886, w: 0.69851273}
-  m_LocalPosition: {x: -201.8, y: -1, z: 4.8}
-  m_LocalScale: {x: 207.67679, y: 156.6899, z: 156.6899}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 207.67679, y: 156.6899, z: 156.68993}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 953850701075639708}
@@ -165,8 +165,8 @@ Transform:
   - {fileID: 3089794391184870898}
   - {fileID: 8994483540586096830}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -17.884, y: 90, z: 0}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6643994032649536387
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -229,10 +229,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29403a3620bb02f4ebc42bc3096f6bec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countdownTime: 90
+  countdownTime: 120
   gate: {fileID: 953850701075639708}
   open: {fileID: 7249257448405257027}
   close: {fileID: 8825640671348629952}
+  gateStartVFX: {fileID: 0}
+  gateCloseVFX: {fileID: 0}
+  gateStartVFXDelay: 1.5
+  gateCloseVFXDuration: 1.5
   gateAmbienceAudio: {fileID: 3274572636208770759}
   gateFoleyAudio: {fileID: 2892186557404035519}
   gateStart: {fileID: 8300000, guid: d108d1fe56b01a94b8251ea2b80d01cc, type: 3}
@@ -504,7 +508,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c96f211db33ad8e4886da2e7e5593270, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -512,7 +516,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 200
+  MinDistance: 100
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0

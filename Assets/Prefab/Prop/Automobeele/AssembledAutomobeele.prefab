@@ -509,7 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061bae3860c2c8c449646090385a0f65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseTurningForce: 7.5
+  baseTurningForce: 5
   speedFactorOffset: 0.25
   currentTurningForce: 15
   currentAngularVelocity: {x: 0.0000005241427, y: 0.00005124342, z: 0.00000001947035}
