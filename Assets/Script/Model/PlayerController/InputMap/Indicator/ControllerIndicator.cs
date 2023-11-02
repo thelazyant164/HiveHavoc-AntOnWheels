@@ -138,7 +138,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI
             if (switching != null)
                 StopCoroutine(switching);
             switching = StartCoroutine(
-                rect.LerpTo(new Vector3(target.position.x, rect.position.y, rect.position.z), time)
+                rect.LerpTo(new Vector2(target.anchoredPosition.x, rect.anchoredPosition.y), time)
             );
         }
     }

@@ -32,7 +32,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
         private PauseManager pauseManager;
 
         internal event EventHandler OnRespawn;
-        public event EventHandler<VehicleMovement> OnAvailable;
 
         private void Awake()
         {
@@ -108,11 +107,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                 default:
                     break;
             }
-        }
-
-        public void Register(VehicleMovement service)
-        {
-            throw new NotImplementedException();
         }
     }
 }

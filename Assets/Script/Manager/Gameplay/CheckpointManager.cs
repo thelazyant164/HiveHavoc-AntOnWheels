@@ -11,6 +11,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
         private Checkpoint latestCheckpoint;
 
         internal Transform LatestCheckpoint => latestCheckpoint.transform;
+        internal event EventHandler<Checkpoint> OnTrigger;
 
         private void Awake()
         {
@@ -26,6 +27,15 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
         }
 
         public void Register(Checkpoint checkpoint) =>
-            checkpoint.OnTrigger += (object sender, EventArgs e) => latestCheckpoint = checkpoint;
+            checkpoint.OnTrigger += (object sender, EventArgs e) =>
+            {
+                if (latestCheckpoint != null)
+                {
+                    if (checkpoint.Priority <= latestCheckpoint.Priority)
+                        return;
+                }
+                latestCheckpoint = checkpoint;
+                OnTrigger?.Invoke(this, checkpoint);
+            };
     }
 }
