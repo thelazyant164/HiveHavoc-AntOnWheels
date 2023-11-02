@@ -70,7 +70,6 @@ MonoBehaviour:
     numberOfWateredWheels: 0
   accelerateAxis: 0
   brakingAxis: 0
-  rb: {fileID: 0}
   averageColliderSurfaceNormal: {x: 0, y: 0, z: 0}
   speedModifier: 1
 --- !u!114 &7599603787813485886
@@ -208,7 +207,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1711047483392249575}
-  m_LocalRotation: {x: 0.11922808, y: 0.000000014901159, z: 0.0000000018626449, w: 0.9928669}
+  m_LocalRotation: {x: 0.11922807, y: 0.000000014901159, z: 0.000000005587935, w: 0.9928669}
   m_LocalPosition: {x: 0.0000019669533, y: 4.1799994, z: -1.1300015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -551,11 +550,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2a55bfb6b55a014a830b5a4fae2e185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linearDrag: 0.5
-  airLinearDrag: 0.25
+  linearDrag: 1
+  airLinearDrag: 0.45
   freeWheelDrag: 1
   brakingDrag: 1
-  angularDrag: 3
+  angularDrag: 6
   linearDragCheck: 1
   brakingDragCheck: 0
   freeWheelDragCheck: 1
@@ -608,7 +607,7 @@ MonoBehaviour:
   currentTireStickiness: 1
   slidingFrictionRatio: 1
   slidingFrictionForceAmount: 0
-  slidingFrictionToForwardSpeedAmount: 10
+  slidingFrictionToForwardSpeedAmount: 1
 --- !u!114 &5929749826702097967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -814,7 +813,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7865080877615507862}
-  m_LocalRotation: {x: 0.11922808, y: 0.000000014901159, z: 0.0000000018626449, w: 0.9928669}
+  m_LocalRotation: {x: 0.11922807, y: 0.000000014901159, z: 0.000000005587935, w: 0.9928669}
   m_LocalPosition: {x: 0.0000019669533, y: 4.1799994, z: -1.1300015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

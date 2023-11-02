@@ -55,8 +55,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         public float accelerateAxis;
         public float brakingAxis;
 
-        [HideInInspector]
-        public Rigidbody rb;
+        private Rigidbody rigid;
+        public Rigidbody rb => rigid;
         public Vector3 averageColliderSurfaceNormal;
 
         [Header("Scripted event modifier")]
@@ -80,7 +80,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         private void Awake()
         {
-            rb = GetComponentInChildren<Rigidbody>();
+            rigid = GetComponentInChildren<Rigidbody>();
             Assert.IsNotNull(rb);
             StartCoroutine(ThrusterDeteriorate());
         }
@@ -140,7 +140,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         private void HandleThruster()
         {
             Vector3 thrusterForce = thruster * actualThruster * Vector3.up;
-            rb.AddForce(thrusterForce, ForceMode.Force);
+            rb.AddForce(thrusterForce);
         }
 
         private IEnumerator ThrusterDeteriorate()
@@ -153,7 +153,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
                     actualThruster = thrusterForce;
                     thrusterBurnDuration = 0;
                 }
-                thrusterBurnDuration += Time.fixedDeltaTime;
+                thrusterBurnDuration += Time.deltaTime;
                 actualThruster -= thrusterBurnDuration * thrusterDeteriorateRate;
                 yield return new WaitForFixedUpdate();
             }

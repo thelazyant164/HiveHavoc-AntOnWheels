@@ -73,12 +73,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
             float rotationTorque =
                 input.steeringInput * baseTurningForce * Time.fixedDeltaTime * airControlFactor;
-            rigidbody.AddRelativeTorque(
-                0f,
-                rotationTorque,
-                0f,
-                ForceMode.VelocityChange
-            );
+            rigidbody.AddRelativeTorque(0f, rotationTorque, 0f, ForceMode.VelocityChange);
         }
     }
 }

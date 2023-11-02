@@ -9,10 +9,13 @@ public class CpLateralFriction : MonoBehaviour
 {
     //TweakableVariables
     public AnimationCurve slideFrictionCurve;
+
     [Range(0, 1)]
     public float baseTireStickiness;
+
     [Space]
     public float currentTireStickiness;
+
     [Space]
     public float slidingFrictionRatio;
     public float slidingFrictionForceAmount;
@@ -24,7 +27,6 @@ public class CpLateralFriction : MonoBehaviour
     {
         cpMain = transform.parent.GetComponent<VehicleMovement>();
     }
-
 
     // Update is called once per frame
     void LateUpdate()
@@ -42,11 +44,15 @@ public class CpLateralFriction : MonoBehaviour
         float slideFrictionRatio = 0;
 
         if (Math.Abs(speedData.sideSpeed + speedData.forwardSpeed) > 0.01f)
-            slideFrictionRatio = Mathf.Clamp01(Mathf.Abs(speedData.sideSpeed) / (Mathf.Abs(speedData.sideSpeed) + speedData.forwardSpeed));
+            slideFrictionRatio = Mathf.Clamp01(
+                Mathf.Abs(speedData.sideSpeed)
+                    / (Mathf.Abs(speedData.sideSpeed) + speedData.forwardSpeed)
+            );
 
         slidingFrictionRatio = slideFrictionCurve.Evaluate(slideFrictionRatio);
 
-        slidingFrictionForceAmount = slidingFrictionRatio * -speedData.sideSpeed * currentTireStickiness;
+        slidingFrictionForceAmount =
+            slidingFrictionRatio * -speedData.sideSpeed * currentTireStickiness;
     }
 
     private void ApplyLateralFriction(bool grounded, Rigidbody rb)

@@ -15,6 +15,8 @@ public class cpFollowPhysicsBody : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale == 0)
+            return;
         transform.SetPositionAndRotation(
             physicsBodyTransform.position,
             physicsBodyTransform.rotation
