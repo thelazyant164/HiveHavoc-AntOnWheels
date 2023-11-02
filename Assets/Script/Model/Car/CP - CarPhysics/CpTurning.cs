@@ -68,14 +68,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             if (Math.Abs(input.steeringInput) < 0.01f)
                 return;
 
-            if (grounded || cpMain.averageColliderSurfaceNormal != Vector3.zero)
+            if (grounded)
                 return;
 
             float rotationTorque =
                 input.steeringInput * baseTurningForce * Time.fixedDeltaTime * airControlFactor;
             rigidbody.AddRelativeTorque(
                 0f,
-                rotationTorque * Time.fixedDeltaTime,
+                rotationTorque,
                 0f,
                 ForceMode.VelocityChange
             );

@@ -67,6 +67,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             get => speedModifier;
             set => speedModifier = value;
         }
+        private float airLinearDragModifier = 1;
+        internal float AirLinearDragModifier
+        {
+            get => airLinearDragModifier;
+            set => airLinearDragModifier = value;
+        }
 
         private bool prevGroundedState;
         public static event Action<VehicleMovement> OnLeavingGround = vehicleMovement => { };

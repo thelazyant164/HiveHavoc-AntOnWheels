@@ -15,10 +15,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         [SerializeField]
         private float overrideSpeedModifier;
 
+        [SerializeField]
+        private float overrideAirLinearDragModifier;
+
         protected override void TriggerCallback()
         {
             GameManager.Instance.Vehicle.ThrusterForce = overrideThrusterForce;
             GameManager.Instance.Vehicle.SpeedModifier = overrideSpeedModifier;
+            GameManager.Instance.Vehicle.AirLinearDragModifier = overrideAirLinearDragModifier;
             scriptedEventManager.AdjustScreenSplit(Camera.SplitConfiguration.VerticalDriverOnly);
             cameraManager[Role.Driver].SwitchCamera(leapCamera);
         }
