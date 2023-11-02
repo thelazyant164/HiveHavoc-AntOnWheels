@@ -10,6 +10,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
     public sealed class PollenBurst : PollenProjectile, IPrimedExplosive<PollenBurst>
     {
+        public ParticleSystem ExplosionVFX => ImpactVFX;
+        public AudioSource ExplosionSFX { get; private set; }
+        public float ExplosionSFXDuration => ImpactSFXDuration;
+
         [Space]
         [Header("Explosive")]
         [SerializeField]
@@ -29,8 +33,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         public LayerMask Affected => affected;
         public LayerMask Triggering => InterceptedBy;
 
-        public ParticleSystem ExplosionVFX => ImpactVFX;
-
         public Explosion<PollenBurst> Explosion =>
             new Explosion<PollenBurst>(this, transform.position);
 
@@ -39,9 +41,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         protected override void Awake()
         {
+            ExplosionSFX = GetComponentInChildren<AudioSource>();
             base.Awake();
             BeginCountdown();
-            OnExplode += (object sender, EventArgs e) => PlayExplosionVFX();
+            OnExplode += (object sender, EventArgs e) =>
+            {
+                PlayExplosionVFX();
+                PlayExplosionSFX();
+            };
             OnExplode += Explode;
         }
 
@@ -74,8 +81,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
                     movable.ReactTo(Explosion);
                 }
             }
-            DebugExtension.DrawWireSphere(transform.position, blastRadius, Color.red, 1f);
-            //gameObject.SetTimeOut(1f, () => Destroy(gameObject)); // destroys self after .5f -> play explosion animation?
+            //DebugExtension.DrawWireSphere(transform.position, blastRadius, Color.red, 1f);
             Destroy(gameObject);
         }
 
@@ -99,7 +105,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         public override void Destroy()
         {
-            AudioSource.PlayClipAtPoint(ImpactSFX, transform.position);
             OnDestroy?.Invoke(this, this);
             OnExplode?.Invoke(this, EventArgs.Empty);
         }
@@ -121,6 +126,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             ExplosionVFX.transform.SetParent(null, true);
             ExplosionVFX.transform.rotation = Quaternion.LookRotation(Vector3.up);
             ExplosionVFX.Play();
+        }
+
+        public void PlayExplosionSFX()
+        {
+            ExplosionSFX.transform.SetParent(null, true);
+            ExplosionSFX.Play();
+            GameManager.Instance.gameObject.SetTimeOut(
+                ExplosionSFXDuration,
+                () => Destroy(ExplosionSFX.gameObject)
+            );
         }
     }
 }

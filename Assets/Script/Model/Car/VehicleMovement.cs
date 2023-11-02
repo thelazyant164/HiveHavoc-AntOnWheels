@@ -43,6 +43,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         }
 
         [SerializeField]
+        private float steerModifier = 1;
+        internal float SteerModifier
+        {
+            get => steerModifier;
+            set => steerModifier = value;
+        }
+
+        [SerializeField]
         private float thrusterModifer = 1;
         internal float ThrusterModifier
         {

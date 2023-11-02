@@ -9,12 +9,18 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 {
     public sealed class PollenSingle : PollenProjectile, IDestructible<PollenSingle>
     {
+        private AudioSource impactSFX;
         public event EventHandler<PollenSingle> OnDestroy;
 
         protected override void Awake()
         {
+            impactSFX = GetComponentInChildren<AudioSource>();
             base.Awake();
-            OnDestroy += (object sender, PollenSingle projectile) => PlayImpactVFX();
+            OnDestroy += (object sender, PollenSingle projectile) =>
+            {
+                PlayImpactVFX();
+                PlayImpactSFX();
+            };
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -32,7 +38,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
 
         public override void Destroy()
         {
-            AudioSource.PlayClipAtPoint(ImpactSFX, transform.position);
             OnDestroy?.Invoke(this, this);
             Destroy(gameObject);
         }
@@ -47,6 +52,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
             ImpactVFX.transform.SetParent(null, true);
             ImpactVFX.transform.rotation = Quaternion.LookRotation(Vector3.up);
             ImpactVFX.Play();
+        }
+
+        private void PlayImpactSFX()
+        {
+            impactSFX.transform.SetParent(null, true);
+            impactSFX.Play();
+            GameManager.Instance.gameObject.SetTimeOut(
+                ImpactSFXDuration,
+                () => Destroy(impactSFX.gameObject)
+            );
         }
     }
 }

@@ -44,24 +44,31 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         private float damage;
         public float Damage => damage;
 
-        [SerializeField]
-        private float particleDuration;
-        public float ExplosionVFXDuration => particleDuration;
-
         private ParticleSystem particle;
         public ParticleSystem ExplosionVFX => particle;
 
-        private AudioSource explosionAudio;
+        private AudioSource explosionSFX;
+        public AudioSource ExplosionSFX => explosionSFX;
+
+        [Space]
+        [Header("Effects")]
+        [SerializeField]
+        private float explosionSFXDuration;
+        public float ExplosionSFXDuration => explosionSFXDuration;
 
         public event EventHandler OnExplode;
         public event EventHandler<Explosive> OnDestroy;
 
         protected virtual void Awake()
         {
-            explosionAudio = GetComponentInChildren<AudioSource>();
+            explosionSFX = GetComponentInChildren<AudioSource>();
             particle = GetComponentInChildren<ParticleSystem>();
             rb = GetComponent<Rigidbody>();
-            OnExplode += (object sender, EventArgs e) => PlayExplosionVFX();
+            OnExplode += (object sender, EventArgs e) =>
+            {
+                PlayExplosionVFX();
+                PlayExplosionSFX();
+            };
             OnExplode += Explode;
         }
 
@@ -108,7 +115,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
                     movable.ReactTo(Explosion);
                 }
             }
-            explosionAudio.Play();
             // DebugExtension.DrawWireSphere(transform.position, blastRadius, Color.red, 1f);
             Destroy(gameObject);
         }
@@ -136,6 +142,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
             particle.transform.SetParent(null, true);
             particle.transform.rotation = Quaternion.LookRotation(Vector3.up);
             particle.Play();
+        }
+
+        public void PlayExplosionSFX()
+        {
+            explosionSFX.transform.SetParent(null, true);
+            explosionSFX.Play();
+            GameManager.Instance.gameObject.SetTimeOut(
+                explosionSFXDuration,
+                () => Destroy(explosionSFX.gameObject)
+            );
         }
     }
 }

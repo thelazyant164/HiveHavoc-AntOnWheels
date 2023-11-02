@@ -123,6 +123,7 @@ MonoBehaviour:
   leapCamera: {fileID: 0}
   overrideThrusterModifier: 1.2
   overrideSpeedModifier: 1
+  overrideSteerModifier: 0.7
   overrideAirLinearDragModifier: 0
 --- !u!1001 &233079846167308635
 PrefabInstance:

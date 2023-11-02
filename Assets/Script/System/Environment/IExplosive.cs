@@ -32,8 +32,9 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
 
     public interface IExplosive<T> : IDamaging, IDestructible<T>
     {
+        public AudioSource ExplosionSFX { get; }
         public ParticleSystem ExplosionVFX { get; }
-        public float ExplosionVFXDuration { get; }
+        public float ExplosionSFXDuration { get; }
         public float BlastRadius { get; }
         public float BlastForce { get; }
         public LayerMask Affected { get; }
@@ -44,5 +45,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         public IEnumerable<IDynamic> GetAffectedEntityInBlastZone();
         public void Explode(object sender, EventArgs e);
         public void PlayExplosionVFX();
+        public void PlayExplosionSFX();
     }
 }

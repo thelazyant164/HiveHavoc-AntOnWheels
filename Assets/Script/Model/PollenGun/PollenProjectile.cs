@@ -29,15 +29,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter
         private ParticleSystem impactVFX;
         protected ParticleSystem ImpactVFX => impactVFX;
 
-        [SerializeField]
-        private float impactVFXDuration;
-        public float ExplosionVFXDuration => impactVFXDuration;
-
-        [Space]
         [Header("SFX")]
         [SerializeField]
-        private AudioClip impactSFX;
-        protected AudioClip ImpactSFX => impactSFX;
+        private float impactSFXDuration;
+        protected float ImpactSFXDuration => impactSFXDuration;
 
         public IDamaging.Target TargetType => IDamaging.Target.Enemy;
 
