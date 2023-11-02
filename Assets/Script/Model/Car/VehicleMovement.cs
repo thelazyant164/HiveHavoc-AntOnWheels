@@ -22,32 +22,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
     public sealed class VehicleMovement : MonoBehaviour
     {
-        [Header("Current input")]
-        [SerializeField]
-        private float throttle;
-
-        [SerializeField]
-        private float steer;
-
-        [SerializeField]
-        private bool brake;
-
-        [SerializeField]
-        private float thruster;
-
-        [SerializeField]
-        private float actualThruster;
-
-        [SerializeField]
-        private float thrusterForce;
-        internal float ThrusterForce
-        {
-            set => thrusterForce = value;
-        }
-
-        [SerializeField]
-        private float thrusterDeteriorateRate;
-
         public PlayerInputs input;
         public VehicleSpeed speedData;
         public CpWheelData wheelData;
@@ -67,6 +41,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             get => speedModifier;
             set => speedModifier = value;
         }
+
+        [SerializeField]
+        private float thrusterModifer = 1;
+        internal float ThrusterModifier
+        {
+            get => thrusterModifer;
+            set => thrusterModifer = value;
+        }
+
+        [SerializeField]
         private float airLinearDragModifier = 1;
         internal float AirLinearDragModifier
         {
@@ -82,19 +66,20 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         {
             rigid = GetComponentInChildren<Rigidbody>();
             Assert.IsNotNull(rb);
-            StartCoroutine(ThrusterDeteriorate());
         }
 
         private void Start()
         {
             GameManager.Instance.RegisterVehicle(this);
             Driver driver = PlayerManager.Instance.Driver;
-            driver.OnAccelerate += (object sender, float input) => throttle = brake ? 0f : input;
-            driver.OnSteer += (object sender, float input) => steer = brake ? 0f : input;
-            driver.OnBrake += (object sender, bool brake) => this.brake = brake;
+            driver.OnAccelerate += (object sender, float accelInput) =>
+                input.accelInput = input.brake ? 0f : accelInput;
+            driver.OnSteer += (object sender, float steerInput) =>
+                input.steeringInput = input.brake ? 0f : steerInput;
+            driver.OnBrake += (object sender, bool brake) => input.brake = brake;
 
             Shooter.Shooter shooter = PlayerManager.Instance.Shooter;
-            shooter.OnThruster += (object sender, float thruster) => this.thruster = thruster;
+            shooter.OnThruster += (object sender, float thruster) => input.thrusterInput = thruster;
         }
 
         private void Update()
@@ -112,51 +97,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             prevGroundedState = wheelData.grounded;
         }
 
-        private void FixedUpdate()
-        {
-            HandleInputs();
-            HandleThruster();
-        }
-
         private void Reset()
         {
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            throttle = 0;
-            steer = 0;
-            brake = false;
-            thruster = 0;
-        }
-
-        private void HandleInputs()
-        {
-            // Set accelInput and steeringInput based on throttle and steer values
-            input.accelInput = throttle;
-            input.steeringInput = steer;
-            input.brake = brake;
-            // Debug.Log($"input.steeringInput: {input.steeringInput}, steer: {steer}");
-        }
-
-        private void HandleThruster()
-        {
-            Vector3 thrusterForce = thruster * actualThruster * Vector3.up;
-            rb.AddForce(thrusterForce);
-        }
-
-        private IEnumerator ThrusterDeteriorate()
-        {
-            float thrusterBurnDuration = 0;
-            while (true)
-            {
-                if (thruster == 0 || actualThruster <= 0)
-                {
-                    actualThruster = thrusterForce;
-                    thrusterBurnDuration = 0;
-                }
-                thrusterBurnDuration += Time.deltaTime;
-                actualThruster -= thrusterBurnDuration * thrusterDeteriorateRate;
-                yield return new WaitForFixedUpdate();
-            }
+            input.Reset();
         }
 
         internal void Respawn(Transform transform)
@@ -169,8 +114,6 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         internal void ApplyRecoil(Vector3 recoilImpulse) =>
             rb.AddForce(recoilImpulse, ForceMode.Impulse);
-
-        internal bool IsMovingGrounded => wheelData.grounded && speedData.speed > 0;
     }
 
     [Serializable]
@@ -179,5 +122,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         public float accelInput;
         public float steeringInput;
         public bool brake;
+        public float thrusterInput;
+
+        public void Reset()
+        {
+            accelInput = 0;
+            steeringInput = 0;
+            brake = false;
+            thrusterInput = 0;
+        }
     }
 }

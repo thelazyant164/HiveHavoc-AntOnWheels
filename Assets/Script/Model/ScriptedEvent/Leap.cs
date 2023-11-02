@@ -10,7 +10,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         private CinemachineVirtualCamera leapCamera;
 
         [SerializeField]
-        private float overrideThrusterForce;
+        private float overrideThrusterModifier;
 
         [SerializeField]
         private float overrideSpeedModifier;
@@ -20,7 +20,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 
         protected override void TriggerCallback()
         {
-            GameManager.Instance.Vehicle.ThrusterForce = overrideThrusterForce;
+            GameManager.Instance.Vehicle.ThrusterModifier = overrideThrusterModifier;
             GameManager.Instance.Vehicle.SpeedModifier = overrideSpeedModifier;
             GameManager.Instance.Vehicle.AirLinearDragModifier = overrideAirLinearDragModifier;
             scriptedEventManager.AdjustScreenSplit(Camera.SplitConfiguration.VerticalDriverOnly);
