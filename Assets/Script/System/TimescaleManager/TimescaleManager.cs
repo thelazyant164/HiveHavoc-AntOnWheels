@@ -6,23 +6,31 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Timescale
 {
     public struct TimescaleModifier
     {
-        public float newTimescale;
-        public float oldTimescale;
+        private readonly float newTimescale;
+        private readonly float oldTimescale;
+        private readonly float newFixedTimestep;
+        private readonly float oldFixedTimestep;
 
         public TimescaleModifier(float oldTimescale, float newTimescale)
         {
             this.oldTimescale = oldTimescale;
             this.newTimescale = newTimescale;
+            oldFixedTimestep = Time.fixedDeltaTime;
+            newFixedTimestep = oldFixedTimestep * newTimescale;
         }
 
         public void Apply()
         {
             Time.timeScale = newTimescale;
+            Time.fixedDeltaTime = newFixedTimestep;
+            AudioListener.pause = newTimescale == 0;
         }
 
         public void Revert()
         {
             Time.timeScale = oldTimescale;
+            Time.fixedDeltaTime = oldFixedTimestep;
+            AudioListener.pause = oldTimescale == 0;
         }
     }
 
@@ -50,6 +58,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Timescale
                 RestoreTimescale();
             }
         }
+
+        internal void Pause() => AdjustTimescale(0);
 
         internal void AdjustTimescale(float newTimescale)
         {

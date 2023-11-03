@@ -12,6 +12,10 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn
         private LayerMask receptible;
         public LayerMask Receptible => receptible;
 
+        [SerializeField]
+        private int priority;
+        internal int Priority => priority;
+
         public event EventHandler OnTrigger;
         public event EventHandler OnTerminate;
         public event EventHandler<Checkpoint> OnAvailable;

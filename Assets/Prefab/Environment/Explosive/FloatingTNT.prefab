@@ -33,6 +33,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 4378988849678342890}
   - {fileID: 291950377204552357}
   - {fileID: 6346465625777344065}
   - {fileID: 8365418080955253733}
@@ -42,7 +43,6 @@ Transform:
   - {fileID: 267698194588628100}
   - {fileID: 3376316670605520118}
   - {fileID: 8064835165434815738}
-  - {fileID: 4378988849678342890}
   - {fileID: 3124398495038949469}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -157,12 +157,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f3bcdfb662e4a4fb07d9e0837ce416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionAudio: {fileID: 8300000, guid: ff1b692bb95119b4f8a0df9958b20a2c, type: 3}
   blastRadius: 15
   blastForce: 12500000
   affected:
     serializedVersion: 2
-    m_Bits: 7232
+    m_Bits: 4032
   triggering:
     serializedVersion: 2
     m_Bits: 4096
@@ -825,7 +824,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ff1b692bb95119b4f8a0df9958b20a2c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: db8180b34daf9de4ea5371819b71c45c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -835,8 +834,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 25
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

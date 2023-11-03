@@ -58,7 +58,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                 OnGameStateChange?.Invoke(sender, pause ? GameState.Pause : GameState.InProgress);
         }
 
-        internal void RegisterVehicle(Driver.VehicleMovement vehicle) => Vehicle = vehicle;
+        internal void RegisterVehicle(VehicleMovement vehicle) => Vehicle = vehicle;
 
         //internal void RegisterVehicle(VehicleHealth vehicle) =>
         //    vehicle.OnDeath += (object sender, EventArgs e) =>
@@ -89,17 +89,17 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                     Cursor.lockState = CursorLockMode.Locked;
                     break;
                 case GameState.Pause:
-                    timescaleManager.AdjustTimescale(0);
+                    timescaleManager.Pause();
                     Cursor.lockState = CursorLockMode.Confined;
                     break;
                 case GameState.Win:
-                    timescaleManager.AdjustTimescale(0);
+                    timescaleManager.Pause();
                     Cursor.lockState = CursorLockMode.Confined;
                     PlayerControllerManager.Instance.Reset();
                     OnGameStateChange -= HandleGameStateChange;
                     break;
                 case GameState.Lose:
-                    timescaleManager.AdjustTimescale(0);
+                    timescaleManager.Pause();
                     Cursor.lockState = CursorLockMode.Confined;
                     PlayerControllerManager.Instance.Reset();
                     OnGameStateChange -= HandleGameStateChange;

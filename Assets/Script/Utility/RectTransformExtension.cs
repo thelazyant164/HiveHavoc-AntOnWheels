@@ -21,4 +21,25 @@ public static class RectTransformExtension
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, other.width);
         rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, other.height);
     }
+
+    public static IEnumerator LerpTo(
+        this RectTransform rt,
+        Vector2 targetAnchoredPosition,
+        float duration
+    )
+    {
+        Vector2 startPosition = rt.anchoredPosition;
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            rt.anchoredPosition = Vector2.Lerp(
+                startPosition,
+                targetAnchoredPosition,
+                elapsedTime / duration
+            );
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        rt.anchoredPosition = targetAnchoredPosition;
+    }
 }

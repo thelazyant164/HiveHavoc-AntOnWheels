@@ -128,6 +128,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Cutscene
                 return;
             }
             nextCutscene?.Play();
+            gameObject.SetActive(false);
         }
     }
 }

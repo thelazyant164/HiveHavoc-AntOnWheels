@@ -20,6 +20,7 @@ public class CpWheels : MonoBehaviour
     public float wheelHeight;
     public LayerMask groundCheckLayer;
 
+
     [Space]
     public CpWheelData cpWheelData;
 
@@ -69,10 +70,17 @@ public class CpWheels : MonoBehaviour
             if (!didhit)
                 continue;
 
-            cpWheelData.grounded = true;
-            cpWheelData.numberOfGroundedWheels += 1;
+            if (hit.transform.gameObject.layer == 4)
+            {
+                cpWheelData.numberOfWateredWheels += 1;
+            }
+            else
+            {
+                cpWheelData.grounded = true;
+                cpWheelData.numberOfGroundedWheels += 1;
 
-            surfaceNormal += hit.normal;
+                surfaceNormal += hit.normal;
+            }
         }
 
         cpWheelData.averageWheelSurfaceNormal = surfaceNormal.normalized;
@@ -86,4 +94,5 @@ public class CpWheelData
     public bool grounded;
     public int numberOfGroundedWheels;
     public Vector3 averageWheelSurfaceNormal;
+    public int numberOfWateredWheels;
 }

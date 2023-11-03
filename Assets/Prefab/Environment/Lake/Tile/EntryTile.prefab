@@ -228,10 +228,10 @@ MonoBehaviour:
   receptible:
     serializedVersion: 2
     m_Bits: 128
-  focusDuration: 3
+  focusDuration: 4
   gate: {fileID: 0}
   gateFocusCamera: {fileID: 3811134919493525273}
-  audioAlert: {fileID: 0}
+  audioAlert: {fileID: 8300000, guid: 5cf64ae8576f6bd429fa2ae1569d064a, type: 3}
 --- !u!1 &7443119616586286500
 GameObject:
   m_ObjectHideFlags: 0

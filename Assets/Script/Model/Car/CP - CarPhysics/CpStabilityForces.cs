@@ -35,7 +35,8 @@ public class CpStabilityForces : MonoBehaviour
             cpMain.rb,
             cpMain.wheelData.physicsWheelPoints,
             cpMain.wheelData.grounded,
-            cpMain.wheelData.numberOfGroundedWheels
+            cpMain.wheelData.numberOfGroundedWheels,
+            cpMain.wheelData.numberOfWateredWheels
             );
 
         ApplyAngularStabilityForces(
@@ -45,8 +46,11 @@ public class CpStabilityForces : MonoBehaviour
             );
     }
 
-    private void ApplyLinearStabilityForces(Rigidbody rigidbody, Transform[] physicsWheelPoints, bool grounded, int numberOfGroundedWheels)
+    private void ApplyLinearStabilityForces(Rigidbody rigidbody, Transform[] physicsWheelPoints, bool grounded, int numberOfGroundedWheels, int numberOfWateredWheels)
     {
+        if (numberOfWateredWheels > 1)
+            return;
+
         if (linearStabilityForce > 0 && grounded && numberOfGroundedWheels < 3)
         {
             Vector3 downwardForce = linearStabilityForce * Vector3.down * Time.fixedDeltaTime;

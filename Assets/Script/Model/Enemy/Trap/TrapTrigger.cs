@@ -1,4 +1,5 @@
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Enemy;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,9 +22,14 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         [SerializeField]
         private bool playOnceOnly = false;
 
+        [SerializeField]
+        private Transform target;
+        private GameObject cachedTarget;
+
         private void Awake()
         {
             OnTrigger += (object sender, EventArgs e) => triggered = true;
+            cachedTarget = target.gameObject;
         }
 
         private void Start()
@@ -32,6 +38,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
             {
                 GameManager.Instance.OnRespawn += (object sender, EventArgs e) => triggered = false;
             }
+            if (target.TryGetComponent(out IRespawnable respawnable))
+            {
+                RespawnManager.Instance.OnRespawn += (object sender, GameObject respawned) =>
+                {
+                    if (sender == (object)cachedTarget)
+                    {
+                        target = respawned.transform;
+                    }
+                };
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -39,7 +55,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
             if (!triggered && other.gameObject.InLayerMask(receptible))
             {
                 // Debug.LogWarning($"Trigger activated on contact with {collision.gameObject}");
-                OnTrigger?.Invoke(this, EventArgs.Empty);
+                if (target != null)
+                    OnTrigger?.Invoke(this, EventArgs.Empty);
             }
         }
 

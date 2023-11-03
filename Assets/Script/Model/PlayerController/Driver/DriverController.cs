@@ -161,7 +161,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
+                    ""name"": ""positive"",
                     ""id"": ""e7c185c7-af4e-42b7-8b96-edd02bf64bd8"",
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
@@ -172,7 +172,7 @@ public partial class @DriverController: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
+                    ""name"": ""negative"",
                     ""id"": ""9c01cc83-3c60-46b1-9ec9-8e76b84bcd19"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",

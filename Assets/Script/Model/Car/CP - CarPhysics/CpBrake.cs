@@ -21,8 +21,15 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
         {
             if (cpMain.input.brake) 
             {
-                cpMain.rb.AddForce(-brakeFactor * cpMain.rb.velocity);
+                ApplyBrake(cpMain.rb, cpMain.wheelData.grounded);
             }
+        }
+
+        private void ApplyBrake(Rigidbody rb,bool grounded)
+        {
+            if (!grounded)
+                return;
+            rb.AddForce(-brakeFactor * rb.velocity);
         }
     }
 }
