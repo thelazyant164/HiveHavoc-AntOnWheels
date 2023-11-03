@@ -434,7 +434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf0a6dfee5aa4443a82128ba1f7f9dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionAudio: {fileID: 8300000, guid: ff1b692bb95119b4f8a0df9958b20a2c, type: 3}
   blastRadius: 20
   blastForce: 20000000
   affected:
@@ -444,7 +443,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   damage: 10
-  particleDuration: 3
+  explosionSFXDuration: 3
 --- !u!1 &6161894540179038748
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,7 +538,7 @@ GameObject:
   - component: {fileID: 2324030920006421009}
   - component: {fileID: 134976765354784043}
   m_Layer: 0
-  m_Name: Audio Source
+  m_Name: ExplosionAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

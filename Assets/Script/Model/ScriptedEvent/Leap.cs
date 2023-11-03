@@ -1,4 +1,5 @@
 using Cinemachine;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
 using UnityEngine;
 
@@ -10,15 +11,25 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         private CinemachineVirtualCamera leapCamera;
 
         [SerializeField]
-        private float overrideThrusterForce;
+        private float overrideThrusterModifier;
 
         [SerializeField]
         private float overrideSpeedModifier;
 
+        [SerializeField]
+        private float overrideSteerModifier;
+
+        [SerializeField]
+        private float overrideAirLinearDragModifier;
+
         protected override void TriggerCallback()
         {
-            GameManager.Instance.Vehicle.ThrusterForce = overrideThrusterForce;
-            GameManager.Instance.Vehicle.SpeedModifier = overrideSpeedModifier;
+            VehicleMovement vehicle = GameManager.Instance.Vehicle;
+
+            vehicle.ThrusterModifier = overrideThrusterModifier;
+            vehicle.SpeedModifier = overrideSpeedModifier;
+            vehicle.SteerModifier = overrideSteerModifier;
+            vehicle.AirLinearDragModifier = overrideAirLinearDragModifier;
             scriptedEventManager.AdjustScreenSplit(Camera.SplitConfiguration.VerticalDriverOnly);
             cameraManager[Role.Driver].SwitchCamera(leapCamera);
         }

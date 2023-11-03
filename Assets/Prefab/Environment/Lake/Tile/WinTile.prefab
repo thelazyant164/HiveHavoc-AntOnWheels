@@ -104,6 +104,7 @@ MonoBehaviour:
   receptible:
     serializedVersion: 2
     m_Bits: 128
+  priority: 0
 --- !u!114 &7218387481267113407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,8 +121,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   leapCamera: {fileID: 0}
-  overrideThrusterForce: 35
+  overrideThrusterModifier: 1.2
   overrideSpeedModifier: 1
+  overrideSteerModifier: 0.7
+  overrideAirLinearDragModifier: 0
 --- !u!1001 &233079846167308635
 PrefabInstance:
   m_ObjectHideFlags: 0

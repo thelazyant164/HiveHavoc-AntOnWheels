@@ -57,7 +57,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             //Adjusts turning with speed
             float speedFactor = Mathf.Clamp01(speedData.SpeedPercent + speedFactorOffset);
             float rotationTorque =
-                input.steeringInput * baseTurningForce * speedFactor * Time.fixedDeltaTime;
+                input.steeringInput
+                * baseTurningForce
+                * speedFactor
+                * cpMain.SteerModifier
+                * Time.fixedDeltaTime;
 
             //Apply the torque to the ship's Y axis
             rigidbody.AddRelativeTorque(0f, rotationTorque, 0f, ForceMode.VelocityChange);
@@ -68,17 +72,16 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             if (Math.Abs(input.steeringInput) < 0.01f)
                 return;
 
-            if (grounded || cpMain.averageColliderSurfaceNormal != Vector3.zero)
+            if (grounded)
                 return;
 
             float rotationTorque =
-                input.steeringInput * baseTurningForce * Time.fixedDeltaTime * airControlFactor;
-            rigidbody.AddRelativeTorque(
-                0f,
-                rotationTorque * Time.fixedDeltaTime,
-                0f,
-                ForceMode.VelocityChange
-            );
+                input.steeringInput
+                * baseTurningForce
+                * cpMain.SteerModifier
+                * Time.fixedDeltaTime
+                * airControlFactor;
+            rigidbody.AddRelativeTorque(0f, rotationTorque, 0f, ForceMode.VelocityChange);
         }
     }
 }

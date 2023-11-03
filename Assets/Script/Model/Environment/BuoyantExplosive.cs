@@ -12,13 +12,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment
         public Rigidbody Rigidbody { get; private set; }
         public int FloatPoints { get; private set; }
 
+        [Header("Buoyancy config")]
         [SerializeField]
         private float submergedDimensionDepth;
         public float SubmergedDimensionDepth => submergedDimensionDepth;
 
         public float Volume { get; private set; }
 
-        [Header("Buoyancy config")]
         [SerializeField]
         private float density;
         public float Density => density;

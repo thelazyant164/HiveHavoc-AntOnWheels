@@ -166,7 +166,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   damage: 10
-  particleDuration: 3
+  explosionSFXDuration: 4
   submergedDimensionDepth: 2
   density: 450
   ratioToBoundVolume: 1
@@ -793,7 +793,7 @@ GameObject:
   - component: {fileID: 3124398495038949469}
   - component: {fileID: 5855857045625925611}
   m_Layer: 0
-  m_Name: Audio Source
+  m_Name: ExplosionAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

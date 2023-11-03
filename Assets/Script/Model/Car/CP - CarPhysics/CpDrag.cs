@@ -11,6 +11,7 @@ public class CpDrag : MonoBehaviour
 {
     [Header("Drag")]
     public float linearDrag;
+    public float airLinearDrag;
     public float freeWheelDrag;
     public float brakingDrag;
     public float angularDrag;
@@ -35,6 +36,7 @@ public class CpDrag : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        airLinearDrag = airLinearDrag * cpMain.AirLinearDragModifier;
         UpdateDrag(
             rb,
             cpMain.wheelData.grounded,
@@ -47,7 +49,7 @@ public class CpDrag : MonoBehaviour
     private void UpdateDrag(Rigidbody rb, bool grounded, PlayerInputs input, VehicleSpeed speedData)
     {
         linearDragCheck = Mathf.Abs(input.accelInput) < 0.05 || grounded;
-        float linearDragToAdd = linearDragCheck ? linearDrag : 0;
+        float linearDragToAdd = linearDragCheck ? linearDrag : airLinearDrag;
 
         brakingDragCheck = input.accelInput < 0 && speedData.forwardSpeed > 0;
         float brakingDragToAdd = brakingDragCheck ? brakingDrag : 0;

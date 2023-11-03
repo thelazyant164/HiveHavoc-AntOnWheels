@@ -11,7 +11,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 
         protected override void TriggerCallback()
         {
-            GameManager.Instance.Vehicle.ThrusterForce = overrideThrusterForce;
+            GameManager.Instance.Vehicle.ThrusterModifier = overrideThrusterForce;
         }
     }
 }
