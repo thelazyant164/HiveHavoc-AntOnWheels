@@ -10,7 +10,8 @@ using UnityEngine;
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 {
     [RequireComponent(typeof(ITrigger))]
-    public abstract class ScriptedEvent<T> : MonoBehaviour where T : ITrigger<T>
+    public abstract class ScriptedEvent<T> : MonoBehaviour, IServiceConsumer<VehicleMovement>
+        where T : ITrigger<T>
     {
         [SerializeField]
         private LayerMask receptible;
@@ -33,13 +34,27 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 
         protected virtual void Start()
         {
+            Register(GameManager.Instance);
             cameraManager = CameraManager.Instance;
             timescaleManager = TimescaleManager.Instance;
             scriptedEventManager = ScriptedEventManager.Instance;
             PlayerManager players = PlayerManager.Instance;
             driver = players.Driver;
             shooter = players.Shooter;
-            vehicle = GameManager.Instance.Vehicle;
+        }
+
+        public void Register(IServiceProvider<VehicleMovement> provider)
+        {
+            if (provider.Service != null)
+            {
+                vehicle = provider.Service;
+                return;
+            }
+
+            provider.OnAvailable += (object sender, VehicleMovement vehicle) =>
+            {
+                this.vehicle = vehicle;
+            };
         }
 
         protected virtual void TriggerCallback() { }

@@ -20,7 +20,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
     [Serializable]
     public sealed class WheelSet : SerializableDictionary<WheelLayout, Wheel> { }
 
-    public sealed class VehicleMovement : MonoBehaviour
+    public sealed class VehicleMovement : MonoBehaviour, IService<VehicleMovement>
     {
         public PlayerInputs input;
         public VehicleSpeed speedData;
@@ -78,7 +78,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
 
         private void Start()
         {
-            GameManager.Instance.RegisterVehicle(this);
+            Register(GameManager.Instance);
             Driver driver = PlayerManager.Instance.Driver;
             driver.OnAccelerate += (object sender, float accelInput) =>
                 input.accelInput = input.brake ? 0f : accelInput;
@@ -111,6 +111,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             rb.angularVelocity = Vector3.zero;
             input.Reset();
         }
+
+        public void Register(IServiceProvider<VehicleMovement> provider) => provider.Register(this);
 
         internal void Respawn(Transform transform)
         {
