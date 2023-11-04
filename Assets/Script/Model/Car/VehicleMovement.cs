@@ -105,7 +105,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver
             prevGroundedState = wheelData.grounded;
         }
 
-        private void Reset()
+        internal void Reset()
         {
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;

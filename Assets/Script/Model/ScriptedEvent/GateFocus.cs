@@ -5,6 +5,7 @@ using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Gameplay;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter;
 using UnityEngine.Assertions;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 {
@@ -22,6 +23,12 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 
         [SerializeField]
         private AudioClip audioAlert;
+
+        [SerializeField]
+        private SplitPreset emphasis = SplitPreset.VerticalShooterOnly;
+
+        [SerializeField]
+        private SplitPreset normal = SplitPreset.VerticalEven;
 
         private bool triggered = false;
         private PollenGun gun;
@@ -64,16 +71,15 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
                 {
                     gate.StartTimer();
 
-                    scriptedEventManager.AdjustScreenSplit(
-                        Camera.SplitConfiguration.VerticalShooterOnly
-                    );
+                    AdjustScreenSplit(emphasis);
                     mainCamera = cameraManager[Role.Shooter].MainCamera;
                     cameraManager[Role.Shooter].SwitchCamera(gateFocusCamera);
 
                     if (audioAlert != null)
                         UIManager.Instance.VocalAudio.PlayOneShot(audioAlert);
 
-                    PlayerManager.Instance.Shooter.gameObject.SetActive(false); // disable shooter controls
+                    EnableControls(Role.Driver, false);
+                    EnableControls(Role.Shooter, false);
                     UIManager.Instance.Crosshair.gameObject.SetActive(false); // disable crosshair to takeaway false affordance
 
                     gameObject.SetTimeOut(focusDuration, Terminate);
@@ -83,10 +89,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 
         private void Terminate()
         {
-            scriptedEventManager.AdjustScreenSplit(Camera.SplitConfiguration.VerticalEven);
+            AdjustScreenSplit(normal);
             cameraManager[Role.Shooter].SwitchCamera(mainCamera);
 
-            PlayerManager.Instance.Shooter.gameObject.SetActive(true);
+            EnableControls(Role.Driver, true);
+            EnableControls(Role.Shooter, true);
             UIManager.Instance.Crosshair.gameObject.SetActive(true);
         }
     }

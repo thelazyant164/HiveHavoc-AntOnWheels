@@ -1,3 +1,4 @@
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Environment;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
 using UnityEngine;
@@ -12,11 +13,15 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         [SerializeField]
         private AudioClip dangerAlert;
 
+        [SerializeField]
+        private SplitPreset emphasis = SplitPreset.VerticalShooterEmphasis;
+
+        [SerializeField]
+        private SplitPreset normal = SplitPreset.VerticalEven;
+
         protected override void TriggerCallback()
         {
-            scriptedEventManager.AdjustScreenSplit(
-                Camera.SplitConfiguration.VerticalShooterEmphasis
-            );
+            AdjustScreenSplit(emphasis);
             timescaleManager.AdjustTimescale(sloMoTimeScale);
 
             if (dangerAlert != null)
@@ -25,7 +30,7 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 
         protected override void TerminateCallback()
         {
-            scriptedEventManager.AdjustScreenSplit(Camera.SplitConfiguration.VerticalEven);
+            AdjustScreenSplit(normal);
             timescaleManager.RestoreTimescale();
         }
     }
