@@ -196,7 +196,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b955a302b1672704c9f9304c8afbe199, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7a2437c44818d554ea18fff0ac9568cc, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -906,10 +906,8 @@ MonoBehaviour:
   back: {fileID: 1262072467}
   next: {fileID: 2048786316}
   slides:
-  - {fileID: 21300000, guid: b955a302b1672704c9f9304c8afbe199, type: 3}
-  - {fileID: 21300000, guid: 8fb9d29d46236bc4aa46d9a6a9812fb1, type: 3}
-  - {fileID: 21300000, guid: 938ba296b0bfde7408ab4ba4fac502ff, type: 3}
-  - {fileID: 21300000, guid: bf984a2e976d1d6489da4c029b3439ea, type: 3}
+  - {fileID: 21300000, guid: 7a2437c44818d554ea18fff0ac9568cc, type: 3}
+  - {fileID: 21300000, guid: 1c8ae6388a574834994072c75794efb1, type: 3}
   currentSlide: 0
 --- !u!114 &1722603592
 MonoBehaviour:
