@@ -1,4 +1,5 @@
 using Cinemachine;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Respawn;
 using UnityEngine;
 
@@ -12,10 +13,13 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         [SerializeField]
         private CinemachineVirtualCamera pipeSequenceShooterCamera;
 
+        [SerializeField]
+        private SplitPreset pipeSplit = SplitPreset.HorizontalEven;
+
         protected override void TriggerCallback()
         {
             Debug.LogWarning("Enter pipe");
-            scriptedEventManager.AdjustScreenSplit(Camera.SplitConfiguration.HorizontalEven);
+            AdjustScreenSplit(pipeSplit);
             cameraManager[Role.Driver].SwitchCamera(pipeSequenceDriverCamera);
             cameraManager[Role.Shooter].SwitchCamera(pipeSequenceShooterCamera);
         }

@@ -19,6 +19,18 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
         Bottom
     }
 
+    public enum SplitPreset
+    {
+        VerticalEven,
+        HorizontalEven,
+        VerticalShooterEmphasis,
+        HorizontalDriverEmphasis,
+        VerticalDriverOnly,
+        HorizontalDriverOnly,
+        VerticalShooterOnly,
+        HorizontalShooterOnly
+    }
+
     public struct SplitConfiguration
     {
         public struct Split
@@ -107,6 +119,21 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
 
         public Split this[Role key] => split[key];
 
+        private static readonly Dictionary<SplitPreset, SplitConfiguration> presets =
+            new()
+            {
+                { SplitPreset.VerticalEven, VerticalEven },
+                { SplitPreset.HorizontalEven, HorizontalEven },
+                { SplitPreset.VerticalShooterEmphasis, VerticalShooterEmphasis },
+                { SplitPreset.HorizontalDriverEmphasis, HorizontalDriverEmphasis },
+                { SplitPreset.VerticalDriverOnly, VerticalDriverOnly },
+                { SplitPreset.HorizontalDriverOnly, HorizontalDriverOnly },
+                { SplitPreset.VerticalShooterOnly, VerticalShooterOnly },
+                { SplitPreset.HorizontalShooterOnly, HorizontalShooterOnly }
+            };
+
+        public static SplitConfiguration GetPreset(SplitPreset preset) => presets[preset];
+
         public SplitConfiguration(Role role, Split split) : this(role, split.side, split.weight) { }
 
         public SplitConfiguration(Role role, SplitSide side, float weight)
@@ -136,28 +163,28 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Camera
         public SplitConfiguration ChangeOrientation(Role role) =>
             new SplitConfiguration(role, !this[role]);
 
-        public static SplitConfiguration HorizontalEven =>
+        private static SplitConfiguration HorizontalEven =>
             new SplitConfiguration(Role.Driver, SplitSide.Left, .5f);
 
-        public static SplitConfiguration VerticalEven =>
+        private static SplitConfiguration VerticalEven =>
             new SplitConfiguration(Role.Driver, SplitSide.Bottom, .5f);
 
-        public static SplitConfiguration HorizontalDriverEmphasis =>
+        private static SplitConfiguration HorizontalDriverEmphasis =>
             new SplitConfiguration(Role.Driver, SplitSide.Left, .7f);
 
-        public static SplitConfiguration VerticalShooterEmphasis =>
+        private static SplitConfiguration VerticalShooterEmphasis =>
             new SplitConfiguration(Role.Driver, SplitSide.Bottom, .3f);
 
-        public static SplitConfiguration VerticalDriverOnly =>
+        private static SplitConfiguration VerticalDriverOnly =>
             new SplitConfiguration(Role.Driver, SplitSide.Bottom, 1f);
 
-        public static SplitConfiguration HorizontalDriverOnly =>
+        private static SplitConfiguration HorizontalDriverOnly =>
             new SplitConfiguration(Role.Driver, SplitSide.Left, 1f);
 
-        public static SplitConfiguration VerticalShooterOnly =>
+        private static SplitConfiguration VerticalShooterOnly =>
             new SplitConfiguration(Role.Driver, SplitSide.Bottom, 0);
 
-        public static SplitConfiguration HorizontalShooterOnly =>
+        private static SplitConfiguration HorizontalShooterOnly =>
             new SplitConfiguration(Role.Driver, SplitSide.Left, 0);
     }
 

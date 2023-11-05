@@ -23,15 +23,19 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
         Lose
     }
 
-    public sealed class GameManager : Singleton<GameManager>
+    public sealed class GameManager : Singleton<GameManager>, IServiceProvider<VehicleMovement>
     {
         internal VehicleMovement Vehicle { get; private set; }
+
+        public VehicleMovement Service => Vehicle;
+
         public event EventHandler<GameState> OnGameStateChange;
         private CheckpointManager checkpointManager;
         private TimescaleManager timescaleManager;
         private PauseManager pauseManager;
 
         internal event EventHandler OnRespawn;
+        public event EventHandler<VehicleMovement> OnAvailable;
 
         private void Awake()
         {
@@ -58,11 +62,11 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels
                 OnGameStateChange?.Invoke(sender, pause ? GameState.Pause : GameState.InProgress);
         }
 
-        internal void RegisterVehicle(VehicleMovement vehicle) => Vehicle = vehicle;
-
-        //internal void RegisterVehicle(VehicleHealth vehicle) =>
-        //    vehicle.OnDeath += (object sender, EventArgs e) =>
-        //        OnGameStateChange?.Invoke(sender, GameState.Lose);
+        public void Register(VehicleMovement service)
+        {
+            Vehicle = service;
+            OnAvailable?.Invoke(this, Vehicle);
+        }
 
         internal void RegisterGate(GateTimer gate) =>
             gate.OnClose += (object sender, EventArgs e) =>

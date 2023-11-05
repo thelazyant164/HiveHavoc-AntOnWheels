@@ -7,6 +7,7 @@ using Cinemachine;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.UI;
 using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Shooter;
 using UnityEngine.Assertions;
+using Com.StillFiveAsianStudios.HiveHavocAntOnWheels.Driver;
 
 namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 {
@@ -60,7 +61,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
 
                     UIManager.Instance.VocalAudio.PlayOneShot(audioAlert);
 
-                    PlayerManager.Instance.Shooter.gameObject.SetActive(false); // disable shooter controls
+                    EnableControls(Role.Driver, false);
+                    EnableControls(Role.Shooter, false);
                     UIManager.Instance.Crosshair.gameObject.SetActive(false); // disable crosshair to takeaway false affordance
                 }
             );
@@ -70,7 +72,8 @@ namespace Com.StillFiveAsianStudios.HiveHavocAntOnWheels.ScriptedEvent
         {
             cameraManager[Role.Shooter].SwitchCamera(mainCamera);
 
-            PlayerManager.Instance.Shooter.gameObject.SetActive(true);
+            EnableControls(Role.Driver, true);
+            EnableControls(Role.Shooter, true);
             UIManager.Instance.Crosshair.gameObject.SetActive(true);
         }
     }
